@@ -576,6 +576,172 @@
         .form-group label { font-weight: 600; color: #374151; }
         .summary-panel .summary-item .label { font-weight: 600; color: #4b5563; }
         .summary-panel .summary-item .value { font-weight: 700; color: #111827; }
+/* --- WIZARD SPLIT LAYOUT (OPTION B) --- */
+.wizard-body-split {
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+    background-color: #f8fafc;
+}
+
+/* Left Sidebar (Table of Contents) */
+.wizard-sidebar {
+    width: 260px;
+    background: #fff;
+    border-right: 1px solid #e2e8f0;
+    padding: 24px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.wiz-toc-header {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+}
+
+.wiz-toc-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.wiz-toc-item:hover {
+    background-color: #f1f5f9;
+    color: #334155;
+}
+
+.wiz-toc-item.active {
+    background-color: #fdf1ff;
+    color: #9c00ad;
+    border-left: 3px solid #9c00ad;
+}
+
+.wiz-toc-icon { font-size: 16px; }
+
+/* Right Content Area */
+.wizard-content-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px 48px;
+    scroll-behavior: smooth;
+}
+
+/* Content Cards */
+.wiz-section-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+.wiz-card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f1f5f9;
+}
+/* --- FIXED APP LAYOUT (RESPECTING SIDEBAR & HEADER) --- */
+
+.wizard-wrapper {
+    /* Position ABSOLUTE inside the main content area */
+    position: absolute !important; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background-color: #f8fafc;
+    z-index: 40; /* Sits on top of the Overview/Performance tables */
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Flex Container manages the vertical stack (Header - Body - Footer) */
+.cc-module-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 1. WIZARD HEADER: Fixed Height */
+.cc-header {
+    flex: 0 0 auto; /* Don't shrink */
+    background: #fff;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 16px 32px;
+}
+
+/* 2. WIZARD BODY: Fills remaining space, No Scroll here */
+.cc-steps-container {
+    flex: 1;
+    overflow: hidden; /* Important: Stop global scroll */
+    position: relative;
+}
+
+.step-content {
+    height: 100%;
+}
+
+.wizard-body-split {
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* 3. LEFT SIDEBAR: Independent Scroll */
+.wizard-sidebar {
+    width: 260px;
+    height: 100%;
+    overflow-y: auto;
+    flex-shrink: 0;
+    background: #fff;
+    border-right: 1px solid #e2e8f0;
+    padding: 24px;
+    padding-bottom: 100px; /* Space for scrolling */
+}
+
+/* 4. RIGHT CONTENT: Independent Scroll */
+.wizard-content-area {
+    flex: 1;
+    height: 100%;
+    overflow-y: auto;
+    padding: 32px 48px;
+    scroll-behavior: smooth;
+    padding-bottom: 120px; /* Extra space so content isn't cut off */
+}
+
+/* 5. FOOTER: Fixed at Bottom */
+.cc-footer {
+    flex: 0 0 auto; /* Don't shrink */
+    background: #fff;
+    border-top: 1px solid #e2e8f0;
+    padding: 16px 32px;
+    z-index: 50;
+}
+
+/* Spacing Tweaks */
+.input-group-clean { margin-bottom: 16px; }
+.wiz-section-card { margin-bottom: 24px; }
+
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 flex h-screen overflow-hidden text-sm">
@@ -1360,13 +1526,11 @@
         <h3 class="font-bold text-gray-800">Campaigns</h3>
     </div>
     <div class="flex gap-2">
-        <!-- Filter Button -->
         <div class="relative dropdown-container">
             <button onclick="toggleId('filterDropdownPerf')" class="px-3 py-1.5 bg-white border border-gray-200 rounded text-xs font-medium hover:bg-gray-50 flex items-center gap-1"><i class="ri-filter-3-line"></i> Filter</button>
-            <!-- Filter Dropdown Content -->
         </div>
-        <!-- Create Button with CORRECT function -->
-        <button onclick="openPerformanceCreator('smart-shopping')" class="flex items-center gap-1 px-4 py-1.5 bg-black text-white rounded text-xs font-bold shadow-md hover:bg-gray-800 transition"><i class="ri-add-line text-sm"></i> Create New Campaign</button>
+        <!-- FIXED: Added id="createPerfBtn" below -->
+        <button id="createPerfBtn" onclick="openPerformanceCreator('smart-shopping')" class="flex items-center gap-1 px-4 py-1.5 bg-black text-white rounded text-xs font-bold shadow-md hover:bg-gray-800 transition"><i class="ri-add-line text-sm"></i> Create New Campaign</button>
     </div>
 </div>
                 <div class="overflow-x-auto block p-0" id="viewList">
@@ -1604,13 +1768,24 @@
                 <div class="col-span-8 bg-white rounded-xl shadow-card border border-gray-100 p-6 chart-container h-[420px] flex flex-col">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="font-bold text-gray-800 text-lg">Performance Trends</h3>
-                        <div class="flex bg-gray-100 p-1 rounded-lg">
+                        <div class="flex bg-gray-100 p-1 rounded-lg" id="graphTabs">
                             <button onclick="updateGraph(this, 'day')" class="px-4 py-1 text-xs font-bold text-gray-900 bg-white shadow rounded-md transition">Day</button>
                             <button onclick="updateGraph(this, 'week')" class="px-4 py-1 text-xs font-medium text-gray-500 hover:bg-white rounded-md transition">Week</button>
                             <button onclick="updateGraph(this, 'month')" class="px-4 py-1 text-xs font-medium text-gray-500 hover:bg-white rounded-md transition">Month</button>
                         </div>
                     </div>
-                    <div class="w-full flex-1 relative group cursor-crosshair">
+                    
+                    <!-- ADDED ID="graphArea" HERE -->
+                    <div id="graphArea" class="w-full flex-1 relative group cursor-crosshair">
+                        
+                        <!-- ADDED: MISSING DOT AND TOOLTIP ELEMENTS -->
+                        <div id="chartDot" class="absolute w-3 h-3 bg-primary rounded-full border-2 border-white shadow-sm z-20 pointer-events-none transition-all duration-75 opacity-0 group-hover:opacity-100" style="top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+                        <div id="chartTooltip" class="absolute bg-white border border-gray-100 shadow-xl rounded-lg p-2 z-30 pointer-events-none transition-all duration-75 opacity-0 group-hover:opacity-100" style="top: 20%; left: 50%; min-width: 140px;">
+                            <!-- JS will inject content here -->
+                            <div></div> 
+                        </div>
+
+                        <!-- Grid Lines (Existing Code) -->
                         <div class="absolute inset-0 flex flex-col justify-between text-gray-300 text-[10px] pb-8 pl-2">
                             <div class="border-b border-gray-100 w-full h-0 relative"><span class="absolute -top-3 left-0 text-gray-400">100%</span></div>
                             <div class="border-b border-gray-100 w-full h-0 relative"><span class="absolute -top-3 left-0 text-gray-400">75%</span></div>
@@ -1618,12 +1793,15 @@
                             <div class="border-b border-gray-100 w-full h-0 relative"><span class="absolute -top-3 left-0 text-gray-400">25%</span></div>
                             <div class="border-b border-gray-200 w-full h-0 relative"><span class="absolute -top-3 left-0 text-gray-400">0</span></div>
                         </div>
+                        
+                        <!-- SVG Lines (Added IDs lineSpend, lineImpr etc for JS logic) -->
                         <svg class="w-full h-full absolute inset-0 z-10 pb-8 pl-8" preserveAspectRatio="none" viewBox="0 0 1000 200">
-                            <path class="graph-line-1" fill="none" stroke="#9c00ad" stroke-width="2" d="M0,180 L150,120 L300,160 L450,40 L600,100 L800,20 L1000,80" />
-                            <path class="graph-line-2" fill="none" stroke="#84cc16" stroke-width="2" d="M0,150 C200,180 300,50 500,100 S800,150 1000,60" />
-                            <path class="graph-line-3" fill="none" stroke="#b11d15" stroke-width="2" d="M0,190 L200,180 L400,140 L600,120 L800,60 L1000,40" />
-                            <path class="graph-line-4" fill="none" stroke="#f97316" stroke-width="2" d="M0,100 Q300,150 600,50 T1000,20" />
+                            <path id="lineSpend" class="graph-line-1" fill="none" stroke="#9c00ad" stroke-width="2" d="M0,180 L150,120 L300,160 L450,40 L600,100 L800,20 L1000,80" />
+                            <path id="lineImpr" class="graph-line-2" fill="none" stroke="#84cc16" stroke-width="2" d="M0,150 C200,180 300,50 500,100 S800,150 1000,60" />
+                            <path id="lineClicks" class="graph-line-3" fill="none" stroke="#b11d15" stroke-width="2" d="M0,190 L200,180 L400,140 L600,120 L800,60 L1000,40" />
+                            <path id="lineCTR" class="graph-line-4" fill="none" stroke="#f97316" stroke-width="2" d="M0,100 Q300,150 600,50 T1000,20" />
                         </svg>
+                        
                         <div class="absolute bottom-0 left-8 right-0 flex justify-between text-[10px] text-gray-400 font-medium pt-2"><span>Nov 20</span><span>Nov 21</span><span>Nov 22</span><span>Nov 23</span><span>Nov 24</span><span>Nov 25</span><span>Nov 26</span></div>
                     </div>
                 </div>
@@ -2039,8 +2217,59 @@
                 <div class="targeting-page-content">
                     <h2>Set Your Targets</h2><p style="color: var(--cc-text-light); margin-top: 8px; margin-bottom: 24px;">Select locations, audiences, and other criteria for this campaign.</p>
                     <div class="targeting-accordion" id="targeting-accordion">
-                        <div class="accordion-item" data-accordion="geo"><div class="accordion-header"><i class="fa-solid fa-map-location-dot accordion-icon"></i><div class="accordion-title-block"><h4>Geo Location</h4><p id="geo-desc">Show your ads by targeting up to 20 locations of your choice.</p></div><span class="accordion-summary" id="geo-summary"></span><span class="accordion-badge" id="geo-badge">ALL LOCATIONS</span><i class="fa-solid fa-chevron-down accordion-arrow"></i></div><div class="accordion-content"><div class="geo-location-content"><div class="geo-column"><h5>Included Locations (upto 20)</h5><div class="location-input-wrapper"><i class="fa-solid fa-circle-plus icon plus"></i><input type="text" class="location-input" data-type="include" placeholder="Search locations to include"></div><div class="location-pills" id="included-pills"></div></div><div class="geo-column"><h5>Excluded Locations (upto 20)</h5><div class="location-input-wrapper"><i class="fa-solid fa-circle-minus icon minus"></i><input type="text" class="location-input" data-type="exclude" placeholder="Search locations to exclude"></div><div class="location-pills" id="excluded-pills"></div></div></div></div></div>
-                        <div class="accordion-item" data-accordion="audience"><div class="accordion-header"><i class="fa-solid fa-users-viewfinder accordion-icon"></i><div class="accordion-title-block"><h4>Audience Targeting</h4><p>Target prospective customers and deliver personalised ads.</p></div><span class="accordion-summary" id="audience-summary"></span><span class="accordion-badge" id="audience-badge">ALL USERS</span><i class="fa-solid fa-chevron-down accordion-arrow"></i></div><div class="accordion-content"><div class="audience-content"><div class="audience-main-panel"><div class="generic-tabs audience-tabs"><div class="generic-tab active" data-tab="select">Select Audience</div><div class="generic-tab" data-tab="create">Create New</div></div><div class="audience-tab-content" id="audience-select-content"><input type="text" class="form-input" placeholder="Search audience clusters..." style="margin-bottom: 16px;"><div class="audience-list"><label class="audience-item"><input type="checkbox"><div><h4>Air pods pro</h4><p>Prime Members who has viewed but not purchased in last 12 days</p></div></label><label class="audience-item"><input type="checkbox"><div><h4>Google Pixel 6</h4><p>People who Purchased the product 90 days back</p></div></label></div></div><div class="audience-tab-content" id="audience-create-content" style="display: none;"><div class="form-group"><label for="audience-name">Audience Name</label><input type="text" id="audience-name" class="form-input" placeholder="e.g., User set 1"></div><div class="form-group"><label>Select User Attributes</label><div class="rule-builder" id="audience-rule-builder"><div class="rule-row"><select class="form-select"><option>Property</option></select><select class="form-select"><option>Operator</option></select><select class="form-select"><option>Value</option></select><i class="fa-solid fa-trash-can remove-rule-btn" style="visibility: hidden;"></i></div></div><i class="fa-solid fa-circle-plus add-rule-btn" data-builder="audience-rule-builder"></i></div></div></div><div class="audience-reach-panel"><h5>Audience Reach</h5><div class="audience-reach-gauge"><div class="reach-needle" id="reach-needle"></div></div><p style="font-size: 13px; color: var(--cc-text-light); margin-top: 8px;">Potential Reach</p><div class="reach-value" id="reach-value">76,890</div></div></div></div></div>
+                        <div class="accordion-item" data-accordion="geo">
+    <div class="accordion-header">
+        <i class="fa-solid fa-map-location-dot accordion-icon"></i>
+        <div class="accordion-title-block">
+            <h4>Geo Location</h4>
+            <p id="geo-desc">Target users by State. If available, further refine by Quick / Non-Quick users within the selected state.</p>
+        </div>
+        <span class="accordion-summary" id="geo-summary"></span>
+        <span class="accordion-badge" id="geo-badge">ALL STATES</span>
+        <i class="fa-solid fa-chevron-down accordion-arrow"></i>
+    </div>
+    <div class="accordion-content">
+        <div class="geo-location-content">
+            <div class="geo-column">
+                <h5>Included States (upto 20)</h5>
+                <div class="location-input-wrapper" style="gap: 10px; align-items: flex-end;">
+                    <div style="flex: 1;">
+                        <label style="font-size: 12px; color: var(--cc-text-light);">State</label>
+                        <select class="form-select" id="include-state-select" style="width: 100%;">
+                            <option value="">Select state</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1;">
+                        <label style="font-size: 12px; color: var(--cc-text-light);">Quickness (optional)</label>
+                        <select class="form-select" id="include-speed-select" style="width: 100%;" disabled>
+                            <option value="ALL">All users in state</option>
+                            <option value="QUICK">Quick</option>
+                            <option value="NON_QUICK">Non-Quick</option>
+                        </select>
+                        <div style="font-size: 11px; color: var(--cc-text-light); margin-top: 4px;" id="quickness-hint">Select a state to check availability</div>
+                    </div>
+                    <button class="cc-button" id="include-add-btn" style="height: 40px; padding: 0 14px; border-radius: 8px;">Add</button>
+                </div>
+                <div class="location-pills" id="included-pills" style="margin-top: 14px;"></div>
+            </div>
+
+            <div class="geo-column">
+                <h5>Excluded States (upto 20)</h5>
+                <div class="location-input-wrapper" style="gap: 10px; align-items: flex-end;">
+                    <div style="flex: 1;">
+                        <label style="font-size: 12px; color: var(--cc-text-light);">State</label>
+                        <select class="form-select" id="exclude-state-select" style="width: 100%;">
+                            <option value="">Select state</option>
+                        </select>
+                    </div>
+                    <button class="cc-button" id="exclude-add-btn" style="height: 40px; padding: 0 14px; border-radius: 8px; background:#fff; border: 1px solid var(--cc-border-color); color: var(--cc-text-dark);">Exclude</button>
+                </div>
+                <div class="location-pills" id="excluded-pills" style="margin-top: 14px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion-item" data-accordion="audience"><div class="accordion-header"><i class="fa-solid fa-users-viewfinder accordion-icon"></i><div class="accordion-title-block"><h4>Audience Targeting</h4><p>Target prospective customers and deliver personalised ads.</p></div><span class="accordion-summary" id="audience-summary"></span><span class="accordion-badge" id="audience-badge">ALL USERS</span><i class="fa-solid fa-chevron-down accordion-arrow"></i></div><div class="accordion-content"><div class="audience-content"><div class="audience-main-panel"><div class="generic-tabs audience-tabs"><div class="generic-tab active" data-tab="select">Select Audience</div><div class="generic-tab" data-tab="create">Create New</div></div><div class="audience-tab-content" id="audience-select-content"><input type="text" class="form-input" placeholder="Search audience clusters..." style="margin-bottom: 16px;"><div class="audience-list"><label class="audience-item"><input type="checkbox"><div><h4>Air pods pro</h4><p>Prime Members who has viewed but not purchased in last 12 days</p></div></label><label class="audience-item"><input type="checkbox"><div><h4>Google Pixel 6</h4><p>People who Purchased the product 90 days back</p></div></label></div></div><div class="audience-tab-content" id="audience-create-content" style="display: none;"><div class="form-group"><label for="audience-name">Audience Name</label><input type="text" id="audience-name" class="form-input" placeholder="e.g., User set 1"></div><div class="form-group"><label>Select User Attributes</label><div class="rule-builder" id="audience-rule-builder"><div class="rule-row"><select class="form-select"><option>Property</option></select><select class="form-select"><option>Operator</option></select><select class="form-select"><option>Value</option></select><i class="fa-solid fa-trash-can remove-rule-btn" style="visibility: hidden;"></i></div></div><i class="fa-solid fa-circle-plus add-rule-btn" data-builder="audience-rule-builder"></i></div></div></div><div class="audience-reach-panel"><h5>Audience Reach</h5><div class="audience-reach-gauge"><div class="reach-needle" id="reach-needle"></div></div><p style="font-size: 13px; color: var(--cc-text-light); margin-top: 8px;">Potential Reach</p><div class="reach-value" id="reach-value">76,890</div></div></div></div></div>
                     </div>
                 </div>
             </div>
@@ -2244,73 +2473,492 @@
                     </div>
                 </div>
                 <!-- Footer (Button aligned to the right) -->
-                <div class="perf-creator-footer" style="text-align: right;">
-                    <button class="cc-button" onclick="goToPerfCreationPage()" style="background-color: var(--primary); color: #fff; min-width: 160px;">Next Step</button>
-                </div>
+                <div class="perf-creator-footer" style="display: flex; justify-content: flex-end; align-items: center; width: 100%; padding: 20px 32px; border-top: 1px solid #f1f5f9; background: #fff;">
+    <button class="cc-button" onclick="goToPerfCreationPage()" style="background-color: #9c00ad; color: #fff; min-width: 140px; font-weight: 600;">Next</button>
+</div>
             </div>
         </div>
 
-        <!-- BLOCK 2: THE SMART SHOPPING PAGE (Final) -->
-        <div id="page-create-smart-shopping" class="page-section hidden perf-creator-wrapper">
-            <!-- Header -->
-            <div class="perf-creator-header flex justify-between items-center">
-                <span>Search Only (18th Dec | 17:23)</span>
-                <div>
-                    <a href="#" class="text-sm font-medium text-primary hover:underline"><i class="ri-question-line"></i> How to create and modify a campaign</a>
-                    <button class="ml-6 text-gray-400 hover:text-gray-700"><i class="ri-close-line text-2xl"></i></button>
-                </div>
+<!-- PAGE: SMART SHOPPING WIZARD (Fixed Arrows & Embedded Modal) -->
+<div id="page-create-smart-shopping" class="page-section hidden wizard-wrapper">
+    <div class="cc-module-container">
+        
+        <!-- Header -->
+        <header class="cc-header">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px; padding-bottom:12px; border-bottom:1px solid #f1f5f9;">
+                <h2 style="font-size:18px; font-weight:700; color:#111827; margin:0;">Create Smart Shopping Campaign</h2>
+                <button onclick="navigateTo('performance', 'nav-camp')" style="color:#9ca3af; font-size:24px;"><i class="ri-close-line"></i></button>
             </div>
-            
-            <div class="ss-page-layout">
-                <!-- Main Content (Left) -->
-                <div class="ss-main-content">
-                    <!-- Banner -->
-                    <div class="ss-banner">
-                        <div class="ss-banner-item"><i class="ri-lightbulb-flash-line text-4xl mb-3 opacity-80"></i><h4 class="font-bold text-lg">Quality Keywords</h4><p class="text-xs opacity-80 mt-1">Add high search volume keywords to your campaigns.</p><p class="text-xs font-bold mt-2 opacity-100">Tip: Use Get Keyword Ideas</p></div>
-                        <div class="ss-banner-item"><i class="ri-shopping-basket-line text-4xl mb-3 opacity-80"></i><h4 class="font-bold text-lg">High Product Selection</h4><p class="text-xs opacity-80 mt-1">Include high amount of products in one campaign.</p><p class="text-xs font-bold mt-2 opacity-100">Use the suggested bid range</p></div>
-                        <div class="ss-banner-item"><i class="ri-arrow-up-circle-line text-4xl mb-3 opacity-80"></i><h4 class="font-bold text-lg">Better Bids</h4><p class="text-xs opacity-80 mt-1">Add higher bids than your competitors for reference.</p><p class="text-xs font-bold mt-2 opacity-100">Use suggested bid range</p></div>
+            <div class="cc-stepper" id="ss-stepper">
+                <div class="cc-step active" data-step="1"><i class="ri-file-list-3-line step-icon"></i>&nbsp; Basic Info</div>
+                <div class="cc-step" data-step="2"><i class="ri-shopping-bag-3-line step-icon"></i>&nbsp; Product Selection</div>
+                <div class="cc-step" data-step="3"><i class="ri-funds-line step-icon"></i>&nbsp; Bidding</div>
+                <div class="cc-step" data-step="4"><i class="ri-checkbox-circle-line step-icon"></i>&nbsp; Review</div>
+            </div>
+        </header>
+    
+        <main class="cc-steps-container">
+            <!-- STEP 1: BASICS -->
+            <div class="step-content active" id="ss-step-1" style="display: block;">
+                <div class="wizard-body-split">
+                    <div class="wizard-sidebar">
+                        <div class="wiz-toc-header">Step 1: Basic Info</div>
+                        <div class="wiz-toc-item active"><i class="ri-settings-3-line wiz-toc-icon"></i> Campaign Details</div>
+                        <div class="wiz-toc-item"><i class="ri-wallet-3-line wiz-toc-icon"></i> Budget & Pacing</div>
+                        <div class="wiz-toc-item"><i class="ri-calendar-line wiz-toc-icon"></i> Schedule</div>
                     </div>
-
-                    <!-- Core Settings -->
-                    <div class="ss-card">
-                        <div class="ss-input-grid">
-                            <div class="input-group-clean"><label class="input-label">Daily Budget <i class="ri-information-line"></i></label><input type="text" value="₹ 100" class="clean-input"></div>
-                            <div class="input-group-clean"><label class="input-label">Choose Wallet</label><select class="clean-input"><option>Select Wallet</option></select></div>
-                            <div class="input-group-clean"><label class="input-label">Start Date <i class="ri-information-line"></i></label><input type="text" value="18 Dec 25" class="clean-input"></div>
-                            <div class="input-group-clean"><label class="input-label">End Date (Optional) <i class="ri-information-line"></i></label><input type="text" placeholder="Select a date" class="clean-input"></div>
+                    <div class="wizard-content-area">
+                        <div class="wiz-section-card">
+                            <h4 class="wiz-card-title">Campaign Details</h4>
+                            <div class="ss-input-grid">
+                                <div class="input-group-clean"><label class="input-label">Campaign Name <span class="text-red-500">*</span></label><input type="text" class="clean-input" placeholder="e.g., Summer Sale 2026"></div>
+                                <div class="input-group-clean"><label class="input-label">Objective</label><select class="clean-input" style="background:#fff;"><option>Sales</option><option>Traffic</option></select></div>
+                            </div>
                         </div>
-                    </div>
-
-                    <!-- Simulation -->
-                    <div class="ss-card">
-                        <h4 class="flex justify-between items-center">30 Day Simulation <i class="ri-information-line"></i> <button class="text-xs font-bold text-primary hover:underline">Reset to Ideal Settings</button></h4>
-                        <div class="space-y-4">
-                            <div class="ss-simulation-slider"><span>Est. Spend</span><div class="slider-track"><div class="slider-progress" style="width: 20%;"><div class="slider-thumb" style="left: 20%;"></div></div></div><span class="text-right font-bold">₹2.1 Cr</span></div>
-                            <div class="ss-simulation-slider"><span>Est. Impressions</span><div class="slider-track"><div class="slider-progress" style="width: 30%;"><div class="slider-thumb" style="left: 30%;"></div></div></div><span class="text-right font-bold">2.1 Cr</span></div>
-                            <div class="ss-simulation-slider"><span>Est. Page Views</span><div class="slider-track"><div class="slider-progress" style="width: 50%;"><div class="slider-thumb" style="left: 50%;"></div></div></div><span class="text-right font-bold">6.6 L</span></div>
-                            <div class="ss-simulation-slider"><span>Est. Orders</span><div class="slider-track"><div class="slider-progress" style="width: 60%;"><div class="slider-thumb" style="left: 60%;"></div></div></div><span class="text-right font-bold">3.4 L</span></div>
-                            <div class="ss-simulation-slider"><span>Est. Revenue</span><div class="slider-track"><div class="slider-progress" style="width: 75%;"><div class="slider-thumb" style="left: 75%;"></div></div></div><span class="text-right font-bold">11.3 Cr</span></div>
-                            <div class="ss-simulation-slider"><span>Est. ROI</span><div class="slider-track"><div class="slider-progress" style="width: 40%;"><div class="slider-thumb" style="left: 40%;"></div></div></div><span class="text-right font-bold">5.5x</span></div>
+                        <div class="wiz-section-card">
+                            <h4 class="wiz-card-title">Budget & Pacing</h4>
+                            <div class="ss-input-grid">
+                                <div class="input-group-clean"><label class="input-label">Daily Budget (₹) <span class="text-red-500">*</span></label><input type="number" class="clean-input" placeholder="5000"></div>
+                                <div class="input-group-clean"><label class="input-label">Pacing</label><select class="clean-input" style="background:#fff;"><option>Standard</option><option>Accelerated</option></select></div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Sticky Sidebar (Right) -->
-                <div class="ss-right-sidebar">
-                    <h4 style="font-weight: 700; margin-bottom: 16px;">Campaign Settings</h4>
-                    <div class="space-y-2">
-                        <div class="ss-sidebar-item active"><i class="ri-shopping-basket-2-line text-primary text-2xl"></i><div><p class="font-bold text-sm">Product Selection</p></div><span class="sidebar-status status-auto">AUTO</span></div>
-                        <div class="ss-sidebar-item"><i class="ri-hand-coin-line text-gray-400 text-2xl"></i><div><p class="font-bold text-sm">Bid Settings</p></div><span class="sidebar-status status-auto">AUTO</span></div>
-                        <div class="ss-sidebar-item"><i class="ri-key-2-line text-gray-400 text-2xl"></i><div><p class="font-bold text-sm">Keyword Settings</p></div><span class="sidebar-status status-auto">AUTO</span></div>
+                        <div class="wiz-section-card">
+                            <h4 class="wiz-card-title">Schedule</h4>
+                            <div class="ss-input-grid">
+                                <div class="input-group-clean"><label class="input-label">Start Date</label><div style="position:relative;"><input type="text" class="clean-input" value="13 Jan 2026"><i class="ri-calendar-line" style="position:absolute; right:0; top:12px; color:#94a3b8;"></i></div></div>
+                                <div class="input-group-clean"><label class="input-label">End Date</label><div style="position:relative;"><input type="text" class="clean-input" placeholder="Select Date"><i class="ri-calendar-line" style="position:absolute; right:0; top:12px; color:#94a3b8;"></i></div></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+    
+            <!-- STEP 2: PRODUCTS -->
+            <div class="step-content" id="ss-step-2" style="display: none;">
+                <div class="wizard-body-split">
+                    <div class="wizard-sidebar">
+                        <div class="wiz-toc-header">Step 2: Product Selection</div>
+                        <div class="wiz-toc-item active"><i class="ri-filter-3-line wiz-toc-icon"></i> Selection Method</div>
+                        <div class="wiz-toc-item"><i class="ri-list-check wiz-toc-icon"></i> Selected Items</div>
+                    </div>
+                    <div class="wizard-content-area">
+                        <div class="wiz-section-card">
+                            <h4 class="wiz-card-title">Selection Method</h4>
+                            <div class="input-group-clean">
+                                <label class="input-label">How do you want to choose products?</label>
+                                <div style="position:relative;">
+                                    <select onchange="toggleProductView(this.value, 'ss-view-filters', 'ss-view-individual', 'ss-action-label')" class="clean-input" style="background:#fff; font-weight:600; cursor:pointer; -webkit-appearance: none; appearance: none;">
+                                        <option value="filters" selected>Select Products using Filters</option>
+                                        <option value="include">Select Individual Product to Include</option>
+                                        <option value="exclude">Select Individual Product to Exclude</option>
+                                    </select>
+                                    <i class="ri-arrow-down-s-line" style="position:absolute; right:0; top:16px; pointer-events:none;"></i>
+                                </div>
+                            </div>
+                        </div>
 
-            <!-- Footer -->
-            <div class="perf-creator-footer">
-                <button class="cc-button" style="background-color: var(--primary); color: #fff; min-width: 160px;">Launch</button>
+                        <!-- Filter View -->
+                        <div id="ss-view-filters" class="wiz-section-card animate-fade-in" style="display: block;">
+    <h4 class="wiz-card-title">Filters</h4>
+    <div class="grid grid-cols-12 gap-3 mb-2" style="font-size:11px; font-weight:700; color:#94a3b8; text-transform:uppercase;">
+        <div class="col-span-3">Field</div><div class="col-span-3">Operator</div><div class="col-span-5">Value</div>
+    </div>
+
+    <div id="ss-filter-container">
+        <div class="grid grid-cols-12 gap-3 items-center mb-3">
+            <div class="col-span-3 relative"><select class="clean-input bg-white" style="-webkit-appearance: none; appearance: none;"><option>Product Name</option></select><i class="ri-arrow-down-s-line absolute right-0 top-3 pointer-events-none"></i></div>
+            <div class="col-span-3 relative"><select class="clean-input bg-white" style="-webkit-appearance: none; appearance: none;"><option>contains</option></select><i class="ri-arrow-down-s-line absolute right-0 top-3 pointer-events-none"></i></div>
+            <div class="col-span-5"><input type="text" class="clean-input" placeholder="e.g. Shampoo"></div>
+            <div class="col-span-1"><button onclick="addFilterRowGeneric('ss-filter-container')" class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary-dark transition"><i class="ri-add-line"></i></button></div>
+        </div>
+    </div>
+
+    <button onclick="addFilterRowGeneric('ss-filter-container')" class="text-xs font-bold text-primary hover:underline mt-2">+ Add another condition</button>
+</div>
+
+                        <!-- Individual View -->
+                        <div id="ss-view-individual" class="wiz-section-card animate-fade-in" style="display: none;">
+                            <h4 class="wiz-card-title">Manual Selection</h4>
+                            <p id="ss-action-label" class="text-sm text-slate-500 mb-4">Select products to INCLUDE in this campaign</p>
+                            
+                            <div class="flex gap-4 mb-6">
+                                <button onclick="document.getElementById('ss-product-modal').classList.remove('hidden')" class="flex items-center gap-2 bg-[#9c00ad] text-white px-5 py-2.5 rounded-lg text-sm font-bold shadow-md hover:bg-[#7e008c] transition">
+                                    <i class="ri-add-line text-lg"></i> Choose Individually
+                                </button>
+                                <button class="flex items-center gap-2 bg-[#9c00ad] text-white px-5 py-2.5 rounded-lg text-sm font-bold shadow-md hover:bg-[#7e008c] transition">
+                                    <i class="ri-upload-cloud-2-line text-lg"></i> Upload Bulk Products
+                                </button>
+                            </div>
+
+                            <div id="ss-selected-list" style="display:none; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+                                <div style="background:#f1f5f9; padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
+                                    <h4 class="font-bold text-gray-800 text-sm m-0" style="border:none; padding:0; margin:0;">Selected (<span id="ss-selected-count">0</span>)</h4>
+                                    <button onclick="document.getElementById('ss-selected-tbody').innerHTML=''; document.getElementById('ss-selected-list').style.display='none';" class="text-xs font-bold text-red-500 bg-red-50 border border-red-100 px-3 py-1 rounded hover:bg-red-100 transition">Clear All</button>
+                                </div>
+                                <table class="w-full text-left"><tbody id="ss-selected-tbody"></tbody></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3: BIDDING -->
+            <div class="step-content" id="ss-step-3" style="display: none;">
+                <div class="wizard-body-split">
+                    <div class="wizard-sidebar">
+                        <div class="wiz-toc-header">Step 3: Bidding</div>
+                        <div class="wiz-toc-item active"><i class="ri-funds-line wiz-toc-icon"></i> Bidding Type</div>
+                        <div class="wiz-toc-item"><i class="ri-target-line wiz-toc-icon"></i> ROAS Target</div>
+                    </div>
+                    <div class="wizard-content-area">
+                        <div class="wiz-section-card">
+                            <h4 class="wiz-card-title">Bidding Strategy</h4>
+                            <div class="grid grid-cols-2 gap-6">
+                                <div class="border border-gray-200 bg-white rounded-lg p-5 cursor-default opacity-60">
+                                    <div class="flex items-center gap-2 mb-2"><div class="w-3 h-3 rounded-full bg-gray-300"></div><h5 class="font-bold text-gray-900">Manual Bidding</h5></div>
+                                    <p class="text-xs text-gray-600 mb-4">You take control of your Ads by placing bids on a Cost per Click basis.</p>
+                                    <button class="px-3 py-1 bg-white border border-gray-300 text-gray-500 text-[10px] font-bold rounded" disabled>Choose</button>
+                                </div>
+                                <div class="border-2 border-primary bg-purple-50 rounded-lg p-5 relative shadow-sm">
+                                    <div class="flex items-center gap-2 mb-2"><div class="w-3 h-3 rounded-full bg-primary"></div><h5 class="font-bold text-gray-900">Smart Bidding (ROAS)</h5></div>
+                                    <p class="text-xs text-gray-600 mb-4">Optimizes bids for maximum performance based on your ROAS target.</p>
+                                    <button class="px-3 py-1 bg-primary text-white text-[10px] font-bold rounded shadow-sm">Selected</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wiz-section-card">
+                            <h4 class="wiz-card-title">Set Targets</h4>
+                            <label class="input-label">Target ROAS (Return on Ad Spend)</label>
+                            <div class="flex items-center gap-3 mb-4">
+                                <input type="number" class="clean-input" value="4" style="width: 80px; font-weight: 700; font-size: 18px;">
+                                <span class="font-bold text-lg text-gray-500">: 1</span>
+                            </div>
+                            <div class="bg-blue-50 border border-blue-100 rounded-lg p-3 flex items-center gap-3 text-blue-700 text-xs">
+                                <i class="ri-information-fill text-lg"></i> Limited spend expected with high ROAS target.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 4: REVIEW -->
+            <div class="step-content" id="ss-step-4" style="display: none;">
+                <div class="wizard-body-split">
+                    <div class="wizard-sidebar">
+                        <div class="wiz-toc-header">Step 4: Review</div>
+                        <div class="wiz-toc-item active"><i class="ri-file-list-line wiz-toc-icon"></i> Overview</div>
+                    </div>
+                    
+                    <div class="wizard-content-area">
+                        <div class="wiz-section-card">
+                            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #f1f5f9; padding-bottom:12px; margin-bottom:20px;">
+                                <h4 class="wiz-card-title" style="border:none; padding:0; margin:0;">Basic Information</h4>
+                                <span style="background:#fffbeb; color:#92400e; border:1px solid #fcd34d; padding:4px 10px; border-radius:4px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">
+                                    <i class="ri-edit-circle-line" style="vertical-align:middle; margin-right:4px;"></i> Draft Mode
+                                </span>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-6">
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Campaign Name</div><div class="font-bold text-gray-900">Summer Sale 2026</div></div>
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Type</div><div class="font-bold text-primary">SMART SHOPPING</div></div>
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Start Date</div><div class="font-medium text-gray-700">13 Jan 2026</div></div>
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Ad Format</div><div class="font-medium text-gray-700">Product Listing</div></div>
+                            </div>
+                        </div>
+                        <div class="wiz-section-card">
+                            <h4 class="wiz-card-title">Budget & Strategy</h4>
+                            <div class="grid grid-cols-2 gap-6">
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Daily Budget</div><div class="font-bold text-lg text-gray-900">₹ 5,000</div></div>
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Strategy</div><div class="font-bold text-gray-900">Target ROAS (4:1)</div></div>
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Duration</div><div class="font-medium text-gray-700">30 Days</div></div>
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Est. Spend</div><div class="font-medium text-gray-700">₹ 1,50,000</div></div>
+                            </div>
+                        </div>
+                        <div class="wiz-section-card">
+                            <h4 class="wiz-card-title">Targeting</h4>
+                            <div>24 Products Selected (Manual Selection)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- FOOTER -->
+        <footer class="cc-footer" style="padding: 20px 32px; border-top: 1px solid #e5e7eb; display:flex; justify-content:space-between; background:#fff;">
+            <button class="cc-button" id="ss-back-btn" onclick="ssWizardNav(-1)" style="background-color: #fff; border:1px solid #cbd5e1; color:#334155; display:none;">Back</button>
+            <button class="cc-button" id="ss-next-btn" onclick="ssWizardNav(1)" style="background-color: var(--cc-primary-color); color: #fff; margin-left:auto;">Next</button>
+        </footer>
+    </div>
+
+    <!-- EMBEDDED MODAL FOR SMART SHOPPING -->
+    <div id="ss-product-modal" class="fixed inset-0 bg-black/60 z-[9999] hidden flex items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl w-[900px] max-w-[95%] h-[80vh] flex flex-col transform transition-all scale-100">
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-xl">
+                <h3 class="font-bold text-lg text-gray-900">Select Products (Smart Shopping)</h3>
+                <button onclick="document.getElementById('ss-product-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-700"><i class="ri-close-line text-2xl"></i></button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-0">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-white sticky top-0 z-10 shadow-sm text-[10px] text-gray-500 uppercase font-bold"><tr><th class="p-4 w-10"></th><th class="p-4">Image</th><th class="p-4">Name</th><th class="p-4">Category</th><th class="p-4">Price</th></tr></thead>
+                    <tbody class="text-xs text-gray-700 divide-y divide-gray-100">
+                        <tr class="hover:bg-purple-50 cursor-pointer" onclick="addSSRow(this)"><td class="p-4"><input type="checkbox" class="accent-primary pointer-events-none"></td><td class="p-4"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=100" class="w-8 h-8 rounded object-cover bg-gray-100"></td><td class="p-4 font-medium">Alps Goodness Tea Tree Night Cream</td><td class="p-4 text-gray-500">Night Cream</td><td class="p-4 font-bold text-gray-900">₹249</td></tr>
+                        <tr class="hover:bg-purple-50 cursor-pointer" onclick="addSSRow(this)"><td class="p-4"><input type="checkbox" class="accent-primary pointer-events-none"></td><td class="p-4"><img src="https://images.unsplash.com/photo-1608248597279-f99d160bfbc8?auto=format&fit=crop&q=80&w=100" class="w-8 h-8 rounded object-cover bg-gray-100"></td><td class="p-4 font-medium">Alps Goodness Avocado Cream</td><td class="p-4 text-gray-500">Face Cream</td><td class="p-4 font-bold text-gray-900">₹261</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="px-6 py-4 border-t border-gray-100 flex justify-end items-center bg-gray-50 rounded-b-xl gap-4">
+                <button onclick="document.getElementById('ss-product-modal').classList.add('hidden')" class="text-sm font-bold text-gray-500 hover:text-gray-800">Cancel</button>
+                <button onclick="finishSSSelection()" class="bg-primary text-white px-6 py-2.5 rounded-lg text-sm font-bold shadow-lg hover:bg-primary-dark transition">Add Selected</button>
             </div>
         </div>
+    </div>
+    <script>
+        function addSSRow(r) { const c=r.querySelector('input'); c.checked=!c.checked; r.style.backgroundColor=c.checked?'#fdf1ff':'white'; }
+        function finishSSSelection() {
+            const tr=document.createElement('tr'); tr.className="hover:bg-gray-50 border-b border-gray-100";
+            tr.innerHTML=`<td class="p-3"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=100" class="w-8 h-8 rounded"></td><td class="p-3 font-medium">Alps Goodness Tea Tree Night Cream</td><td class="p-3">Night Cream</td><td class="p-3">Alps Goodness</td><td class="p-3 line-through text-gray-400">₹335</td><td class="p-3 font-bold">₹249</td><td class="p-3 text-green-600 font-bold">In Stock</td><td class="p-3 text-center"><i class="ri-delete-bin-line text-gray-400 cursor-pointer" onclick="this.closest('tr').remove();"></i></td>`;
+            // FIX: Changed 'ss-tbody' to 'ss-selected-tbody'
+            const target = document.getElementById('ss-selected-tbody');
+            if(target) target.appendChild(tr); 
+            document.getElementById('ss-selected-list').style.display='block'; 
+            document.getElementById('ss-selected-count').innerText='1'; 
+            document.getElementById('ss-product-modal').classList.add('hidden');
+        }
+    </script>
+</div>
+
+<!-- PAGE: SEARCH ONLY WIZARD (Fixed Arrows & Embedded Modal) -->
+<div id="page-create-search-only" class="page-section hidden wizard-wrapper">
+    <div class="cc-module-container">
+        
+        <!-- Header -->
+        <header class="cc-header">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px; padding-bottom:12px; border-bottom:1px solid #f1f5f9;">
+                <h2 style="font-size:18px; font-weight:700; color:#111827; margin:0;">Create Search Only Campaign</h2>
+                <button onclick="navigateTo('performance', 'nav-camp')" style="color:#9ca3af; font-size:24px;"><i class="ri-close-line"></i></button>
+            </div>
+            <div class="cc-stepper" id="so-stepper">
+                <div class="cc-step active" data-step="1"><i class="ri-file-list-3-line step-icon"></i>&nbsp; Basic Info</div>
+                <div class="cc-step" data-step="2"><i class="ri-shopping-bag-3-line step-icon"></i>&nbsp; Product Selection</div>
+                <div class="cc-step" data-step="3"><i class="ri-price-tag-3-line step-icon"></i>&nbsp; Keywords</div>
+                <div class="cc-step" data-step="4"><i class="ri-checkbox-circle-line step-icon"></i>&nbsp; Review</div>
+            </div>
+        </header>
+    
+        <main class="cc-steps-container">
+            <!-- STEP 1: BASICS -->
+            <div class="step-content active" id="so-step-1" style="display: block;">
+                <div class="wizard-body-split">
+                    <div class="wizard-sidebar">
+                        <div class="wiz-toc-header">Step 1: Basic Info</div>
+                        <div class="wiz-toc-item active"><i class="ri-settings-3-line wiz-toc-icon"></i> Campaign Details</div>
+                        <div class="wiz-toc-item"><i class="ri-wallet-3-line wiz-toc-icon"></i> Budget & Pacing</div>
+                        <div class="wiz-toc-item"><i class="ri-calendar-line wiz-toc-icon"></i> Schedule</div>
+                    </div>
+                    <div class="wizard-content-area">
+                        <div class="wiz-section-card">
+                            <h4 class="wiz-card-title">Campaign Details</h4>
+                            <div class="ss-input-grid">
+                                <div class="input-group-clean"><label class="input-label">Campaign Name <span class="text-red-500">*</span></label><input type="text" class="clean-input" placeholder="e.g., Brand Keywords 2026"></div>
+                                <div class="input-group-clean"><label class="input-label">Objective</label><select class="clean-input" style="background:#fff;"><option>Sales</option><option>Awareness</option></select></div>
+                            </div>
+                        </div>
+                        <div class="wiz-section-card">
+                            <h4 class="wiz-card-title">Budget & Pacing</h4>
+                            <div class="ss-input-grid">
+                                <div class="input-group-clean"><label class="input-label">Daily Budget (₹) <span class="text-red-500">*</span></label><input type="number" class="clean-input" placeholder="5000"></div>
+                                <div class="input-group-clean"><label class="input-label">Pacing</label><select class="clean-input" style="background:#fff;"><option>Standard</option><option>Accelerated</option></select></div>
+                            </div>
+                        </div>
+                        <div class="wiz-section-card">
+                            <h4 class="wiz-card-title">Schedule</h4>
+                            <div class="ss-input-grid">
+                                <div class="input-group-clean"><label class="input-label">Start Date</label><div style="position:relative;"><input type="text" class="clean-input" value="13 Jan 2026"><i class="ri-calendar-line" style="position:absolute; right:0; top:12px; color:#94a3b8;"></i></div></div>
+                                <div class="input-group-clean"><label class="input-label">End Date</label><div style="position:relative;"><input type="text" class="clean-input" placeholder="Select Date"><i class="ri-calendar-line" style="position:absolute; right:0; top:12px; color:#94a3b8;"></i></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 2: PRODUCTS -->
+            <div class="step-content" id="so-step-2" style="display: none;">
+                <div class="wizard-body-split">
+                    <div class="wizard-sidebar">
+                        <div class="wiz-toc-header">Step 2: Product Selection</div>
+                        <div class="wiz-toc-item active"><i class="ri-filter-3-line wiz-toc-icon"></i> Selection Method</div>
+                        <div class="wiz-toc-item"><i class="ri-list-check wiz-toc-icon"></i> Selected Items</div>
+                    </div>
+                    <div class="wizard-content-area">
+                        <div class="wiz-section-card">
+                            <h4 class="wiz-card-title">Selection Method</h4>
+                            <div class="input-group-clean">
+                                <label class="input-label">How do you want to choose products?</label>
+                                <div style="position:relative;">
+                                    <select onchange="toggleProductView(this.value, 'so-view-filters', 'so-view-individual', 'so-action-label')" class="clean-input" style="background:#fff; font-weight:600; cursor:pointer; -webkit-appearance: none; appearance: none;">
+                                        <option value="filters" selected>Select Products using Filters</option>
+                                        <option value="include">Select Individual Product to Include</option>
+                                        <option value="exclude">Select Individual Product to Exclude</option>
+                                    </select>
+                                    <i class="ri-arrow-down-s-line" style="position:absolute; right:0; top:16px; pointer-events:none;"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Filter View -->
+                        <div id="so-view-filters" class="wiz-section-card animate-fade-in" style="display: block;">
+                            <h4 class="wiz-card-title">Filters</h4>
+                            <div class="grid grid-cols-12 gap-3 mb-2" style="font-size:11px; font-weight:700; color:#94a3b8; text-transform:uppercase;">
+                                <div class="col-span-3">Field</div><div class="col-span-3">Operator</div><div class="col-span-5">Value</div>
+                            </div>
+
+                            <div id="so-filter-container">
+                                <div class="grid grid-cols-12 gap-3 items-center mb-3">
+                                    <div class="col-span-3 relative"><select class="clean-input bg-white" style="-webkit-appearance: none; appearance: none;"><option>Product Name</option></select><i class="ri-arrow-down-s-line absolute right-0 top-3 pointer-events-none"></i></div>
+                                    <div class="col-span-3 relative"><select class="clean-input bg-white" style="-webkit-appearance: none; appearance: none;"><option>contains</option></select><i class="ri-arrow-down-s-line absolute right-0 top-3 pointer-events-none"></i></div>
+                                    <div class="col-span-5"><input type="text" class="clean-input" placeholder="e.g. Shampoo"></div>
+                                    <div class="col-span-1"><button onclick="addFilterRowGeneric('so-filter-container')" class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary-dark transition"><i class="ri-add-line"></i></button></div>
+                                </div>
+                            </div>
+
+                            <button onclick="addFilterRowGeneric('so-filter-container')" class="text-xs font-bold text-primary hover:underline mt-2">+ Add another condition</button>
+                        </div>
+
+                        <!-- Individual View -->
+                        <div id="so-view-individual" class="wiz-section-card hidden animate-fade-in" style="display: none;">
+                            <h4 class="wiz-card-title">Manual Selection</h4>
+                            <p id="so-action-label" class="text-sm text-slate-500 mb-4">Select products to INCLUDE in this campaign</p>
+                            <div class="flex gap-4 mb-6">
+                                <button onclick="document.getElementById('so-product-modal').classList.remove('hidden')" class="flex items-center gap-2 bg-[#9c00ad] text-white px-5 py-2.5 rounded-lg text-sm font-bold shadow-md hover:bg-[#7e008c] transition"><i class="ri-add-line"></i> Choose Individually</button>
+                                <button class="flex items-center gap-2 bg-[#9c00ad] text-white px-5 py-2.5 rounded-lg text-sm font-bold shadow-md hover:bg-[#7e008c] transition"><i class="ri-upload-cloud-2-line"></i> Upload Bulk Products</button>
+                            </div>
+                            <div id="so-selected-list" style="display:none; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+                                <div style="background:#f8fafc; padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
+                                    <h4 class="font-bold text-gray-800 text-sm m-0" style="border:none;">Selected (<span id="so-selected-count">0</span>)</h4>
+                                    <button onclick="document.getElementById('so-tbody').innerHTML=''; document.getElementById('so-selected-list').style.display='none';" class="text-xs font-bold text-red-500 bg-red-50 border border-red-100 px-3 py-1 rounded hover:bg-red-100 transition">Clear All</button>
+                                </div>
+                                <table class="w-full text-left"><tbody id="so-selected-tbody"></tbody></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3: KEYWORDS -->
+            <div class="step-content" id="so-step-3" style="display: none;">
+                <div class="wizard-body-split">
+                    <div class="wizard-sidebar">
+                        <div class="wiz-toc-header">Step 3: Bidding</div>
+                        <div class="wiz-toc-item active"><i class="ri-price-tag-3-line wiz-toc-icon"></i> Individual Keywords</div>
+                        <div class="wiz-toc-item"><i class="ri-upload-2-line wiz-toc-icon"></i> Bulk Upload</div>
+                    </div>
+                    <div class="wizard-content-area">
+                        <div class="wiz-section-card">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                                <h4 class="wiz-card-title" style="margin:0; border:none;">Individual Keywords</h4>
+                                <button onclick="addBiddingRow()" class="text-xs font-bold text-primary hover:underline">+ Add Keyword Row</button>
+                            </div>
+                            <div class="grid grid-cols-12 gap-3 mb-2 px-1 text-[10px] font-bold text-gray-400 uppercase">
+                                <div class="col-span-6">Keyword</div><div class="col-span-3">Match Type</div><div class="col-span-2">Bid (₹)</div>
+                            </div>
+                            <div id="bidding-rows-container" class="space-y-3"></div>
+                        </div>
+                        <div class="wiz-section-card">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                                <h4 class="wiz-card-title" style="margin:0; border:none;">Bulk Upload</h4>
+                                <button class="bg-[#9c00ad] text-white px-4 py-2 rounded text-xs font-bold shadow-sm flex items-center gap-2 hover:bg-[#7e008c] transition"><i class="ri-upload-cloud-2-line"></i> Upload CSV</button>
+                            </div>
+                            <textarea class="clean-input" style="min-height:100px; padding:16px;" placeholder="Paste keywords here (one per line)..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 4: REVIEW -->
+            <div class="step-content" id="so-step-4" style="display: none;">
+                <div class="wizard-body-split">
+                    <div class="wizard-sidebar">
+                        <div class="wiz-toc-header">Step 4: Review</div>
+                        <div class="wiz-toc-item active"><i class="ri-file-list-line wiz-toc-icon"></i> Overview</div>
+                    </div>
+                    
+                    <div class="wizard-content-area">
+                        <div class="wiz-section-card">
+                            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #f1f5f9; padding-bottom:12px; margin-bottom:20px;">
+                                <h4 class="wiz-card-title" style="border:none; padding:0; margin:0;">Basic Information</h4>
+                                <span style="background:#fffbeb; color:#92400e; border:1px solid #fcd34d; padding:4px 10px; border-radius:4px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">
+                                    <i class="ri-edit-circle-line" style="vertical-align:middle; margin-right:4px;"></i> Draft Mode
+                                </span>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-6">
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Campaign Name</div><div class="font-bold text-gray-900">Brand Keywords 2026</div></div>
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Type</div><div class="font-bold text-primary">SEARCH ONLY</div></div>
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Start Date</div><div class="font-medium text-gray-700">06 Jan 2026</div></div>
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Ad Format</div><div class="font-medium text-gray-700">Text / Search</div></div>
+                            </div>
+                        </div>
+                        <div class="wiz-section-card">
+                            <h4 class="wiz-card-title">Budget & Strategy</h4>
+                            <div class="grid grid-cols-2 gap-6">
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Daily Budget</div><div class="font-bold text-lg text-gray-900">₹ 5,000</div></div>
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Strategy</div><div class="font-bold text-gray-900">Manual CPC</div></div>
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Duration</div><div class="font-medium text-gray-700">30 Days</div></div>
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Est. Spend</div><div class="font-medium text-gray-700">₹ 1,50,000</div></div>
+                            </div>
+                        </div>
+                        <div class="wiz-section-card">
+                            <h4 class="wiz-card-title">Keywords</h4>
+                            <div>5 Keywords Configured</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- FOOTER -->
+        <footer class="cc-footer" style="padding: 20px 32px; border-top: 1px solid #e5e7eb; display:flex; justify-content:space-between; background:#fff;">
+            <button class="cc-button" id="so-back-btn" onclick="soWizardNav(-1)" style="background-color: #fff; border:1px solid #cbd5e1; color:#334155; display:none;">Back</button>
+            <button class="cc-button" id="so-next-btn" onclick="soWizardNav(1)" style="background-color: var(--cc-primary-color); color: #fff; margin-left:auto;">Next</button>
+        </footer>
+    </div>
+    
+    <!-- EMBEDDED MODAL FOR SEARCH ONLY -->
+    <div id="so-product-modal" class="fixed inset-0 bg-black/60 z-[9999] hidden flex items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl w-[900px] max-w-[95%] h-[80vh] flex flex-col transform transition-all scale-100">
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-xl">
+                <h3 class="font-bold text-lg text-gray-900">Select Products (Search Only)</h3>
+                <button onclick="document.getElementById('so-product-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-700"><i class="ri-close-line text-2xl"></i></button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-0">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-white sticky top-0 z-10 shadow-sm text-[10px] text-gray-500 uppercase font-bold"><tr><th class="p-4 w-10"></th><th class="p-4">Image</th><th class="p-4">Name</th><th class="p-4">Category</th><th class="p-4">Price</th></tr></thead>
+                    <tbody class="text-xs text-gray-700 divide-y divide-gray-100">
+                        <tr class="hover:bg-purple-50 cursor-pointer" onclick="addSORow(this)"><td class="p-4"><input type="checkbox" class="accent-primary pointer-events-none"></td><td class="p-4"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=100" class="w-8 h-8 rounded object-cover bg-gray-100"></td><td class="p-4 font-medium">Alps Goodness Tea Tree Night Cream</td><td class="p-4 text-gray-500">Night Cream</td><td class="p-4 font-bold text-gray-900">₹249</td></tr>
+                        <tr class="hover:bg-purple-50 cursor-pointer" onclick="addSORow(this)"><td class="p-4"><input type="checkbox" class="accent-primary pointer-events-none"></td><td class="p-4"><img src="https://images.unsplash.com/photo-1608248597279-f99d160bfbc8?auto=format&fit=crop&q=80&w=100" class="w-8 h-8 rounded object-cover bg-gray-100"></td><td class="p-4 font-medium">Alps Goodness Avocado Cream</td><td class="p-4 text-gray-500">Face Cream</td><td class="p-4 font-bold text-gray-900">₹261</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="px-6 py-4 border-t border-gray-100 flex justify-end items-center bg-gray-50 rounded-b-xl gap-4">
+                <button onclick="document.getElementById('so-product-modal').classList.add('hidden')" class="text-sm font-bold text-gray-500 hover:text-gray-800">Cancel</button>
+                <button onclick="finishSOSelection()" class="bg-primary text-white px-6 py-2.5 rounded-lg text-sm font-bold shadow-lg hover:bg-primary-dark transition">Add Selected</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function addSORow(r) { const c=r.querySelector('input'); c.checked=!c.checked; r.style.backgroundColor=c.checked?'#fdf1ff':'white'; }
+        function finishSOSelection() {
+            const tr=document.createElement('tr'); tr.className="hover:bg-gray-50 border-b border-gray-100";
+            tr.innerHTML=`<td class="p-3"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=100" class="w-8 h-8 rounded"></td><td class="p-3 font-medium">Alps Goodness Tea Tree Night Cream</td><td class="p-3">Night Cream</td><td class="p-3">Alps Goodness</td><td class="p-3 line-through text-gray-400">₹335</td><td class="p-3 font-bold">₹249</td><td class="p-3 text-green-600 font-bold">In Stock</td><td class="p-3 text-center"><i class="ri-delete-bin-line text-gray-400 cursor-pointer" onclick="this.closest('tr').remove();"></i></td>`;
+            // FIX: Changed 'so-tbody' to 'so-selected-tbody' and 'so-count' to 'so-selected-count'
+            const target = document.getElementById('so-selected-tbody');
+            if(target) target.appendChild(tr); 
+            document.getElementById('so-selected-list').style.display='block'; 
+            document.getElementById('so-selected-count').innerText='1'; 
+            document.getElementById('so-product-modal').classList.add('hidden');
+        }
+    </script>
+</div>
 
         <!-- TAKEOVER CAMPAIGN CREATOR (Auction-Based) -->
         <div id="page-create-takeover" class="page-section hidden wizard-wrapper">
@@ -2782,7 +3430,7 @@
         <td class="px-6 py-3 text-center"><span class="text-primary-600 font-bold cursor-pointer hover:underline">Awareness</span></td>
         <td class="px-6 py-3">
             <svg width="100" height="30" viewBox="0 0 100 30" fill="none">
-                <path d="M0 28 C 20 28, 40 5, 60 15 S 100 10" stroke="#9c00ad" stroke-width="2" stroke-linecap="round" fill="none"/>
+                <path d="M0 28 C 20 28, 40 5, 60 15 S 80 5, 100 10" stroke="#9c00ad" stroke-width="2" stroke-linecap="round" fill="none"/>
             </svg>
         </td>
         <td class="px-6 py-3 text-right text-gray-500">₹8,00,000</td>
@@ -5012,12 +5660,74 @@ renderAllCalendars();
                     }
                 });
 
-                // 4. Geo Location Logic
+                // 4. Geo Location Logic (State -> Quick/Non-Quick for Visibility)
                 const geoContent = document.querySelector('[data-accordion="geo"]');
                 const includedPillsContainer = document.getElementById('included-pills');
                 const excludedPillsContainer = document.getElementById('excluded-pills');
+                const includeStateSelect = document.getElementById('include-state-select');
+                const includeSpeedSelect = document.getElementById('include-speed-select');
+                const excludeStateSelect = document.getElementById('exclude-state-select');
+                const includeAddBtn = document.getElementById('include-add-btn');
+                const excludeAddBtn = document.getElementById('exclude-add-btn');
+                const quicknessHint = document.getElementById('quickness-hint');
+
+                // Demo state list (prototype). Backend will populate this from geo metadata.
+                const STATES = [
+                    'Delhi', 'Maharashtra', 'Karnataka', 'Tamil Nadu', 'Gujarat',
+                    'Rajasthan', 'Uttar Pradesh', 'West Bengal', 'Telangana', 'Punjab'
+                ];
+
+                // Quick/Non-Quick availability (prototype). Backend will drive this.
+                const QUICKNESS_SUPPORTED = new Set(['Delhi','Maharashtra','Karnataka','Tamil Nadu','Gujarat','Telangana']);
+
+                // Selected values
                 let includedCount = 0;
                 let excludedCount = 0;
+
+                const populateStateSelect = (sel) => {
+                    if (!sel) return;
+                    // preserve first option
+                    const first = sel.querySelector('option');
+                    sel.innerHTML = '';
+                    if (first) sel.appendChild(first);
+                    STATES.forEach(s => {
+                        const opt = document.createElement('option');
+                        opt.value = s;
+                        opt.textContent = s;
+                        sel.appendChild(opt);
+                    });
+                };
+
+                const setSpeedSelectState = () => {
+                    if (!includeStateSelect || !includeSpeedSelect) return;
+                    const state = includeStateSelect.value;
+                    const isVisibility = window.currentCampaignType === 'visibility';
+
+                    if (!isVisibility) {
+                        // For non-visibility flows, keep it locked to ALL
+                        includeSpeedSelect.value = 'ALL';
+                        includeSpeedSelect.disabled = true;
+                        if (quicknessHint) quicknessHint.textContent = 'Quickness available only for Visibility campaigns';
+                        return;
+                    }
+
+                    if (!state) {
+                        includeSpeedSelect.value = 'ALL';
+                        includeSpeedSelect.disabled = true;
+                        if (quicknessHint) quicknessHint.textContent = 'Select a state to check availability';
+                        return;
+                    }
+
+                    const supported = QUICKNESS_SUPPORTED.has(state);
+                    if (supported) {
+                        includeSpeedSelect.disabled = false;
+                        if (quicknessHint) quicknessHint.textContent = 'Optional: refine by Quick / Non-Quick';
+                    } else {
+                        includeSpeedSelect.value = 'ALL';
+                        includeSpeedSelect.disabled = true;
+                        if (quicknessHint) quicknessHint.textContent = 'Quick / Non-Quick not available for this state';
+                    }
+                };
 
                 const updateGeoSummary = () => {
                     const summaryEl = document.getElementById('geo-summary');
@@ -5025,42 +5735,105 @@ renderAllCalendars();
                     let summaryText = [];
                     if (includedCount > 0) summaryText.push(`${includedCount} included`);
                     if (excludedCount > 0) summaryText.push(`${excludedCount} excluded`);
-                    
+
                     if (summaryText.length > 0) {
                         summaryEl.textContent = summaryText.join(', ');
                         badgeEl.textContent = 'MANUAL';
                         badgeEl.classList.add('manual');
                     } else {
                         summaryEl.textContent = '';
-                        badgeEl.textContent = 'ALL LOCATIONS';
+                        badgeEl.textContent = 'ALL STATES';
                         badgeEl.classList.remove('manual');
                     }
                 };
 
+                const makePill = ({ type, state, speed }) => {
+                    const pill = document.createElement('div');
+                    pill.className = `location-pill ${type === 'exclude' ? 'exclude' : ''}`;
+                    pill.dataset.state = state;
+                    if (speed) pill.dataset.speed = speed;
+
+                    let label = state;
+                    if (type === 'include' && speed && speed !== 'ALL') {
+                        label = `${state} • ${speed === 'QUICK' ? 'Quick' : 'Non-Quick'}`;
+                    }
+
+                    pill.innerHTML = `
+                        <span>${label}</span>
+                        <i class="fa-solid fa-xmark remove-pill" title="Remove"></i>
+                    `;
+                    return pill;
+                };
+
+                const addIncluded = () => {
+                    if (!includeStateSelect || !includedPillsContainer) return;
+                    const state = includeStateSelect.value;
+                    if (!state) return;
+
+                    // Enforce limit
+                    if (includedCount >= 20) return;
+
+                    let speed = 'ALL';
+                    const supported = QUICKNESS_SUPPORTED.has(state) && (window.currentCampaignType === 'visibility');
+                    if (supported && includeSpeedSelect) {
+                        speed = includeSpeedSelect.value || 'ALL';
+                    }
+
+                    const pill = makePill({ type: 'include', state, speed });
+                    includedPillsContainer.appendChild(pill);
+                    includedCount++;
+
+                    // Reset selection
+                    includeStateSelect.value = '';
+                    if (includeSpeedSelect) includeSpeedSelect.value = 'ALL';
+                    setSpeedSelectState();
+                    updateGeoSummary();
+                };
+
+                const addExcluded = () => {
+                    if (!excludeStateSelect || !excludedPillsContainer) return;
+                    const state = excludeStateSelect.value;
+                    if (!state) return;
+
+                    // Enforce limit
+                    if (excludedCount >= 20) return;
+
+                    const pill = makePill({ type: 'exclude', state });
+                    excludedPillsContainer.appendChild(pill);
+                    excludedCount++;
+
+                    // Reset
+                    excludeStateSelect.value = '';
+                    updateGeoSummary();
+                };
+
                 if (geoContent) {
-                    geoContent.addEventListener('keypress', (e) => {
-                        if (e.key === 'Enter' && e.target.matches('.location-input')) {
-                            const input = e.target;
-                            const type = input.dataset.type;
-                            const value = input.value.trim();
-                            if (!value) return;
-                            
-                            const pill = document.createElement('div');
-                            pill.className = `location-pill ${type === 'exclude' ? 'exclude' : ''}`;
-                            pill.innerHTML = `<span>${value}</span> <i class="fa-solid fa-xmark remove-pill"></i>`;
-                            
-                            if (type === 'include') {
-                                includedPillsContainer.appendChild(pill);
-                                includedCount++;
-                            } else {
-                                excludedPillsContainer.appendChild(pill);
-                                excludedCount++;
+                    populateStateSelect(includeStateSelect);
+                    populateStateSelect(excludeStateSelect);
+
+                    if (includeStateSelect) {
+                        includeStateSelect.addEventListener('change', setSpeedSelectState);
+                    }
+
+                    // Buttons
+                    if (includeAddBtn) includeAddBtn.addEventListener('click', addIncluded);
+                    if (excludeAddBtn) excludeAddBtn.addEventListener('click', addExcluded);
+
+                    // Enter-to-add for convenience
+                    geoContent.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter') {
+                            if (document.activeElement === includeStateSelect || document.activeElement === includeSpeedSelect) {
+                                e.preventDefault();
+                                addIncluded();
                             }
-                            input.value = '';
-                            updateGeoSummary();
+                            if (document.activeElement === excludeStateSelect) {
+                                e.preventDefault();
+                                addExcluded();
+                            }
                         }
                     });
 
+                    // Remove pill
                     geoContent.addEventListener('click', (e) => {
                         if (e.target.matches('.remove-pill')) {
                             const pill = e.target.parentElement;
@@ -5070,8 +5843,11 @@ renderAllCalendars();
                             updateGeoSummary();
                         }
                     });
-                }
 
+                    // Initial state
+                    setSpeedSelectState();
+                    updateGeoSummary();
+                }
                 // 5. Reach Gauge Logic
                 const needle = document.getElementById('reach-needle');
                 const reachValue = document.getElementById('reach-value');
@@ -5557,39 +6333,6 @@ renderAllCalendars();
             if(title) title.innerText = metric;
             window.closeAll();
         }
-        // Graph Update Logic (Fixed: Updates ALL 4 Lines)
-        window.updateGraph = (period, btn) => {
-            // 1. Update Tabs Styling
-            const parent = document.getElementById('graphTabs');
-            Array.from(parent.children).forEach(c => c.className = "px-4 py-1 text-xs font-medium text-gray-500 hover:bg-white rounded-md transition");
-            btn.className = "px-4 py-1 text-xs font-bold text-gray-900 bg-white shadow rounded-md transition";
-
-            // 2. Select All Lines
-            const pSpend = document.getElementById('lineSpend');
-            const pImpr = document.getElementById('lineImpr');
-            const pClicks = document.getElementById('lineClicks');
-            const pCTR = document.getElementById('lineCTR');
-
-            // 3. Set Data Paths based on Period
-            if(period === 'day') {
-                if(pSpend)  pSpend.setAttribute('d', "M0,150 Q125,100 250,110 T500,60 T750,90 T1000,40");
-                if(pImpr)   pImpr.setAttribute('d', "M0,180 Q150,160 300,140 T600,120 T850,100 T1000,80");
-                if(pClicks) pClicks.setAttribute('d', "M0,120 Q200,150 400,130 T700,160 T1000,140");
-                if(pCTR)    pCTR.setAttribute('d', "M0,90 Q300,50 600,70 T1000,110");
-            }
-            else if(period === 'week') {
-                if(pSpend)  pSpend.setAttribute('d', "M0,130 Q300,50 600,100 T1000,30");
-                if(pImpr)   pImpr.setAttribute('d', "M0,160 Q200,130 400,110 T800,90 T1000,70");
-                if(pClicks) pClicks.setAttribute('d', "M0,140 Q250,100 500,120 T750,80 T1000,100");
-                if(pCTR)    pCTR.setAttribute('d', "M0,100 Q400,40 600,80 T1000,60");
-            }
-            else if(period === 'month') {
-                if(pSpend)  pSpend.setAttribute('d', "M0,140 L200,120 L400,80 L600,90 L800,40 L1000,20");
-                if(pImpr)   pImpr.setAttribute('d', "M0,170 L250,160 L500,130 L750,100 L1000,70");
-                if(pClicks) pClicks.setAttribute('d', "M0,150 L200,130 L400,140 L600,110 L800,90 L1000,100");
-                if(pCTR)    pCTR.setAttribute('d', "M0,110 L300,80 L600,90 L900,50 L1000,60");
-            }
-        };
         
         // Campaign Table Toggles
         window.toggleCampaignView = (view) => {
@@ -6065,45 +6808,56 @@ renderAllCalendars();
             renderAllCalendars();
         }
     }, 500);
-// --- GRAPH INTERACTION LOGIC (DOT STICKS TO LINE) ---
-    const graphArea = document.getElementById('graphArea');
-    const chartDot = document.getElementById('chartDot');
-    const chartTooltip = document.getElementById('chartTooltip');
-    const chartTooltipText = chartTooltip ? chartTooltip.querySelector('div') : null;
-    const purpleLine = document.getElementById('lineSpend'); // The specific line to follow
+// --- UNIVERSAL GRAPH INTERACTION LOGIC (Fixes All Pages) ---
+document.querySelectorAll('.chart-container').forEach(container => {
+    const graphArea = container.querySelector('.group'); // The hover area
+    
+    // Attempt to find dot/tooltip by ID (old way) or create them dynamically if missing
+    let chartDot = container.querySelector('#chartDot') || container.querySelector('.chart-dot');
+    let chartTooltip = container.querySelector('#chartTooltip') || container.querySelector('.chart-tooltip');
+    
+    // Fallback: If Elements are missing (Performance/Awareness pages), create them on the fly
+    if (!chartDot) {
+        chartDot = document.createElement('div');
+        chartDot.className = 'chart-dot absolute w-3 h-3 bg-primary rounded-full border-2 border-white shadow-sm z-20 pointer-events-none transition-all duration-75 opacity-0 group-hover:opacity-100';
+        graphArea.appendChild(chartDot);
+    }
+    if (!chartTooltip) {
+        chartTooltip = document.createElement('div');
+        chartTooltip.className = 'chart-tooltip absolute bg-white border border-gray-100 shadow-xl rounded-lg p-2 z-30 pointer-events-none transition-all duration-75 opacity-0 group-hover:opacity-100';
+        chartTooltip.style.top = '20%';
+        chartTooltip.style.minWidth = '140px';
+        chartTooltip.innerHTML = '<div></div>';
+        graphArea.appendChild(chartTooltip);
+    }
 
-    if (graphArea && chartDot && chartTooltip && purpleLine) {
+    const chartTooltipText = chartTooltip.querySelector('div');
+    // Find the first path (Purple line usually) to track
+    const purpleLine = container.querySelector('path'); 
+
+    if (graphArea && purpleLine) {
         graphArea.addEventListener('mousemove', (e) => {
             const rect = graphArea.getBoundingClientRect();
-            
-            // 1. Calculate X Position (0 to 100%)
             let x = e.clientX - rect.left;
             let percent = (x / rect.width) * 100;
             percent = Math.max(0, Math.min(100, percent));
 
-            // 2. Calculate Y Position (Stick to the Purple Line)
-            // We approximate the point on the line based on the X percentage
+            // Calculate Y based on line path
             const pathLength = purpleLine.getTotalLength();
             const pointOnLine = purpleLine.getPointAtLength(pathLength * (percent / 100));
-            
-            // The SVG viewbox height is 200. We convert the line's Y to a percentage.
-            // pointOnLine.y is the vertical coordinate within the SVG.
-            const yPercent = (pointOnLine.y / 200) * 100;
+            const yPercent = (pointOnLine.y / 200) * 100; // Assuming 200 viewBox height
 
-            // 3. Apply Positions
+            // Apply positions
             chartDot.style.left = percent + '%';
-            chartDot.style.top = yPercent + '%'; // Move dot Up/Down to match line
-            chartTooltip.style.left = percent + '%'; // Tooltip line stays vertical
+            chartDot.style.top = yPercent + '%';
+            chartTooltip.style.left = Math.min(percent, 85) + '%'; // Prevent tooltip going off-screen
 
-            // 4. Update Data Text
+            // Update Text
             const days = ["Nov 20", "Nov 21", "Nov 22", "Nov 23", "Nov 24", "Nov 25", "Nov 26"];
             const index = Math.round((percent / 100) * (days.length - 1));
             
             if (chartTooltipText && days[index]) {
-                // Calculate numbers based on the visual height of the line for accuracy
-                // Inverted because Y=0 is top, Y=200 is bottom
                 const visualSpend = Math.round((1 - (pointOnLine.y / 200)) * 100000);
-                
                 chartTooltipText.innerHTML = `
                     <div class="text-[10px] text-gray-400 font-bold mb-2">${days[index]}</div>
                     <div class="flex justify-between items-center mb-1"><span class="text-[10px] text-gray-600">Spend</span><span class="text-xs font-bold text-primary">₹${visualSpend.toLocaleString()}</span></div>
@@ -6113,6 +6867,7 @@ renderAllCalendars();
             }
         });
     }
+});
 // --- FORCE CREATE WALLET MODAL ---
     window.openCreateWalletModal = function() {
         const modal = document.getElementById('createWalletModal');
@@ -6149,30 +6904,41 @@ renderAllCalendars();
             }, 300);
         }
     };
-// --- PERFORMANCE VIEW TOGGLE (20 Rows Per View) ---
-    window.updatePerfView = function(element, type) {
-        // 1. HIGHLIGHT LOGIC
-        document.querySelectorAll('.perf-link').forEach(el => {
-            el.classList.remove('text-white', 'font-bold', 'bg-white/10');
-            el.classList.add('text-white/50'); 
-        });
-        element.classList.remove('text-white/50');
-        element.classList.add('text-white', 'font-bold', 'bg-white/10');
+// 1. PERFORMANCE VIEW TOGGLE (Updates Breadcrumbs & Button Logic & Full Table Data)
+window.updatePerfView = function(element, type) {
+    // A. Highlight Sidebar Link
+    document.querySelectorAll('.perf-link').forEach(el => {
+        el.classList.remove('text-white', 'font-bold', 'bg-white/10');
+        el.classList.add('text-white/50');
+    });
+    element.classList.remove('text-white/50');
+    element.classList.add('text-white', 'font-bold', 'bg-white/10');
 
-        // 2. BREADCRUMB LOGIC
-        const breadcrumb = document.getElementById('breadcrumb-container');
-        if(breadcrumb) {
-            breadcrumb.innerHTML = `Home / Campaigns / Performance / <span class='text-primary font-bold'>${type}</span>`;
-        }
+    // B. Update Breadcrumb
+    const breadcrumb = document.getElementById('breadcrumb-container');
+    if(breadcrumb) {
+        breadcrumb.innerHTML = `Home / Performance / <span class='text-primary font-bold'>${type}</span>`;
+    }
 
-        // 3. TABLE DATA SWAP LOGIC
-        const tableBody = document.getElementById('perfTableBody');
-        if(!tableBody) return;
-
-        let rows = '';
-
+    // C. Update "Create Campaign" Button Routing
+    const createBtn = document.getElementById('createPerfBtn');
+    if(createBtn) {
+        const newBtn = createBtn.cloneNode(true);
+        createBtn.parentNode.replaceChild(newBtn, createBtn);
+        
         if(type === 'Smart Shopping') {
-            // DATA: SMART SHOPPING (20 Rows)
+            newBtn.onclick = function() { openPerformanceCreator('smart-shopping'); };
+        } else {
+            newBtn.onclick = function() { openPerformanceCreator('search-only'); };
+        }
+    }
+
+    // D. Update Table Rows (FULL 20 ROWS DATA)
+    const tbody = document.getElementById('perfTableBody') || document.querySelector('#campaignTable tbody');
+    if(tbody) {
+        let rows = '';
+        if(type === 'Smart Shopping') {
+            // SMART SHOPPING DATA (20 ROWS)
             rows = `
                 <tr class="hover:bg-secondary/30 transition"><td class="px-4 py-3"><span class="bg-secondary-green text-primary-green px-2 py-1 rounded-md font-bold">Active</span></td><td class="px-4 py-3 font-bold">Catalog Sales - Best Sellers</td><td class="px-4 py-3">Shopping</td><td class="px-4 py-3 text-right">₹150,000</td><td class="px-4 py-3 text-right">₹120,400</td><td class="px-4 py-3 text-right">5.2M</td><td class="px-4 py-3 text-right">3,400</td><td class="px-4 py-3 text-right">4.5%</td><td class="px-4 py-3 text-center">...</td></tr>
                 <tr class="hover:bg-secondary/30 transition"><td class="px-4 py-3"><span class="bg-secondary-green text-primary-green px-2 py-1 rounded-md font-bold">Active</span></td><td class="px-4 py-3 font-bold">Dynamic Retargeting Q4</td><td class="px-4 py-3">Shopping</td><td class="px-4 py-3 text-right">₹80,000</td><td class="px-4 py-3 text-right">₹75,400</td><td class="px-4 py-3 text-right">2.8M</td><td class="px-4 py-3 text-right">1,200</td><td class="px-4 py-3 text-right">5.1%</td><td class="px-4 py-3 text-center">...</td></tr>
@@ -6196,7 +6962,7 @@ renderAllCalendars();
                 <tr class="hover:bg-secondary/30 transition"><td class="px-4 py-3"><span class="bg-secondary-green text-primary-green px-2 py-1 rounded-md font-bold">Active</span></td><td class="px-4 py-3 font-bold">Influencer Picks</td><td class="px-4 py-3">Shopping</td><td class="px-4 py-3 text-right">₹120,000</td><td class="px-4 py-3 text-right">₹110,000</td><td class="px-4 py-3 text-right">4.0M</td><td class="px-4 py-3 text-right">3,000</td><td class="px-4 py-3 text-right">6.8%</td><td class="px-4 py-3 text-center">...</td></tr>
             `;
         } else {
-            // DATA: SEARCH ONLY (20 Rows)
+            // SEARCH ONLY DATA (20 ROWS)
             rows = `
                 <tr class="hover:bg-secondary/30 transition"><td class="px-4 py-3"><span class="bg-secondary-green text-primary-green px-2 py-1 rounded-md font-bold">Active</span></td><td class="px-4 py-3 font-bold">Brand Keywords - Exact</td><td class="px-4 py-3">Search</td><td class="px-4 py-3 text-right">₹25,000</td><td class="px-4 py-3 text-right">₹24,500</td><td class="px-4 py-3 text-right">800K</td><td class="px-4 py-3 text-right">2,500</td><td class="px-4 py-3 text-right">12.5%</td><td class="px-4 py-3 text-center">...</td></tr>
                 <tr class="hover:bg-secondary/30 transition"><td class="px-4 py-3"><span class="bg-secondary-green text-primary-green px-2 py-1 rounded-md font-bold">Active</span></td><td class="px-4 py-3 font-bold">Competitor Conquesting</td><td class="px-4 py-3">Search</td><td class="px-4 py-3 text-right">₹50,000</td><td class="px-4 py-3 text-right">₹38,000</td><td class="px-4 py-3 text-right">1.2M</td><td class="px-4 py-3 text-right">900</td><td class="px-4 py-3 text-right">3.2%</td><td class="px-4 py-3 text-center">...</td></tr>
@@ -6221,8 +6987,10 @@ renderAllCalendars();
             `;
         }
         
-        tableBody.innerHTML = rows;
-    };
+        tbody.innerHTML = rows;
+    }
+};
+
 // --- PERFORMANCE SUMMARY TABS (Full Data Update) ---
     window.switchSummaryTab = function(btn, type) {
         // 1. Update Tab Styles
@@ -6309,32 +7077,40 @@ renderAllCalendars();
             if(line4) line4.setAttribute('d', "M0,170 C200,150 400,180 600,100 S800,50 1000,10");
         }
     };
-// --- Performance Campaign Creator Logic ---
-    let selectedPerfType = '';
-
-    window.openPerformanceCreator = function(defaultType, activeNavLinkId) {
-        // 1. THE FIX: Navigate to the selection screen AND pass the active link ID
-        navigateTo('create-performance', activeNavLinkId, `Home / Performance / ${defaultType} / <span class='text-primary font-bold'>Create Campaign</span>`);
-        
-        // 2. Select the default type on the page
-        selectPerfType(defaultType);
-
-        // 3. Re-highlight the sidebar link
-        if (activeNavLinkId) {
-            const link = document.getElementById(activeNavLinkId);
-            if (link) {
-                // Dim all performance links first
-                document.querySelectorAll('.perf-link').forEach(el => {
-                    el.classList.remove('text-white', 'font-bold', 'bg-white/10');
-                    el.classList.add('text-white/50');
-                });
-                // Activate the correct one
-                link.classList.remove('text-white/50');
-                link.classList.add('text-white', 'font-bold', 'bg-white/10');
-            }
+    // 2. OPEN PERFORMANCE CREATOR (Router Logic with Correct IDs & Breadcrumbs)
+    window.openPerformanceCreator = function(type) {
+        if (type === 'smart-shopping') {
+            // Target the ROAS Page (ID Fixed in Correction 2)
+            navigateTo('create-smart-shopping', 'nav-camp', `Home / Performance / Smart Shopping / <span class='text-primary font-bold'>Create</span>`);
+        } 
+        else if (type === 'search-only') {
+            // Target the Manual Page
+            navigateTo('create-search-only', 'nav-camp', `Home / Performance / Search Only / <span class='text-primary font-bold'>Create</span>`);
+            
+            // Init Bidding Rows for Manual (Wait for DOM)
+            setTimeout(() => { 
+                if(typeof addBiddingRow === 'function' && document.getElementById('bidding-rows-container')) {
+                    if(document.getElementById('bidding-rows-container').children.length === 0) addBiddingRow();
+                }
+            }, 100);
+        } 
+        else {
+            // Fallback (Selection Screen)
+            navigateTo('create-performance', 'nav-camp', `Home / Create`);
         }
     };
 
+    // 3. HELPER FOR MANUAL BIDDING (REQUIRED)
+    function addBiddingRow(k='',m='Exact',b='0'){
+        const c=document.getElementById('bidding-rows-container'); 
+        if(!c)return; 
+        const r=document.createElement('div'); 
+        r.className="grid grid-cols-12 gap-3 items-center animate-fade-in"; 
+        r.innerHTML=`<div class="col-span-6"><input type="text" value="${k}" class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:border-primary focus:outline-none" placeholder="Enter keyword"></div><div class="col-span-3"><div class="relative"><select class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:border-primary focus:outline-none bg-white appearance-none cursor-pointer"><option ${m==='Exact'?'selected':''}>Exact</option><option ${m==='Broad'?'selected':''}>Broad</option></select><i class="ri-arrow-down-s-line absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"></i></div></div><div class="col-span-2"><div class="relative"><span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs">₹</span><input type="number" value="${b}" class="w-full border border-gray-300 rounded-lg pl-6 pr-3 py-2.5 text-sm focus:border-primary focus:outline-none"></div></div><div class="col-span-1 flex justify-center"><button onclick="this.closest('.grid').remove()" class="text-gray-400 hover:text-red-500 transition p-2 rounded-full hover:bg-red-50"><i class="ri-delete-bin-line text-lg"></i></button></div>`; 
+        c.appendChild(r);
+    }
+
+    // 4. SELECTION LOGIC (For the fallback screen)
     window.selectPerfType = function(type) {
         selectedPerfType = type;
         document.getElementById('select-smart-shopping').classList.toggle('selected', type === 'smart-shopping');
@@ -6343,9 +7119,11 @@ renderAllCalendars();
 
     window.goToPerfCreationPage = function() {
         if (selectedPerfType === 'smart-shopping') {
-            navigateTo('create-smart-shopping');
+            navigateTo('create-smart-shopping', 'nav-camp', `Home / Performance / Smart Shopping / <span class='text-primary font-bold'>Create</span>`);
+        } else if (selectedPerfType === 'search-only') {
+            navigateTo('create-search-only', 'nav-camp', `Home / Performance / Search Only / <span class='text-primary font-bold'>Create</span>`);
         } else {
-            alert("Search Only page is not built yet.");
+            alert("Please select a campaign type.");
         }
     };
 
@@ -7264,6 +8042,343 @@ renderAllCalendars();
 
     })();
 
+// --- BIDDING SECTION LOGIC ---
+    
+    // 1. Function to Add a Row
+    function addBiddingRow(keyword = '', match = 'Exact', bid = '0') {
+        const container = document.getElementById('bidding-rows-container');
+        if(!container) return;
+
+        const row = document.createElement('div');
+        row.className = "grid grid-cols-12 gap-3 items-center animate-fade-in";
+        row.innerHTML = `
+            <div class="col-span-6">
+                <input type="text" value="${keyword}" class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:border-primary focus:outline-none" placeholder="Enter keyword">
+            </div>
+            <div class="col-span-3">
+                <div class="relative">
+                    <select class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:border-primary focus:outline-none bg-white appearance-none cursor-pointer">
+                        <option ${match === 'Exact' ? 'selected' : ''}>Exact</option>
+                        <option ${match === 'Broad' ? 'selected' : ''}>Broad</option>
+                        <option ${match === 'Phrase' ? 'selected' : ''}>Phrase</option>
+                    </select>
+                    <i class="ri-arrow-down-s-line absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"></i>
+                </div>
+            </div>
+            <div class="col-span-2">
+                <div class="relative">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs">₹</span>
+                    <input type="number" value="${bid}" class="w-full border border-gray-300 rounded-lg pl-6 pr-3 py-2.5 text-sm focus:border-primary focus:outline-none">
+                </div>
+            </div>
+            <div class="col-span-1 flex justify-center">
+                <button onclick="this.closest('.grid').remove()" class="text-gray-400 hover:text-red-500 transition p-2 rounded-full hover:bg-red-50">
+                    <i class="ri-delete-bin-line text-lg"></i>
+                </button>
+            </div>
+        `;
+        container.appendChild(row);
+    }
+
+    // 2. Initialize with one empty row when the Bidding Accordion is opened
+    // (We hook into the existing toggle function logic or just run it once safely)
+    document.addEventListener('DOMContentLoaded', () => {
+        // Check if container exists (in case we navigated back/forth)
+        if(document.getElementById('bidding-rows-container')) {
+            // Add one default row
+            addBiddingRow();
+        }
+    });
+// --- SMART SHOPPING STEPPER LOGIC ---
+    let ssCurrentStep = 1;
+    function ssWizardNav(direction) {
+        if (direction === 1 && ssCurrentStep < 4) ssCurrentStep++;
+        else if (direction === -1 && ssCurrentStep > 1) ssCurrentStep--;
+        else if (direction === 1 && ssCurrentStep === 4) {
+            alert('Smart Shopping Campaign Created!');
+            navigateTo('performance', 'nav-camp');
+            return;
+        }
+        updateWizardUI('ss', ssCurrentStep);
+    }
+
+    // --- SEARCH ONLY STEPPER LOGIC ---
+    let soCurrentStep = 1;
+    function soWizardNav(direction) {
+        if (direction === 1 && soCurrentStep < 4) soCurrentStep++;
+        else if (direction === -1 && soCurrentStep > 1) soCurrentStep--;
+        else if (direction === 1 && soCurrentStep === 4) {
+            alert('Search Only Campaign Created!');
+            navigateTo('performance', 'nav-camp');
+            return;
+        }
+        updateWizardUI('so', soCurrentStep);
+    }
+
+    // --- SHARED UI UPDATER (Fixes "Hidden" Steps) ---
+    function updateWizardUI(prefix, step) {
+        // 1. Headers
+        document.querySelectorAll(`#${prefix}-stepper .cc-step`).forEach(el => {
+            el.classList.toggle('active', parseInt(el.dataset.step) === step);
+        });
+        
+        // 2. Content Visibility (Explicit display block/none)
+        for(let i=1; i<=4; i++) {
+            const content = document.getElementById(`${prefix}-step-${i}`);
+            if(content) {
+                if(i === step) {
+                    content.classList.add('active');
+                    content.style.display = 'block';
+                } else {
+                    content.classList.remove('active');
+                    content.style.display = 'none';
+                }
+            }
+        }
+        
+        // 3. Buttons
+        const back = document.getElementById(`${prefix}-back-btn`);
+        const next = document.getElementById(`${prefix}-next-btn`);
+        if(back) back.style.display = step > 1 ? 'block' : 'none';
+        if(next) next.textContent = step === 4 ? 'Save & Launch' : 'Next';
+    }
+// --- UNIFIED PRODUCT SELECTION LOGIC ---
+
+// 1. Switch Views (Filter vs Individual)
+function toggleProductView(value, filterId, indivId, labelId) {
+    const filters = document.getElementById(filterId);
+    const indiv = document.getElementById(indivId);
+    const label = document.getElementById(labelId);
+
+    if (value === 'filters') {
+        filters.style.display = 'block';
+        indiv.style.display = 'none';
+    } else {
+        filters.style.display = 'none';
+        indiv.style.display = 'block';
+        
+        if (value === 'exclude') {
+            label.innerHTML = 'Select products to <span class="text-red-500 font-bold">EXCLUDE</span> from this campaign';
+        } else {
+            label.innerHTML = 'Select products to <span class="text-gray-500 font-bold">INCLUDE</span> in this campaign';
+        }
+    }
+}
+
+// 2. Add Filter Row (Generic)
+function addFilterRowGeneric(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const row = document.createElement('div');
+    row.className = "grid grid-cols-12 gap-3 items-center mb-3 animate-fade-in";
+    row.innerHTML = `
+        <div class="col-span-3 relative"><select class="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:border-primary outline-none bg-white appearance-none"><option>Product Name</option><option>Category</option><option>Price</option></select><i class="ri-arrow-down-s-line absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i></div>
+        <div class="col-span-3 relative"><select class="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:border-primary outline-none bg-white appearance-none"><option>contains</option><option>equals</option></select><i class="ri-arrow-down-s-line absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i></div>
+        <div class="col-span-5"><input type="text" class="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:border-primary outline-none" placeholder="Value"></div>
+        <div class="col-span-1"><button onclick="this.closest('.grid').remove()" class="text-gray-400 hover:text-red-500 transition"><i class="ri-delete-bin-line text-lg"></i></button></div>
+    `;
+    container.appendChild(row);
+}
+
+// 3. Open Modal with Target context
+let currentProductTargetBody = '';
+let currentProductTargetList = '';
+let currentProductTargetCount = '';
+
+function openProductModal(targetBodyId, targetListId, targetCountId) {
+    // If arguments provided, set them (for Creator flow)
+    if(targetBodyId) {
+        currentProductTargetBody = targetBodyId;
+        currentProductTargetList = targetListId;
+        currentProductTargetCount = targetCountId;
+    } 
+    // Fallback for older calls
+    else {
+        currentProductTargetBody = 'ps-selected-tbody';
+        currentProductTargetList = 'ps-selected-list';
+        currentProductTargetCount = 'selected-count';
+    }
+
+    const modal = document.getElementById('productModal'); 
+    if(modal) {
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            modal.children[0].classList.remove('scale-95');
+            modal.children[0].classList.add('scale-100');
+        }, 10);
+    }
+}
+
+function addSelectedProducts() {
+    // Generic adder that knows which table to populate based on openProductModal call
+    const rows = document.querySelectorAll('#productModal tbody tr');
+    const tb = document.getElementById(currentProductTargetBody);
+    const listDiv = document.getElementById(currentProductTargetList);
+    const countSpan = document.getElementById(currentProductTargetCount);
+
+    if(!tb) return;
+
+    let added = false;
+    rows.forEach(r => {
+        const cb = r.querySelector('input[type="checkbox"]');
+        if(cb.checked) {
+            added = true;
+            const cells = r.querySelectorAll('td');
+            const img = cells[1].innerHTML;
+            const name = cells[2].innerText;
+            const cat = cells[3].innerText;
+            const price = cells[6].innerText; // Sale Price
+
+            const tr = document.createElement('tr');
+            tr.className = "hover:bg-gray-50 border-b border-gray-100";
+            tr.innerHTML = `<td class="p-3 flex items-center gap-3">${img} <span class="font-medium text-gray-900">${name}</span></td><td class="p-3 text-gray-500">${cat}</td><td class="p-3 font-bold text-gray-900">${price}</td><td class="p-3 text-green-600 font-bold text-[10px]">In Stock</td><td class="p-3 text-center"><button onclick="this.closest('tr').remove(); updateGenericCount('${currentProductTargetBody}', '${currentProductTargetCount}', '${currentProductTargetList}')" class="text-gray-400 hover:text-red-500"><i class="ri-delete-bin-line"></i></button></td>`;
+            tb.appendChild(tr);
+        }
+    });
+
+    if(added) {
+        listDiv.classList.remove('hidden');
+        updateGenericCount(currentProductTargetBody, currentProductTargetCount, currentProductTargetList);
+        closeProductModal();
+    } else {
+        alert("Please select at least one product.");
+    }
+}
+
+function updateGenericCount(tbodyId, countId, listId) {
+    const tb = document.getElementById(tbodyId);
+    const count = document.getElementById(countId);
+    const list = document.getElementById(listId);
+    
+    if(tb && count) {
+        count.innerText = tb.children.length;
+        if(tb.children.length === 0) list.classList.add('hidden');
+    }
+}
+
+function clearSelectedGeneric(tbodyId, listId) {
+    document.getElementById(tbodyId).innerHTML = '';
+    document.getElementById(listId).classList.add('hidden');
+}
+
+// ==========================================
+    // 4. WIZARD SIDEBAR LOGIC (SCROLL SPY)
+    // ==========================================
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initialize all split wizards
+        const splitContainers = document.querySelectorAll('.wizard-body-split');
+        
+        splitContainers.forEach(container => {
+            const sidebarItems = container.querySelectorAll('.wiz-toc-item, .wiz-nav-item');
+            const contentArea = container.querySelector('.wizard-content-area');
+            const cards = container.querySelectorAll('.wiz-section-card, .wiz-card');
+
+            // 1. Click to Scroll
+            sidebarItems.forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    // Remove active class from all
+                    sidebarItems.forEach(i => i.classList.remove('active'));
+                    // Add to clicked
+                    item.classList.add('active');
+                    
+                    // Scroll target card into view
+                    if(cards[index]) {
+                        cards[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // 2. Optional: Scroll to highlight (Simple version)
+            if(contentArea) {
+                contentArea.addEventListener('scroll', () => {
+                    let current = "";
+                    cards.forEach((card, index) => {
+                        const cardTop = card.offsetTop - contentArea.offsetTop;
+                        if (contentArea.scrollTop >= cardTop - 60) {
+                            sidebarItems.forEach(i => i.classList.remove('active'));
+                            if(sidebarItems[index]) sidebarItems[index].classList.add('active');
+                        }
+                    });
+                });
+            }
+        });
+    });
+// --- GENERIC FILTER ROW ADDER (Required for Smart Shopping & Search Only) ---
+    window.addFilterRowGeneric = function(containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        
+        const row = document.createElement('div');
+        row.className = "grid grid-cols-12 gap-3 items-center mb-3 animate-fade-in";
+        row.innerHTML = `
+            <div class="col-span-3 relative">
+                <select class="clean-input bg-white" style="-webkit-appearance: none; appearance: none;">
+                    <option>Product Name</option>
+                    <option>Category</option>
+                    <option>Price</option>
+                </select>
+                <i class="ri-arrow-down-s-line absolute right-0 top-3 pointer-events-none"></i>
+            </div>
+            <div class="col-span-3 relative">
+                <select class="clean-input bg-white" style="-webkit-appearance: none; appearance: none;">
+                    <option>contains</option>
+                    <option>equals</option>
+                </select>
+                <i class="ri-arrow-down-s-line absolute right-0 top-3 pointer-events-none"></i>
+            </div>
+            <div class="col-span-5">
+                <input type="text" class="clean-input" placeholder="Value">
+            </div>
+            <div class="col-span-1">
+                <button onclick="this.closest('.grid').remove()" class="w-8 h-8 rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 flex items-center justify-center transition">
+                    <i class="ri-delete-bin-line text-lg"></i>
+                </button>
+            </div>
+        `;
+        container.appendChild(row);
+    };
+// --- FORCE FIX: SEARCH ONLY FILTER ENGINE ---
+    // This makes the + buttons work even if other parts of the dashboard have errors.
+    window.addFilterRowGeneric = function(containerId) {
+        console.log("Adding filter row to:", containerId); // Debug check
+        
+        const container = document.getElementById(containerId);
+        if (!container) {
+            console.error("Container not found:", containerId);
+            return;
+        }
+        
+        const row = document.createElement('div');
+        row.className = "grid grid-cols-12 gap-3 items-center mb-3 animate-fade-in";
+        row.innerHTML = `
+            <div class="col-span-3 relative">
+                <select class="clean-input bg-white" style="-webkit-appearance: none; appearance: none; width:100%; border-bottom:1px solid #e2e8f0; padding:10px 0;">
+                    <option>Product Name</option>
+                    <option>Category</option>
+                    <option>Price</option>
+                </select>
+                <i class="ri-arrow-down-s-line absolute right-0 top-3 pointer-events-none text-gray-400"></i>
+            </div>
+            <div class="col-span-3 relative">
+                <select class="clean-input bg-white" style="-webkit-appearance: none; appearance: none; width:100%; border-bottom:1px solid #e2e8f0; padding:10px 0;">
+                    <option>contains</option>
+                    <option>equals</option>
+                </select>
+                <i class="ri-arrow-down-s-line absolute right-0 top-3 pointer-events-none text-gray-400"></i>
+            </div>
+            <div class="col-span-5">
+                <input type="text" class="clean-input" placeholder="Enter value..." style="width:100%; border-bottom:1px solid #e2e8f0; padding:10px 0;">
+            </div>
+            <div class="col-span-1">
+                <button onclick="this.closest('.grid').remove()" class="w-8 h-8 rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 flex items-center justify-center transition">
+                    <i class="ri-delete-bin-line text-lg"></i>
+                </button>
+            </div>
+        `;
+        container.appendChild(row);
+    };
 </script>
 </body>
 </html>

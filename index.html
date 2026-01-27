@@ -66,6 +66,12 @@
         .cal-view.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+        /* Toast and Modal Animations */
+        .animate-slide-up { animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-bounce-in { animation: bounceIn 0.4s ease-out; }
+        @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.9); } 70% { transform: scale(1.02); } 100% { opacity: 1; transform: scale(1); } }
+
         .chart-tooltip { opacity: 0; transition: opacity 0.1s; pointer-events: none; }
         .chart-dot { opacity: 0; transition: opacity 0.1s; pointer-events: none; }
         .chart-container:hover .chart-tooltip { opacity: 1; }
@@ -191,13 +197,15 @@
             background-color: var(--cc-background-color);
             color: var(--cc-text-dark); 
             padding: 24px;
-            height: 100%;
+            height: calc(100vh - 64px); /* Fixed height based on viewport minus header */
+            max-height: calc(100vh - 64px);
             display: flex;
             flex-direction: column;
             box-sizing: border-box;
+            overflow: hidden; /* Prevent wrapper from scrolling, let inner container scroll */
         }
 
-        .cc-module-container { max-width: 1400px; margin: auto; width: 100%; display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+        .cc-module-container { max-width: 1400px; margin: auto; width: 100%; display: flex; flex-direction: column; flex: 1; overflow: hidden; min-height: 0; }
         .cc-button { padding: 10px 20px; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background-color 0.2s ease; }
         .placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: var(--cc-text-light); padding: 40px; min-height: 200px; }
         .placeholder i { font-size: 40px; margin-bottom: 16px; }
@@ -221,7 +229,7 @@
         .cc-stepper { display: flex; align-items: center; }
         .cc-step { display: flex; align-items: center; gap: 12px; padding: 8px 16px; color: var(--cc-text-light); font-weight: 600; font-size: 14px; position: relative; border-bottom: 3px solid transparent; }
         .cc-step.active { color: var(--cc-primary-color); border-bottom-color: var(--cc-primary-color); }
-        .step-content { display: none; height: 100%; }
+        .step-content { display: none; height: 100%; overflow-y: auto; }
         .step-content.active { display: block; animation: fadeIn 0.3s ease; }
         
         /* THE FIX: Main content area takes remaining space and handles scrolling */
@@ -230,6 +238,7 @@
             overflow-y: auto; 
             min-height: 0; /* Important for flex child scrolling */
             padding-right: 5px; /* Prevent scrollbar overlap */
+            max-height: 100%; /* Ensure it doesn't exceed parent */
         }
         
         .cc-footer { display: flex; justify-content: space-between; margin-top: 24px; flex-shrink: 0; padding-bottom: 20px; }
@@ -1632,23 +1641,16 @@
                     <p class="text-slate-300 text-lg mt-3 max-w-md" id="awareness-banner-desc">Reach millions of new customers. Increase recall with high-impact visuals.</p>
                 </div>
                 
-                <!-- Right Illustration (Reach/Map Concept) -->
-                <div class="relative z-10 w-1/2 h-full flex items-center justify-center pr-10">
+                <!-- Right Illustration (for Visibility) -->
+                <div id="awareness-banner-illustration" class="relative z-10 w-1/2 h-full flex items-center justify-center pr-10">
                     <svg width="350" height="200" viewBox="0 0 350 200" fill="none">
-                        <!-- Abstract Globe/Reach Rings -->
                         <circle cx="260" cy="100" r="80" stroke="white" stroke-opacity="0.1" stroke-width="1"/>
                         <circle cx="260" cy="100" r="60" stroke="white" stroke-opacity="0.1" stroke-width="1"/>
                         <circle cx="260" cy="100" r="40" stroke="white" stroke-opacity="0.2" stroke-width="1"/>
-                        
-                        <!-- Floating Icons (Simulating Reach) -->
                         <circle cx="260" cy="100" r="15" fill="#3b82f6"/>
                         <path d="M260 92 L 260 108 M 252 100 L 268 100" stroke="white" stroke-width="3" stroke-linecap="round"/>
-                        
-                        <!-- Connecting Lines -->
                         <line x1="260" y1="100" x2="180" y2="60" stroke="white" stroke-opacity="0.2" stroke-dasharray="4 4"/>
                         <line x1="260" y1="100" x2="180" y2="140" stroke="white" stroke-opacity="0.2" stroke-dasharray="4 4"/>
-                        
-                        <!-- Floating Stat Card -->
                         <g transform="translate(140, 40)">
                             <rect width="90" height="45" rx="8" fill="white" shadow="lg"/>
                             <text x="10" y="18" font-family="sans-serif" font-size="8" fill="#666" font-weight="bold">NEW USERS</text>
@@ -1656,6 +1658,61 @@
                             <circle cx="75" cy="22" r="6" fill="#bfdbfe"/>
                         </g>
                     </svg>
+                </div>
+
+                <!-- Right: February 2026 Mini Calendar (for Takeover - hidden by default) -->
+                <div id="awareness-banner-calendar" class="relative z-10 w-1/2 h-full flex items-center justify-center pr-6 hidden">
+                    <div class="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20" style="min-width: 320px;">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-sm font-bold">February 2026</div>
+                            <div class="flex gap-2 text-[9px]">
+                                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-gray-300"></span>BAU</span>
+                                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-yellow-400"></span>Weekend</span>
+                                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>Sale</span>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-7 gap-1 text-center text-[10px]">
+                            <div class="text-white/50 font-bold py-1">S</div>
+                            <div class="text-white/50 font-bold py-1">M</div>
+                            <div class="text-white/50 font-bold py-1">T</div>
+                            <div class="text-white/50 font-bold py-1">W</div>
+                            <div class="text-white/50 font-bold py-1">T</div>
+                            <div class="text-white/50 font-bold py-1">F</div>
+                            <div class="text-white/50 font-bold py-1">S</div>
+                            <div class="py-1.5 rounded bg-yellow-400/30 text-yellow-200 font-bold">1</div>
+                            <div class="py-1.5 rounded bg-white/5">2</div>
+                            <div class="py-1.5 rounded bg-white/5">3</div>
+                            <div class="py-1.5 rounded bg-white/5">4</div>
+                            <div class="py-1.5 rounded bg-red-500/40 text-red-200 font-bold ring-2 ring-red-400/50">5</div>
+                            <div class="py-1.5 rounded bg-red-500/40 text-red-200 font-bold ring-2 ring-red-400/50">6</div>
+                            <div class="py-1.5 rounded bg-red-500/60 text-white font-bold ring-2 ring-red-400 animate-pulse">7</div>
+                            <div class="py-1.5 rounded bg-red-500/60 text-white font-bold ring-2 ring-red-400 animate-pulse">8</div>
+                            <div class="py-1.5 rounded bg-red-500/40 text-red-200 font-bold ring-2 ring-red-400/50">9</div>
+                            <div class="py-1.5 rounded bg-red-500/40 text-red-200 font-bold ring-2 ring-red-400/50">10</div>
+                            <div class="py-1.5 rounded bg-red-500/40 text-red-200 font-bold ring-2 ring-red-400/50">11</div>
+                            <div class="py-1.5 rounded bg-red-500/40 text-red-200 font-bold ring-2 ring-red-400/50">12</div>
+                            <div class="py-1.5 rounded bg-red-500/40 text-red-200 font-bold ring-2 ring-red-400/50">13</div>
+                            <div class="py-1.5 rounded bg-red-500/60 text-white font-bold ring-2 ring-red-400 animate-pulse">14</div>
+                            <div class="py-1.5 rounded bg-red-500/60 text-white font-bold ring-2 ring-red-400 animate-pulse">15</div>
+                            <div class="py-1.5 rounded bg-white/5">16</div>
+                            <div class="py-1.5 rounded bg-white/5">17</div>
+                            <div class="py-1.5 rounded bg-white/5">18</div>
+                            <div class="py-1.5 rounded bg-white/5">19</div>
+                            <div class="py-1.5 rounded bg-white/5">20</div>
+                            <div class="py-1.5 rounded bg-yellow-400/30 text-yellow-200 font-bold">21</div>
+                            <div class="py-1.5 rounded bg-yellow-400/30 text-yellow-200 font-bold">22</div>
+                            <div class="py-1.5 rounded bg-white/5">23</div>
+                            <div class="py-1.5 rounded bg-white/5">24</div>
+                            <div class="py-1.5 rounded bg-white/5">25</div>
+                            <div class="py-1.5 rounded bg-white/5">26</div>
+                            <div class="py-1.5 rounded bg-white/5">27</div>
+                            <div class="py-1.5 rounded bg-yellow-400/30 text-yellow-200 font-bold">28</div>
+                        </div>
+                        <div class="mt-3 text-[10px] text-white/70 flex items-center gap-2">
+                            <i class="ri-fire-fill text-red-400"></i>
+                            <span><strong class="text-white">IHB Sale:</strong> Feb 5–15 • High demand period</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- KPI & Graph Section -->
@@ -1806,6 +1863,141 @@
                     </div>
                 </div>
             </div>
+
+            <!-- TAKEOVER BID STATUS SECTION (hidden by default, shown for Takeover view) -->
+            <div id="takeover-bid-status-section" class="bg-white rounded-xl shadow-card border border-gray-100 p-6 mb-6 hidden">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-700 rounded-lg flex items-center justify-center">
+                            <i class="ri-auction-fill text-white text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-800">Your Takeover Bids</h3>
+                            <p class="text-xs text-gray-500">February 2026 bid status</p>
+                        </div>
+                    </div>
+                    <button onclick="openAwarenessCreator('Takeover')" class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-xs font-bold hover:bg-primary-light transition">
+                        <i class="ri-add-line"></i> Place New Bid
+                    </button>
+                </div>
+
+                <!-- Empty State (hidden by default, shown when no bids) -->
+                <div id="takeover-bids-empty" class="hidden py-12 text-center">
+                    <div class="w-20 h-20 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="ri-auction-line text-4xl text-purple-300"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-800 mb-2">No Bids Yet</h4>
+                    <p class="text-sm text-gray-500 mb-4 max-w-md mx-auto">You haven't placed any takeover bids for February 2026. Get started by placing your first bid!</p>
+                    <button onclick="openAwarenessCreator('Takeover')" class="px-5 py-2.5 bg-primary text-white font-bold rounded-lg hover:bg-primary-light transition inline-flex items-center gap-2">
+                        <i class="ri-add-line"></i> Place Your First Bid
+                    </button>
+                </div>
+
+                <!-- Bids Grid (shown when bids exist) -->
+                <div id="takeover-bids-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    
+                    <!-- Card 1: Full Homepage Takeover - WON -->
+                    <div class="border-2 border-green-200 bg-green-50 rounded-xl p-4 relative overflow-hidden">
+                        <div class="absolute top-2 right-2 text-2xl">🎉</div>
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="px-2 py-0.5 bg-green-500 text-white text-[10px] font-bold rounded-full uppercase">Bid Won</span>
+                        </div>
+                        <div class="font-bold text-gray-900 text-sm mb-1">Full Homepage Takeover</div>
+                        <div class="text-xs text-gray-600 mb-3 flex items-center gap-1">
+                            <i class="ri-calendar-line"></i> 7th February 2026
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-xs mb-3">
+                            <div class="bg-white rounded-lg p-2">
+                                <div class="text-gray-500 text-[10px]">Floor Bid</div>
+                                <div class="font-bold text-gray-700">₹7.5L</div>
+                            </div>
+                            <div class="bg-white rounded-lg p-2">
+                                <div class="text-gray-500 text-[10px]">Your Winning Bid</div>
+                                <div class="font-bold text-green-600">₹10L</div>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openTakeoverUploadDrawer('FULL_HP', 'Homepage', '7th February 2026')" class="flex-1 py-2 bg-green-600 text-white text-xs font-bold rounded-lg hover:bg-green-700 transition flex items-center justify-center gap-1">
+                                <i class="ri-upload-2-line"></i> Upload Ads
+                            </button>
+                            <button onclick="openTakeoverDetailsDrawer('full_hp_7feb')" class="px-3 py-2 bg-white border border-green-300 text-green-700 text-xs font-bold rounded-lg hover:bg-green-100 transition" title="View Details">
+                                <i class="ri-eye-line"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Half Homepage Takeover - REJECTED -->
+                    <div class="border border-red-200 bg-red-50/50 rounded-xl p-4 relative">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="px-2 py-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full uppercase">Bid Rejected</span>
+                        </div>
+                        <div class="font-bold text-gray-900 text-sm mb-1">Half Homepage Takeover</div>
+                        <div class="text-xs text-gray-600 mb-3 flex items-center gap-1">
+                            <i class="ri-calendar-line"></i> 7th February 2026
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-xs mb-3">
+                            <div class="bg-white rounded-lg p-2">
+                                <div class="text-gray-500 text-[10px]">Floor Bid</div>
+                                <div class="font-bold text-gray-700">₹3.75L</div>
+                            </div>
+                            <div class="bg-white rounded-lg p-2">
+                                <div class="text-gray-500 text-[10px]">Your Bid</div>
+                                <div class="font-bold text-red-500">₹6L</div>
+                            </div>
+                        </div>
+                        <div class="text-[10px] text-red-600 bg-red-100 rounded-lg p-2 mb-3 flex items-start gap-1">
+                            <i class="ri-information-line mt-0.5"></i>
+                            <span>Rejected: Full Homepage Takeover won for this day.</span>
+                        </div>
+                        <button onclick="openTakeoverDetailsDrawer('half_hp_7feb')" class="w-full py-2 bg-white border border-red-200 text-red-600 text-xs font-bold rounded-lg hover:bg-red-50 transition flex items-center justify-center gap-1">
+                            <i class="ri-eye-line"></i> View Details
+                        </button>
+                    </div>
+
+                    <!-- Card 3: L1 Skin Takeover - WON but ADS REJECTED -->
+                    <div class="border-2 border-orange-200 bg-orange-50 rounded-xl p-4 relative">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="px-2 py-0.5 bg-orange-500 text-white text-[10px] font-bold rounded-full uppercase">Action Required</span>
+                        </div>
+                        <div class="font-bold text-gray-900 text-sm mb-1">L1 Skin Takeover</div>
+                        <div class="text-xs text-gray-600 mb-3 flex items-center gap-1">
+                            <i class="ri-calendar-line"></i> 8th February 2026
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-xs mb-3">
+                            <div class="bg-white rounded-lg p-2">
+                                <div class="text-gray-500 text-[10px]">Floor Bid</div>
+                                <div class="font-bold text-gray-700">₹2.5L</div>
+                            </div>
+                            <div class="bg-white rounded-lg p-2">
+                                <div class="text-gray-500 text-[10px]">Your Winning Bid</div>
+                                <div class="font-bold text-green-600">₹4L</div>
+                            </div>
+                        </div>
+                        <div class="text-[10px] text-orange-700 bg-orange-100 rounded-lg p-2 mb-2 flex items-start gap-1">
+                            <i class="ri-error-warning-line mt-0.5"></i>
+                            <span><strong>Ads Rejected:</strong> Please upload new creatives.</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openTakeoverUploadDrawer('L1', 'L1 Page Skin', '8th February 2026')" class="flex-1 py-2 bg-orange-600 text-white text-xs font-bold rounded-lg hover:bg-orange-700 transition flex items-center justify-center gap-1">
+                                <i class="ri-refresh-line"></i> Re-upload
+                            </button>
+                            <button onclick="openTakeoverDetailsDrawer('l1_skin_8feb')" class="px-3 py-2 bg-white border border-orange-300 text-orange-700 text-xs font-bold rounded-lg hover:bg-orange-100 transition" title="View Details">
+                                <i class="ri-eye-line"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Placeholder / Create New -->
+                    <div class="border-2 border-dashed border-gray-200 bg-gray-50/50 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer hover:border-primary hover:bg-purple-50/50 transition" onclick="openAwarenessCreator('Takeover')">
+                        <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-3">
+                            <i class="ri-add-line text-2xl text-gray-400"></i>
+                        </div>
+                        <div class="font-bold text-gray-600 text-sm mb-1">Place a New Bid</div>
+                        <div class="text-xs text-gray-500">Bid deadline: 20th of each month</div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Campaigns Table (Overview) - FULL 20 ROWS -->
             <div class="bg-white rounded-xl shadow-card border border-gray-100 flex flex-col mb-6">
                 <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50 rounded-t-xl">
@@ -1925,25 +2117,79 @@
                     <button class="text-primary font-bold text-xs hover:underline">View All 25 Campaigns</button>
                 </div>
             </div>
-            <!-- Performance Summary Table (Overview) - FULL 10 ROWS -->
-            <div class="bg-white rounded-xl shadow-card border border-gray-100 flex flex-col mb-10">
-                <div class="p-4 border-b border-gray-100"><h3 class="font-bold text-gray-800 text-left">Performance Summary</h3></div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead><tr class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider"><th class="px-6 py-3">Name</th><th class="px-6 py-3">Spend</th><th class="px-6 py-3">Impr.</th><th class="px-6 py-3">Clicks</th><th class="px-6 py-3">CTR</th><th class="px-6 py-3">CPC</th><th class="px-6 py-3">CPM</th></tr></thead>
-                        <tbody class="text-xs text-gray-700 divide-y divide-gray-100">
-                            <tr class="hover:bg-gray-50"><td class="px-6 py-3 font-medium text-gray-900">Summer Sale Blast</td><td class="px-6 py-3">45,000</td><td class="px-6 py-3">1.2M</td><td class="px-6 py-3">450</td><td class="px-6 py-3 font-bold">3.2%</td><td class="px-6 py-3">12.00</td><td class="px-6 py-3">150.00</td></tr>
-                            <tr class="hover:bg-gray-50"><td class="px-6 py-3 font-medium text-gray-900">Winter Collection</td><td class="px-6 py-3">12,000</td><td class="px-6 py-3">500K</td><td class="px-6 py-3">200</td><td class="px-6 py-3 font-bold">2.8%</td><td class="px-6 py-3">15.00</td><td class="px-6 py-3">180.00</td></tr>
-                            <tr class="hover:bg-gray-50"><td class="px-6 py-3 font-medium text-gray-900">Brand Awareness</td><td class="px-6 py-3">8,400</td><td class="px-6 py-3">800K</td><td class="px-6 py-3">320</td><td class="px-6 py-3 font-bold">4.1%</td><td class="px-6 py-3">9.00</td><td class="px-6 py-3">100.00</td></tr>
-                            <tr class="hover:bg-gray-50"><td class="px-6 py-3 font-medium text-gray-900">Diwali Bash</td><td class="px-6 py-3">95,000</td><td class="px-6 py-3">3.5M</td><td class="px-6 py-3">800</td><td class="px-6 py-3 font-bold">5.0%</td><td class="px-6 py-3">10.00</td><td class="px-6 py-3">120.00</td></tr>
-                            <tr class="hover:bg-gray-50"><td class="px-6 py-3 font-medium text-gray-900">Lipstick Launch</td><td class="px-6 py-3">28,400</td><td class="px-6 py-3">950K</td><td class="px-6 py-3">410</td><td class="px-6 py-3 font-bold">3.9%</td><td class="px-6 py-3">14.00</td><td class="px-6 py-3">130.00</td></tr>
-                            <tr class="hover:bg-gray-50"><td class="px-6 py-3 font-medium text-gray-900">Eye Liner Promo</td><td class="px-6 py-3">14,200</td><td class="px-6 py-3">400K</td><td class="px-6 py-3">180</td><td class="px-6 py-3 font-bold">2.5%</td><td class="px-6 py-3">16.00</td><td class="px-6 py-3">140.00</td></tr>
-                            <tr class="hover:bg-gray-50"><td class="px-6 py-3 font-medium text-gray-900">Skin Care Glow</td><td class="px-6 py-3">18,500</td><td class="px-6 py-3">600K</td><td class="px-6 py-3">290</td><td class="px-6 py-3 font-bold">4.5%</td><td class="px-6 py-3">11.00</td><td class="px-6 py-3">110.00</td></tr>
-                            <tr class="hover:bg-gray-50"><td class="px-6 py-3 font-medium text-gray-900">Weekend Flash</td><td class="px-6 py-3">6,000</td><td class="px-6 py-3">300K</td><td class="px-6 py-3">150</td><td class="px-6 py-3 font-bold">5.5%</td><td class="px-6 py-3">18.00</td><td class="px-6 py-3">190.00</td></tr>
-                            <tr class="hover:bg-gray-50"><td class="px-6 py-3 font-medium text-gray-900">New Year Bash</td><td class="px-6 py-3">150,000</td><td class="px-6 py-3">5.0M</td><td class="px-6 py-3">1200</td><td class="px-6 py-3 font-bold">4.8%</td><td class="px-6 py-3">12.00</td><td class="px-6 py-3">160.00</td></tr>
-                            <tr class="hover:bg-gray-50"><td class="px-6 py-3 font-medium text-gray-900">Abandoned Cart</td><td class="px-6 py-3">32,000</td><td class="px-6 py-3">800K</td><td class="px-6 py-3">550</td><td class="px-6 py-3 font-bold">7.1%</td><td class="px-6 py-3">7.00</td><td class="px-6 py-3">90.00</td></tr>
-                        </tbody>
-                    </table>
+
+            <!-- TAKEOVER SUCCESS MODAL -->
+            <div id="takeover-success-overlay" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center" onclick="closeTakeoverSuccessModal()">
+                <div class="bg-white rounded-2xl shadow-2xl w-[480px] max-w-[95%] p-8 text-center transform scale-100 animate-bounce-in" onclick="event.stopPropagation()">
+                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="ri-check-line text-4xl text-green-600"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Bid Submitted Successfully!</h2>
+                    <p class="text-gray-500 mb-6">Your takeover bid has been submitted. You'll be notified once the auction results are announced on the 20th.</p>
+                    <div id="takeover-success-summary" class="bg-gray-50 rounded-xl p-4 mb-6 text-left">
+                        <!-- Summary populated by JS -->
+                    </div>
+                    <div class="flex gap-3 justify-center">
+                        <button onclick="closeTakeoverSuccessModal()" class="px-6 py-2.5 border border-gray-200 text-gray-600 font-bold rounded-lg hover:bg-gray-50 transition">Close</button>
+                        <button onclick="closeTakeoverSuccessModal(); document.getElementById('nav-awareness-takeover').click();" class="px-6 py-2.5 bg-primary text-white font-bold rounded-lg hover:bg-primary-light transition">View My Bids</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAKEOVER BID DETAILS DRAWER -->
+            <div id="takeover-details-overlay" class="fixed inset-0 bg-black/50 z-50 hidden" onclick="closeTakeoverDetailsDrawer()"></div>
+            <div id="takeover-details-drawer" class="fixed top-0 right-0 h-full w-[500px] bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
+                <div class="p-6 border-b border-gray-100 flex-shrink-0">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-lg font-bold text-gray-900">Bid Details</h2>
+                        <button onclick="closeTakeoverDetailsDrawer()" class="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-600 transition">
+                            <i class="ri-close-line text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="takeover-details-content" class="flex-1 overflow-y-auto p-6">
+                    <!-- JS will populate -->
+                </div>
+            </div>
+
+            <!-- TAKEOVER UPLOAD ADS DRAWER -->
+            <div id="takeover-upload-overlay" class="fixed inset-0 bg-black/50 z-50 hidden" onclick="closeTakeoverUploadDrawer()"></div>
+            <div id="takeover-upload-drawer" class="fixed top-0 right-0 h-full w-[600px] bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
+                <!-- Drawer Header -->
+                <div class="p-6 border-b border-gray-100 flex-shrink-0">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-lg font-bold text-gray-900" id="takeover-drawer-title">Upload Ads</h2>
+                            <p class="text-sm text-gray-500 mt-1" id="takeover-drawer-subtitle">Full Homepage Takeover • 7th February 2026</p>
+                        </div>
+                        <button onclick="closeTakeoverUploadDrawer()" class="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-600 transition">
+                            <i class="ri-close-line text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Drawer Body -->
+                <div class="flex-1 overflow-y-auto p-6">
+                    <div class="mb-4">
+                        <div class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Placements to Upload</div>
+                    </div>
+                    
+                    <!-- Placements List -->
+                    <div id="takeover-drawer-placements" class="space-y-3">
+                        <!-- JS will populate this -->
+                    </div>
+                </div>
+
+                <!-- Drawer Footer -->
+                <div class="p-6 border-t border-gray-100 bg-gray-50 flex-shrink-0">
+                    <div class="flex items-center justify-between">
+                        <div class="text-xs text-gray-500">
+                            <i class="ri-information-line"></i> All creatives must be approved by the 24th
+                        </div>
+                        <button onclick="closeTakeoverUploadDrawer()" class="px-4 py-2 bg-primary text-white text-sm font-bold rounded-lg hover:bg-primary-light transition">
+                            Done
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2966,9 +3212,9 @@
                 <header class="cc-header">
                     <div class="cc-stepper" id="takeover-stepper">
                         <div class="cc-step active" data-step="1"><i class="fa-solid fa-calendar-days step-icon"></i>&nbsp; Step 1: Choose your day</div>
-                        <div class="cc-step" data-step="2"><i class="fa-solid fa-layer-group step-icon"></i>&nbsp; Step 2: Select page & placement</div>
-                        <div class="cc-step" data-step="3"><i class="fa-solid fa-image step-icon"></i>&nbsp; Step 3: Ads</div>
-                        <div class="cc-step" data-step="4"><i class="fa-solid fa-check-circle step-icon"></i>&nbsp; Step 4: Config</div>
+                        <div class="cc-step" data-step="2"><i class="fa-solid fa-layer-group step-icon"></i>&nbsp; Step 2: Review package</div>
+                        <div class="cc-step" data-step="3"><i class="fa-solid fa-gavel step-icon"></i>&nbsp; Step 3: Place Bid</div>
+                        <div class="cc-step" data-step="4"><i class="fa-solid fa-check-circle step-icon"></i>&nbsp; Step 4: Review & Submit</div>
                     </div>
                 </header>
 
@@ -2999,27 +3245,27 @@
                         </div>
                     </div>
 
-                    <!-- Step 2: Select Page + Placement -->
+                    <!-- Step 2: Review Takeover Package -->
                     <div id="takeover-step-2" class="step-content" style="padding: 40px;">
                         <div style="max-width: 1200px; margin: 0 auto;">
-                            <h2 style="font-weight: 700; color: #111827; margin-bottom: 8px;">Select page & placement</h2>
+                            <h2 style="font-weight: 700; color: #111827; margin-bottom: 8px;">Review your takeover package</h2>
                             <div style="font-size: 13px; color: #64748b; margin-bottom: 18px; line-height: 1.6;">
-                                Inventory shown here is restricted to Takeover-supported pages and placements.
+                                All placements included in your takeover package are shown below. For L1 Category takeover, please select a category page.
                             </div>
 
                             <div class="inventory-workspace">
                                 <!-- Pages -->
                                 <section class="inventory-column">
                                     <div class="inventory-column-header">
-                                        <h3><i class="fa-solid fa-layer-group"></i> Pages</h3>
+                                        <h3><i class="fa-solid fa-layer-group"></i> Page</h3>
                                     </div>
-                                    <div class="inventory-column-content" id="takeover-page-list"></div>
+                                    <div class="inventory-column-content" id="takeover-page-list" style="max-height: 450px; overflow-y: auto;"></div>
                                 </section>
 
                                 <!-- Placements -->
                                 <section class="inventory-column">
                                     <div class="inventory-column-header">
-                                        <h3><i class="fa-solid fa-rectangle-ad"></i> Placements</h3>
+                                        <h3><i class="fa-solid fa-rectangle-ad"></i> Included Placements</h3>
                                     </div>
                                     <div class="inventory-column-content" id="takeover-placement-list"></div>
                                 </section>
@@ -3027,7 +3273,7 @@
                                 <!-- Summary -->
                                 <aside class="inventory-column inventory-summary">
                                     <div class="inventory-column-header" style="display:flex; align-items:center; justify-content:space-between;">
-                                        <h3 style="display:flex; align-items:center; gap:8px; margin:0;"><i class="fa-solid fa-circle-check"></i> Selected</h3>
+                                        <h3 style="display:flex; align-items:center; gap:8px; margin:0;"><i class="fa-solid fa-box-open"></i> Package Summary</h3>
                                         <span id="takeover-summary-count" class="count-badge">0</span>
                                     </div>
                                     <div class="inventory-column-content" id="takeover-summary"></div>
@@ -3037,43 +3283,123 @@
                     </div>
 
 
-                    <!-- Step 3: Ads -->
+                    <!-- Step 3: Place Bid -->
                     <div id="takeover-step-3" class="step-content" style="padding: 40px;">
-                        <div style="max-width: 1200px; margin: 0 auto;">
-                            <div class="ads-workspace" style="grid-template-columns: 300px 1fr;">
+                        <div style="max-width: 900px; margin: 0 auto;">
+                            <h2 style="font-weight: 700; color: #111827; margin-bottom: 8px;">Place your bid</h2>
+                            <div style="font-size: 13px; color: #64748b; margin-bottom: 24px; line-height: 1.6;">
+                                Submit your bid for the selected takeover. The highest bidder wins the slot.
+                            </div>
 
-                                <!-- Left Panel (Inventory List) -->
-                                <div class="inventory-nav-panel">
-                                    <ul class="inventory-nav-list" id="takeover-inventory-nav-list">
-                                        <!-- JS will populate this -->
-                                    </ul>
+                            <!-- Takeover Summary Card -->
+                            <div id="takeover-bid-summary" style="background: linear-gradient(135deg, #9c00ad 0%, #7c3aed 100%); color: white; padding: 24px; border-radius: 12px; margin-bottom: 24px;">
+                                <!-- JS will populate this -->
+                            </div>
+
+                            <!-- Expected Performance & Bid Section -->
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                                
+                                <!-- Left: Expected Performance -->
+                                <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px;">
+                                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                                        <div style="width: 40px; height: 40px; background: #f0fdf4; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fa-solid fa-chart-line" style="color: #16a34a; font-size: 18px;"></i>
+                                        </div>
+                                        <div>
+                                            <div style="font-weight: 700; color: #111827;">Expected Performance</div>
+                                            <div style="font-size: 12px; color: #64748b;">Based on historical data</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="takeover-expected-impressions" style="background: #f9fafb; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+                                        <!-- JS will populate -->
+                                    </div>
+
+                                    <div style="display: flex; align-items: center; gap: 8px; padding: 12px; background: #fef3c7; border-radius: 8px;">
+                                        <i class="fa-solid fa-info-circle" style="color: #d97706;"></i>
+                                        <span style="font-size: 12px; color: #92400e; font-weight: 500;">Minimum Bid: <strong id="takeover-min-bid-display">₹0L</strong></span>
+                                    </div>
                                 </div>
 
-                                <!-- Right Panel (Ad Upload) -->
-                                <div class="ad-details-panel">
-                                    <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">
-                                        <div>
-                                            <h3 id="takeover-ad-panel-title" style="margin:0;">Select an Inventory</h3>
-                                            <p class="panel-desc" id="takeover-ad-panel-desc" style="margin-top:8px;">Choose a page and placement in Step 2 to start uploading ads.</p>
+                                <!-- Right: Bid Input -->
+                                <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px;">
+                                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                                        <div style="width: 40px; height: 40px; background: #fdf1ff; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fa-solid fa-gavel" style="color: #9c00ad; font-size: 18px;"></i>
                                         </div>
-                                        <button id="takeover-add-new-ad-btn" class="button-secondary" style="display:flex; align-items:center; gap:8px;">
-                                            <i class="ri-add-line"></i> New Ad
-                                        </button>
+                                        <div>
+                                            <div style="font-weight: 700; color: #111827;">Your Bid</div>
+                                            <div style="font-size: 12px; color: #64748b;">Enter your bid amount</div>
+                                        </div>
                                     </div>
-                                    <div class="ad-upload-area" id="takeover-ad-upload-area" style="margin-top: 24px;"></div>
+
+                                    <div style="margin-bottom: 16px;">
+                                        <label style="display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 8px;">Bid Amount (in Lakhs)</label>
+                                        <div style="position: relative;">
+                                            <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 16px; font-weight: 700; color: #64748b;">₹</span>
+                                            <input type="number" id="takeover-bid-input" placeholder="Enter bid amount" step="0.5" min="0" 
+                                                style="width: 100%; padding: 14px 14px 14px 32px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 16px; font-weight: 600; color: #111827; outline: none; transition: all 0.2s;"
+                                                onfocus="this.style.borderColor='#9c00ad'" onblur="this.style.borderColor='#e5e7eb'">
+                                            <span style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 14px; font-weight: 600; color: #64748b;">Lakhs</span>
+                                        </div>
+                                        <div id="takeover-bid-error" style="display: none; margin-top: 8px; padding: 10px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; color: #dc2626; font-size: 12px; font-weight: 600;">
+                                            <i class="fa-solid fa-exclamation-circle" style="margin-right: 6px;"></i>
+                                            <span id="takeover-bid-error-text">Bid must be at least the minimum amount</span>
+                                        </div>
+                                    </div>
+
+                                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px; display: none;" id="takeover-bid-success">
+                                        <div style="display: flex; align-items: center; gap: 8px; color: #16a34a; font-weight: 600; font-size: 13px;">
+                                            <i class="fa-solid fa-circle-check"></i>
+                                            <span>Valid bid amount</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Terms & Conditions -->
+                            <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px; margin-top: 24px;">
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+                                    <i class="fa-solid fa-file-contract" style="color: #64748b; font-size: 18px;"></i>
+                                    <div style="font-weight: 700; color: #111827;">Terms & Conditions</div>
+                                </div>
+                                <div style="display: flex; flex-direction: column; gap: 12px;">
+                                    <div style="display: flex; align-items: flex-start; gap: 10px; padding: 12px; background: #f9fafb; border-radius: 8px;">
+                                        <i class="fa-solid fa-calendar-check" style="color: #9c00ad; margin-top: 2px;"></i>
+                                        <div>
+                                            <div style="font-weight: 600; color: #111827; font-size: 13px;">Bid Deadline</div>
+                                            <div style="font-size: 12px; color: #64748b; margin-top: 2px;">All bids must be placed before the <strong>20th of each month</strong> for upcoming month's takeovers.</div>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; align-items: flex-start; gap: 10px; padding: 12px; background: #f9fafb; border-radius: 8px;">
+                                        <i class="fa-solid fa-crown" style="color: #f59e0b; margin-top: 2px;"></i>
+                                        <div>
+                                            <div style="font-weight: 600; color: #111827; font-size: 13px;">Full Homepage Priority</div>
+                                            <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Full Homepage takeovers are given preference. If a Full Homepage takeover bid is won, <strong>all Half Homepage takeover bids for that day are automatically rejected</strong>.</div>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; align-items: flex-start; gap: 10px; padding: 12px; background: #f9fafb; border-radius: 8px;">
+                                        <i class="fa-solid fa-image" style="color: #3b82f6; margin-top: 2px;"></i>
+                                        <div>
+                                            <div style="font-weight: 600; color: #111827; font-size: 13px;">Creative Approval Deadline</div>
+                                            <div style="font-size: 12px; color: #64748b; margin-top: 2px;">All creatives must be uploaded and approved by the <strong>24th of each month</strong>.</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
 
-                    <!-- Step 4: Config -->
+                    <!-- Step 4: Review & Submit -->
                     <div id="takeover-step-4" class="step-content" style="padding: 40px;">
-                        <div style="max-width: 1200px; margin: 0 auto;">
-                            <h2 style="font-weight: 700; color: #111827; margin-bottom: 8px;">Config</h2>
-                            <div style="font-size: 13px; color: #64748b; margin-bottom: 18px; line-height: 1.6;">Summary of your takeover request.</div>
+                        <div style="max-width: 1000px; margin: 0 auto;">
+                            <h2 style="font-weight: 700; color: #111827; margin-bottom: 8px;">Review & Submit</h2>
+                            <div style="font-size: 13px; color: #64748b; margin-bottom: 24px; line-height: 1.6;">
+                                Please review your takeover booking details before submitting your bid.
+                            </div>
 
-                            <div id="takeover-config-summary" style="background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:16px;"></div>
+                            <div id="takeover-config-summary" style="background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:24px;"></div>
                         </div>
                     </div>
                 </main>
@@ -7151,16 +7477,30 @@ window.updatePerfView = function(element, type) {
             breadcrumb.innerHTML = `Home / Campaigns / Awareness / <span class='text-primary font-bold'>${type}</span>`;
         }
 
-        // 3. UPDATE BANNER TEXT BASED ON TYPE
+        // 3. UPDATE BANNER TEXT AND RIGHT SIDE BASED ON TYPE
         const bannerTitle = document.getElementById('awareness-banner-title');
         const bannerDesc = document.getElementById('awareness-banner-desc');
+        const bannerIllustration = document.getElementById('awareness-banner-illustration');
+        const bannerCalendar = document.getElementById('awareness-banner-calendar');
+        const takeoverBidSection = document.getElementById('takeover-bid-status-section');
+        
         if (bannerTitle && bannerDesc) {
             if (type === 'Takeover') {
-                bannerTitle.textContent = 'High visibility days for all day impressions';
-                bannerDesc.textContent = 'Own the homepage or category pages for full-day brand dominance. Auction-based CPD campaigns.';
+                bannerTitle.textContent = 'Own the Spotlight';
+                bannerDesc.textContent = 'Own the spotlight for the day—guaranteed premium visibility on high-traffic pages, perfect for launches, sales, and big moments.';
+                // Show calendar, hide illustration
+                if (bannerIllustration) bannerIllustration.classList.add('hidden');
+                if (bannerCalendar) bannerCalendar.classList.remove('hidden');
+                // Show takeover bid section
+                if (takeoverBidSection) takeoverBidSection.classList.remove('hidden');
             } else {
                 bannerTitle.textContent = 'Boost Your Brand Reach';
                 bannerDesc.textContent = 'Reach millions of new customers. Increase recall with high-impact visuals.';
+                // Show illustration, hide calendar
+                if (bannerIllustration) bannerIllustration.classList.remove('hidden');
+                if (bannerCalendar) bannerCalendar.classList.add('hidden');
+                // Hide takeover bid section
+                if (takeoverBidSection) takeoverBidSection.classList.add('hidden');
             }
         }
     };
@@ -7222,7 +7562,15 @@ window.updatePerfView = function(element, type) {
             takeoverType: '', // FULL_HP | HALF_HP | L1
             priceL: null,
             pageId: null,
-            placementId: null
+            placementId: null,
+            bidAmount: null // User's bid amount in Lakhs
+        };
+
+        // Minimum bids and expected impressions by takeover type
+        const takeoverBidConfig = {
+            'FULL_HP': { minBid: 7.5, impressionsMin: '10,00,000', impressionsMax: '12,00,000', impressionsLabel: '1 Million - 1.2 Million' },
+            'HALF_HP': { minBid: 3.75, impressionsMin: '7,00,000', impressionsMax: '7,50,000', impressionsLabel: '7 Lakh - 7.5 Lakh' },
+            'L1': { minBid: 2.5, impressionsMin: '1,50,000', impressionsMax: '2,50,000', impressionsLabel: '1.5 Lakh - 2.5 Lakh' }
         };
 
         const takeoverPages = [
@@ -7238,50 +7586,53 @@ window.updatePerfView = function(element, type) {
             { id: 'l1_41622', name: 'L1 Page Skin', pageId: 41622, pageType: 'l1', icon: 'fa-solid fa-layer-group' }
         ];
 
-        const takeoverPlacements = {
-            'home_27659': [
-                { id: 'home_cover_widget', name: 'Cover Widget' },
-                { id: 'home_cover_scroll', name: 'Cover Widget Scroll Chips' },
-                { id: 'home_scroll_chips', name: 'Scroll Chips' }
-            ],
+        // Placements for Full Homepage Takeover
+        const fullHomepagePlacements = [
+            { id: 'home_top_carousel', name: 'Top Carousel', contactRequired: false },
+            { id: 'home_cover_widget_bg', name: 'Cover Widget Background', contactRequired: false },
+            { id: 'home_cover_scroll', name: 'Cover Widget Scrollable Product Display', contactRequired: true },
+            { id: 'home_thick_strip', name: 'Thick Strip Banner', contactRequired: false },
+            { id: 'home_product_widget', name: 'Product Widget', contactRequired: true }
+        ];
 
-            // L1 Category pages (same supported placements)
-            'l1_21868': [
-                { id: 'l1_21868_cover_widget', name: 'Cover Widget' },
-                { id: 'l1_21868_cover_scroll', name: 'Cover Widget Scroll Chips' },
-                { id: 'l1_21868_scroll_chips', name: 'Scroll Chips' }
-            ],
-            'l1_41682': [
-                { id: 'l1_41682_cover_widget', name: 'Cover Widget' },
-                { id: 'l1_41682_cover_scroll', name: 'Cover Widget Scroll Chips' },
-                { id: 'l1_41682_scroll_chips', name: 'Scroll Chips' }
-            ],
-            'l1_41520': [
-                { id: 'l1_41520_cover_widget', name: 'Cover Widget' },
-                { id: 'l1_41520_cover_scroll', name: 'Cover Widget Scroll Chips' },
-                { id: 'l1_41520_scroll_chips', name: 'Scroll Chips' }
-            ],
-            'l1_21032': [
-                { id: 'l1_21032_cover_widget', name: 'Cover Widget' },
-                { id: 'l1_21032_cover_scroll', name: 'Cover Widget Scroll Chips' },
-                { id: 'l1_21032_scroll_chips', name: 'Scroll Chips' }
-            ],
-            'l1_41626': [
-                { id: 'l1_41626_cover_widget', name: 'Cover Widget' },
-                { id: 'l1_41626_cover_scroll', name: 'Cover Widget Scroll Chips' },
-                { id: 'l1_41626_scroll_chips', name: 'Scroll Chips' }
-            ],
-            'l1_41624': [
-                { id: 'l1_41624_cover_widget', name: 'Cover Widget' },
-                { id: 'l1_41624_cover_scroll', name: 'Cover Widget Scroll Chips' },
-                { id: 'l1_41624_scroll_chips', name: 'Scroll Chips' }
-            ],
-            'l1_41622': [
-                { id: 'l1_41622_cover_widget', name: 'Cover Widget' },
-                { id: 'l1_41622_cover_scroll', name: 'Cover Widget Scroll Chips' },
-                { id: 'l1_41622_scroll_chips', name: 'Scroll Chips' }
-            ]
+        // Placements for Half Homepage Takeover
+        const halfHomepagePlacements = [
+            { id: 'home_cover_widget_bg', name: 'Cover Widget Background', contactRequired: false },
+            { id: 'home_cover_scroll', name: 'Cover Widget Scrollable Product Display', contactRequired: true },
+            { id: 'home_thick_strip', name: 'Thick Strip Banner', contactRequired: false }
+        ];
+
+        // Placements for L1 Category Takeover (same for all L1 pages)
+        const l1TakeoverPlacements = [
+            { id: 'l1_cover_widget_bg', name: 'Cover Widget Background', contactRequired: false },
+            { id: 'l1_cover_scroll', name: 'Cover Widget Scrollable Product Display', contactRequired: true },
+            { id: 'l1_thin_banner', name: '"Powered by" Thin Banner', contactRequired: false }
+        ];
+
+        // Expose placement arrays globally for toast lookups
+        window.fullHomepagePlacements = fullHomepagePlacements;
+        window.halfHomepagePlacements = halfHomepagePlacements;
+        window.l1TakeoverPlacements = l1TakeoverPlacements;
+
+        // Legacy structure kept for compatibility
+        const takeoverPlacements = {
+            'home_27659': fullHomepagePlacements,
+            'l1_21868': l1TakeoverPlacements,
+            'l1_41682': l1TakeoverPlacements,
+            'l1_41520': l1TakeoverPlacements,
+            'l1_21032': l1TakeoverPlacements,
+            'l1_41626': l1TakeoverPlacements,
+            'l1_41624': l1TakeoverPlacements,
+            'l1_41622': l1TakeoverPlacements
         };
+
+        // Helper to get placements based on takeover type
+        function getPlacementsForTakeoverType(takeoverType, pageId) {
+            if (takeoverType === 'FULL_HP') return fullHomepagePlacements;
+            if (takeoverType === 'HALF_HP') return halfHomepagePlacements;
+            if (takeoverType === 'L1') return l1TakeoverPlacements;
+            return [];
+        }
 
         function takeoverTypeLabel(type) {
             if (type === 'FULL_HP') return 'Full Homepage takeover';
@@ -7390,7 +7741,9 @@ window.updatePerfView = function(element, type) {
                 const idx = (dt === 'IHB Sale') ? ihbIndex(day) : null;
                 const idxLabel = (dt === 'IHB Sale') ? ('Day ' + idx) : '';
 
-                html += '<div style="border:1px solid ' + (isSelected ? '#2563eb' : '#e5e7eb') + '; background:' + cellBg(dt) + '; border-radius:12px; padding:10px; min-height:128px;">';
+                const cellBorder = isSelected ? '2px solid #9c00ad' : '1px solid #e5e7eb';
+                const cellShadow = isSelected ? 'box-shadow: 0 0 0 3px rgba(156, 0, 173, 0.1);' : '';
+                html += '<div style="border:' + cellBorder + '; background:' + cellBg(dt) + '; border-radius:12px; padding:10px; min-height:128px; transition: all 0.15s ease; ' + cellShadow + '">';
                 html += '<div style="display:flex; align-items:center; justify-content:space-between;">';
                 html += '<div style="font-weight:800; color:#111827;">' + day + '</div>';
                 html += '<div style="font-size:10px; color:#64748b;"><span style="font-weight:800;">' + (idxLabel || dt) + '</span></div>';
@@ -7403,12 +7756,24 @@ window.updatePerfView = function(element, type) {
                     const allowed = eligible.indexOf(type) !== -1;
                     const price = pricingFor(dt, type);
                     const disabled = (!allowed);
-                    const btnStyle = disabled
-                        ? 'opacity:0.35; cursor:not-allowed; border:1px dashed #cbd5e1; background:#fff;'
-                        : 'cursor:pointer; border:1px solid #cbd5e1; background:#fff;';
-                    return '<button data-day="' + day + '" data-type="' + type + '" ' + (disabled ? 'disabled' : '') + ' style="text-align:left; padding:8px 10px; border-radius:10px; font-size:11px; font-weight:800; color:#111827; display:flex; justify-content:space-between; align-items:center; ' + btnStyle + '">'
-                        + '<span>' + label + '</span>'
-                        + '<span style="color:#0f172a;">' + formatPriceL(price) + '</span>'
+                    const isThisSelected = (window.takeoverState.selectedDay === day && window.takeoverState.takeoverType === type);
+                    
+                    let btnStyle;
+                    if (disabled) {
+                        btnStyle = 'opacity:0.35; cursor:not-allowed; border:1px dashed #cbd5e1; background:#fff;';
+                    } else if (isThisSelected) {
+                        btnStyle = 'cursor:pointer; border:2px solid #9c00ad; background:#fdf1ff; box-shadow: 0 0 0 3px rgba(156, 0, 173, 0.15);';
+                    } else {
+                        btnStyle = 'cursor:pointer; border:1px solid #cbd5e1; background:#fff;';
+                    }
+                    
+                    const checkIcon = isThisSelected ? '<i class="fa-solid fa-circle-check" style="color:#9c00ad; margin-right:6px;"></i>' : '';
+                    const labelColor = isThisSelected ? 'color:#9c00ad;' : 'color:#111827;';
+                    const priceColor = isThisSelected ? 'color:#9c00ad; font-weight:900;' : 'color:#0f172a;';
+                    
+                    return '<button data-day="' + day + '" data-type="' + type + '" ' + (disabled ? 'disabled' : '') + ' style="text-align:left; padding:8px 10px; border-radius:10px; font-size:11px; font-weight:800; display:flex; justify-content:space-between; align-items:center; transition: all 0.15s ease; ' + btnStyle + '">'
+                        + '<span style="display:flex; align-items:center; ' + labelColor + '">' + checkIcon + label + '</span>'
+                        + '<span style="' + priceColor + '">' + formatPriceL(price) + '</span>'
                         + '</button>';
                 }
 
@@ -7466,65 +7831,106 @@ window.updatePerfView = function(element, type) {
             const summaryCount = document.getElementById('takeover-summary-count');
             if (!pageList || !placeList || !summary || !summaryCount) return;
 
+            const takeoverType = window.takeoverState.takeoverType;
+            const isHomepageTakeover = (takeoverType === 'FULL_HP' || takeoverType === 'HALF_HP');
+            const isL1Takeover = (takeoverType === 'L1');
+
+            // For Homepage takeovers, auto-select the homepage
+            if (isHomepageTakeover && !window.takeoverState.pageId) {
+                window.takeoverState.pageId = 'home_27659';
+            }
+
             const pages = allowedPagesForType();
+            const placements = getPlacementsForTakeoverType(takeoverType, window.takeoverState.pageId);
 
             // --- Pages (Left Column) ---
-            pageList.innerHTML = pages.map(p => {
-                const selected = (window.takeoverState.pageId === p.id) ? 'selected' : '';
-                return `
-                    <div class="page-card ${selected}" data-page="${p.id}">
-                        <i class="${p.icon}"></i>
-                        <div class="page-name">${p.name}</div>
+            if (isHomepageTakeover) {
+                // For Full/Half Homepage: Show homepage as auto-selected (not clickable)
+                const homePage = takeoverPages.find(p => p.id === 'home_27659');
+                pageList.innerHTML = `
+                    <div class="page-card selected" style="cursor: default; pointer-events: none;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <i class="${homePage.icon}" style="font-size: 20px; color: #9c00ad;"></i>
+                            <div>
+                                <div class="page-name" style="font-weight: 700; color: #111827;">${homePage.name}</div>
+                                <div style="font-size: 11px; color: #9c00ad; font-weight: 600; margin-top: 4px;">
+                                    <i class="fa-solid fa-circle-check" style="margin-right: 4px;"></i>Auto-selected for ${takeoverType === 'FULL_HP' ? 'Full' : 'Half'} Homepage Takeover
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 `;
-            }).join('');
+            } else if (isL1Takeover) {
+                // For L1 Takeover: Show L1 pages for selection
+                pageList.innerHTML = `
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 12px; font-weight: 600;">
+                        <i class="fa-solid fa-info-circle" style="margin-right: 6px;"></i>Select an L1 category page
+                    </div>
+                ` + pages.map(p => {
+                    const selected = (window.takeoverState.pageId === p.id) ? 'selected' : '';
+                    return `
+                        <div class="page-card ${selected}" data-page="${p.id}" style="cursor: pointer; padding: 14px; margin-bottom: 8px;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <i class="${p.icon}" style="font-size: 18px; color: ${selected ? '#9c00ad' : '#64748b'};"></i>
+                                <div class="page-name" style="font-weight: 600; color: ${selected ? '#9c00ad' : '#111827'};">${p.name}</div>
+                                ${selected ? '<i class="fa-solid fa-circle-check" style="margin-left: auto; color: #9c00ad;"></i>' : ''}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
 
-            // --- Placements (Middle Column) - Visibility-style list/table ---
-            if (!window.takeoverState.pageId) {
+            // --- Placements (Middle Column) - Display included placements ---
+            const showPlacements = isHomepageTakeover || (isL1Takeover && window.takeoverState.pageId);
+            
+            if (!showPlacements) {
                 placeList.innerHTML = `
                     <div class="placeholder" style="height: 100%; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:10px; color:#64748b;">
                         <i class="fa-solid fa-hand-pointer" style="font-size:18px;"></i>
-                        <p style="margin:0;">Select a page to view placements.</p>
+                        <p style="margin:0;">Select an L1 page to view included placements.</p>
                     </div>
                 `;
             } else {
-                const placements = takeoverPlacements[window.takeoverState.pageId] || [];
-
                 let rows = '';
-                if (!placements.length) {
-                    rows = `<tr><td colspan="3"><div class="placeholder"><p style="margin:0;">No placements found.</p></div></td></tr>`;
-                } else {
-                    placements.forEach(pl => {
-                        const isSelected = (window.takeoverState.placementId === pl.id);
-                        const actionButton = isSelected
-                            ? `<div class="selected-status">
-                                    <i class="fa-solid fa-circle-check"></i> Selected
-                                    <i class="fa-solid fa-trash-can delete-icon" data-placement-id="${pl.id}"></i>
-                               </div>`
-                            : `<button class="select-btn" data-placement-id="${pl.id}">Select</button>`;
+                placements.forEach(pl => {
+                    const contactNote = pl.contactRequired 
+                        ? `<div style="font-size: 10px; color: #f59e0b; margin-top: 4px;"><i class="fa-solid fa-phone" style="margin-right: 4px;"></i>Contact Business Team to enable</div>`
+                        : '';
+                    
+                    rows += `
+                        <tr style="background-color: #fdf1ff;">
+                            <td style="padding: 14px;">
+                                <div style="display: flex; align-items: flex-start; gap: 10px;">
+                                    <i class="fa-solid fa-image" style="color:#9c00ad; margin-top: 2px;"></i>
+                                    <div>
+                                        <div style="font-weight: 600; color: #111827;">${pl.name}</div>
+                                        ${contactNote}
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding: 14px; text-align: center;">
+                                <span style="display: inline-flex; align-items: center; gap: 6px; color: #16a34a; font-weight: 700; font-size: 12px;">
+                                    <i class="fa-solid fa-circle-check"></i> Included
+                                </span>
+                            </td>
+                        </tr>
+                    `;
+                });
 
-                        const rowStyle = isSelected ? 'background-color: var(--cc-secondary-color);' : '';
-                        rows += `
-                            <tr class="hover:bg-gray-50 transition" style="${rowStyle}">
-                                <td style="padding: 12px; font-weight: 600;">
-                                    <i class="fa-solid fa-image" style="color:#9ca3af; margin-right:8px;"></i>
-                                    ${pl.name}
-                                </td>
-                                <td style="padding: 12px; text-align: right; color:#64748b;">—</td>
-                                <td style="padding: 12px; text-align: center;">${actionButton}</td>
-                            </tr>
-                        `;
-                    });
-                }
+                const headerText = isHomepageTakeover 
+                    ? `Placements included in ${takeoverType === 'FULL_HP' ? 'Full' : 'Half'} Homepage Takeover`
+                    : 'Placements included in L1 Category Takeover';
 
                 placeList.innerHTML = `
-                    <div class="placement-table-wrapper">
-                        <table class="placement-table">
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 12px; font-weight: 600;">
+                        <i class="fa-solid fa-box-open" style="margin-right: 6px;"></i>${headerText}
+                    </div>
+                    <div class="placement-table-wrapper" style="border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
+                        <table class="placement-table" style="width: 100%; border-collapse: collapse;">
                             <thead>
-                                <tr>
-                                    <th style="width: 55%;">Placement Name</th>
-                                    <th style="width: 25%; text-align: right;">Avg. Impressions</th>
-                                    <th class="action-col" style="width: 20%; text-align: center;">Action</th>
+                                <tr style="background: #f9fafb;">
+                                    <th style="padding: 12px; text-align: left; font-size: 12px; color: #64748b; font-weight: 700;">Placement Name</th>
+                                    <th style="padding: 12px; text-align: center; font-size: 12px; color: #64748b; font-weight: 700; width: 120px;">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -7537,61 +7943,54 @@ window.updatePerfView = function(element, type) {
 
             // --- Summary (Right Column) ---
             const page = takeoverPages.find(p => p.id === window.takeoverState.pageId);
-            const placementsForPage = takeoverPlacements[window.takeoverState.pageId] || [];
-            const placement = placementsForPage.find(pl => pl.id === window.takeoverState.placementId);
+            const placementCount = showPlacements ? placements.length : 0;
+            summaryCount.textContent = placementCount;
 
-            const hasSelection = !!(page && placement);
-            summaryCount.textContent = hasSelection ? '1' : '0';
-
-            if (!page && !placement) {
+            if (!page) {
                 summary.innerHTML = `
                     <div class="placeholder" style="height: 100%; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:10px; color:#64748b;">
                         <i class="fa-solid fa-circle-info" style="font-size:18px;"></i>
-                        <p style="margin:0; text-align:center;">No selection yet.<br/>Choose a page and placement.</p>
+                        <p style="margin:0; text-align:center;">Select a page to see the<br/>takeover package summary.</p>
                     </div>
                 `;
             } else {
-                summary.innerHTML = `
-                    <div class="summary-card">
-                        <div class="summary-title">Page</div>
-                        <div class="summary-value">${page ? page.name : '—'}</div>
+                const typeLabel = takeoverTypeLabel(takeoverType);
+                const placementList = placements.map(pl => `
+                    <div style="display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid #f1f5f9;">
+                        <i class="fa-solid fa-check" style="color: #16a34a; font-size: 10px;"></i>
+                        <span style="font-size: 12px; color: #374151;">${pl.name}</span>
+                        ${pl.contactRequired ? '<span style="font-size: 9px; color: #f59e0b; margin-left: auto;"><i class="fa-solid fa-phone"></i></span>' : ''}
                     </div>
-                    <div class="summary-card" style="margin-top: 12px;">
-                        <div class="summary-title">Placement</div>
-                        <div class="summary-value">${placement ? placement.name : '—'}</div>
+                `).join('');
+
+                summary.innerHTML = `
+                    <div style="background: linear-gradient(135deg, #9c00ad, #7c3aed); color: white; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+                        <div style="font-size: 11px; opacity: 0.8; margin-bottom: 4px;">TAKEOVER PACKAGE</div>
+                        <div style="font-size: 14px; font-weight: 700;">${typeLabel}</div>
+                    </div>
+                    <div class="summary-card" style="margin-bottom: 12px;">
+                        <div style="font-size: 11px; color: #64748b; font-weight: 600; margin-bottom: 6px;">PAGE</div>
+                        <div style="font-size: 13px; font-weight: 700; color: #111827;">${page.name}</div>
+                    </div>
+                    <div class="summary-card">
+                        <div style="font-size: 11px; color: #64748b; font-weight: 600; margin-bottom: 8px;">INCLUDED PLACEMENTS (${placementCount})</div>
+                        ${placementList}
                     </div>
                 `;
             }
 
-            // --- Click Handlers ---
-            pageList.querySelectorAll('.page-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    const pageId = card.getAttribute('data-page');
-                    window.takeoverState.pageId = pageId;
-                    window.takeoverState.placementId = null;
-                    window.takeoverState.activeAdPlacementId = null;
-                    renderInventory();
+            // --- Click Handlers (Only for L1 page selection) ---
+            if (isL1Takeover) {
+                pageList.querySelectorAll('.page-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const pageId = card.getAttribute('data-page');
+                        if (pageId) {
+                            window.takeoverState.pageId = pageId;
+                            renderInventory();
+                        }
+                    });
                 });
-            });
-
-            // Placement select / deselect (single-select)
-            placeList.querySelectorAll('.select-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const placementId = btn.getAttribute('data-placement-id');
-                    window.takeoverState.placementId = placementId;
-                    window.takeoverState.activeAdPlacementId = placementId;
-                    renderInventory();
-                });
-            });
-
-            placeList.querySelectorAll('.delete-icon').forEach(icon => {
-                icon.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    window.takeoverState.placementId = null;
-                    window.takeoverState.activeAdPlacementId = null;
-                    renderInventory();
-                });
-            });
+            }
         }
 
         function renderAdsStep() {
@@ -7708,6 +8107,109 @@ window.updatePerfView = function(element, type) {
             area.innerHTML = `<div class="ad-thumbnails-grid">${cards}</div>`;
         }
 
+        // NEW: Render Bid Step (Step 3)
+        function renderBidStep() {
+            const summaryEl = document.getElementById('takeover-bid-summary');
+            const impressionsEl = document.getElementById('takeover-expected-impressions');
+            const minBidEl = document.getElementById('takeover-min-bid-display');
+            const bidInput = document.getElementById('takeover-bid-input');
+            const bidError = document.getElementById('takeover-bid-error');
+            const bidSuccess = document.getElementById('takeover-bid-success');
+            const bidErrorText = document.getElementById('takeover-bid-error-text');
+            
+            if (!summaryEl) return;
+
+            const takeoverType = window.takeoverState.takeoverType;
+            const config = takeoverBidConfig[takeoverType] || takeoverBidConfig['FULL_HP'];
+            const page = takeoverPages.find(p => p.id === window.takeoverState.pageId);
+            const day = window.takeoverState.selectedDay;
+            const dayType = window.takeoverState.dayType;
+
+            // Summary card at top
+            const typeLabel = takeoverTypeLabel(takeoverType);
+            const pageLabel = page ? page.name : '—';
+            const dayLabel = day ? dateLabel(day) : '—';
+            const dayTypeLabel = dayType || '—';
+
+            summaryEl.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; text-align: center;">
+                    <div>
+                        <div style="font-size: 11px; opacity: 0.8; margin-bottom: 4px;">TAKEOVER TYPE</div>
+                        <div style="font-size: 14px; font-weight: 700;">${typeLabel}</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 11px; opacity: 0.8; margin-bottom: 4px;">PAGE</div>
+                        <div style="font-size: 14px; font-weight: 700;">${pageLabel}</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 11px; opacity: 0.8; margin-bottom: 4px;">DATE</div>
+                        <div style="font-size: 14px; font-weight: 700;">${dayLabel}</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 11px; opacity: 0.8; margin-bottom: 4px;">DAY TYPE</div>
+                        <div style="font-size: 14px; font-weight: 700;">${dayTypeLabel}</div>
+                    </div>
+                </div>
+            `;
+
+            // Expected impressions
+            impressionsEl.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">Expected Impressions</div>
+                        <div style="font-size: 20px; font-weight: 800; color: #111827;">${config.impressionsLabel}</div>
+                    </div>
+                    <div style="width: 48px; height: 48px; background: #ecfdf5; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-eye" style="color: #16a34a; font-size: 20px;"></i>
+                    </div>
+                </div>
+            `;
+
+            // Minimum bid display
+            if (minBidEl) {
+                minBidEl.textContent = '₹' + config.minBid + 'L';
+            }
+
+            // Set bid input value if exists
+            if (bidInput && window.takeoverState.bidAmount !== null) {
+                bidInput.value = window.takeoverState.bidAmount;
+            }
+
+            // Bid input validation on change
+            if (bidInput && !bidInput.hasAttribute('data-listener-attached')) {
+                bidInput.setAttribute('data-listener-attached', 'true');
+                bidInput.addEventListener('input', function() {
+                    const value = parseFloat(this.value);
+                    const minBid = config.minBid;
+                    
+                    if (this.value === '' || isNaN(value)) {
+                        bidError.style.display = 'none';
+                        bidSuccess.style.display = 'none';
+                        window.takeoverState.bidAmount = null;
+                        return;
+                    }
+                    
+                    window.takeoverState.bidAmount = value;
+                    
+                    if (value < minBid) {
+                        bidErrorText.textContent = `Bid must be at least ₹${minBid}L (minimum bid for ${typeLabel})`;
+                        bidError.style.display = 'block';
+                        bidSuccess.style.display = 'none';
+                        this.style.borderColor = '#dc2626';
+                    } else {
+                        bidError.style.display = 'none';
+                        bidSuccess.style.display = 'block';
+                        this.style.borderColor = '#16a34a';
+                    }
+                });
+            }
+
+            // Trigger validation if value exists
+            if (bidInput && bidInput.value) {
+                bidInput.dispatchEvent(new Event('input'));
+            }
+        }
+
         function renderConfigSummary() {
             const box = document.getElementById('takeover-config-summary');
             if (!box) return;
@@ -7716,17 +8218,89 @@ window.updatePerfView = function(element, type) {
             const dt = window.takeoverState.dayType;
             const idx = window.takeoverState.ihbDayIndex;
             const idxText = (dt === 'IHB Sale' && idx != null) ? ('Day ' + idx) : '';
+            const page = takeoverPages.find(p => p.id === window.takeoverState.pageId);
+            const takeoverType = window.takeoverState.takeoverType;
+            const config = takeoverBidConfig[takeoverType] || {};
+            const placements = getPlacementsForTakeoverType(takeoverType, window.takeoverState.pageId);
+            const bidAmount = window.takeoverState.bidAmount;
 
-            const rows = [
-                { k: 'Day', v: day ? dateLabel(day) : '—' },
-                { k: 'Day type', v: dt ? (dt + (idxText ? (' • ' + idxText) : '')) : '—' },
-                { k: 'Takeover type', v: takeoverTypeLabel(window.takeoverState.takeoverType) },
-                { k: 'Total cost', v: formatPriceL(window.takeoverState.priceL) }
-            ];
+            box.innerHTML = `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                    <!-- Left Column: Booking Details -->
+                    <div>
+                        <div style="font-size: 14px; font-weight: 700; color: #111827; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-calendar-check" style="color: #9c00ad;"></i> Booking Details
+                        </div>
+                        
+                        <div style="background: #f9fafb; border-radius: 8px; padding: 16px;">
+                            <div style="display: grid; gap: 12px;">
+                                <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid #e5e7eb;">
+                                    <span style="font-size: 13px; color: #64748b;">Date</span>
+                                    <span style="font-size: 13px; font-weight: 700; color: #111827;">${day ? dateLabel(day) : '—'}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid #e5e7eb;">
+                                    <span style="font-size: 13px; color: #64748b;">Day Type</span>
+                                    <span style="font-size: 13px; font-weight: 700; color: #111827;">${dt ? (dt + (idxText ? ' • ' + idxText : '')) : '—'}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid #e5e7eb;">
+                                    <span style="font-size: 13px; color: #64748b;">Takeover Type</span>
+                                    <span style="font-size: 13px; font-weight: 700; color: #9c00ad;">${takeoverTypeLabel(takeoverType)}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="font-size: 13px; color: #64748b;">Page</span>
+                                    <span style="font-size: 13px; font-weight: 700; color: #111827;">${page ? page.name : '—'}</span>
+                                </div>
+                            </div>
+                        </div>
 
-            box.innerHTML = '<div style="display:grid; grid-template-columns: 200px 1fr; gap:10px;">'
-                + rows.map(r => '<div style="font-size:12px; color:#64748b; font-weight:800;">' + r.k + '</div><div style="font-size:12px; color:#111827; font-weight:800;">' + r.v + '</div>').join('')
-                + '</div>';
+                        <div style="font-size: 14px; font-weight: 700; color: #111827; margin: 20px 0 12px 0; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-rectangle-ad" style="color: #9c00ad;"></i> Included Placements (${placements.length})
+                        </div>
+                        
+                        <div style="background: #f9fafb; border-radius: 8px; padding: 12px;">
+                            ${placements.map(pl => `
+                                <div style="display: flex; align-items: center; gap: 8px; padding: 8px 0; ${placements.indexOf(pl) < placements.length - 1 ? 'border-bottom: 1px solid #e5e7eb;' : ''}">
+                                    <i class="fa-solid fa-check-circle" style="color: #16a34a; font-size: 12px;"></i>
+                                    <span style="font-size: 12px; color: #374151;">${pl.name}</span>
+                                    ${pl.contactRequired ? '<span style="font-size: 9px; color: #f59e0b; margin-left: auto;"><i class="fa-solid fa-phone"></i></span>' : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Bid Summary -->
+                    <div>
+                        <div style="font-size: 14px; font-weight: 700; color: #111827; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-gavel" style="color: #9c00ad;"></i> Bid Summary
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #9c00ad 0%, #7c3aed 100%); color: white; border-radius: 12px; padding: 24px; text-align: center;">
+                            <div style="font-size: 12px; opacity: 0.8; margin-bottom: 8px;">YOUR BID AMOUNT</div>
+                            <div style="font-size: 36px; font-weight: 800;">₹${bidAmount || 0}L</div>
+                            <div style="font-size: 11px; opacity: 0.7; margin-top: 8px;">Minimum bid: ₹${config.minBid || 0}L</div>
+                        </div>
+
+                        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 16px; margin-top: 16px;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                <i class="fa-solid fa-chart-line" style="color: #16a34a;"></i>
+                                <span style="font-size: 13px; font-weight: 700; color: #166534;">Expected Performance</span>
+                            </div>
+                            <div style="font-size: 12px; color: #166534;">
+                                Estimated impressions: <strong>${config.impressionsLabel || '—'}</strong>
+                            </div>
+                        </div>
+
+                        <div style="background: #fef3c7; border: 1px solid #fde68a; border-radius: 8px; padding: 16px; margin-top: 16px;">
+                            <div style="display: flex; align-items: flex-start; gap: 8px;">
+                                <i class="fa-solid fa-info-circle" style="color: #d97706; margin-top: 2px;"></i>
+                                <div style="font-size: 11px; color: #92400e; line-height: 1.5;">
+                                    By submitting, you agree to the T&C. Bid results will be announced after the 20th. Creatives must be approved by the 24th.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
         }
 
         // Wizard navigation
@@ -7758,8 +8332,7 @@ window.updatePerfView = function(element, type) {
                 renderInventory();
             }
             if (step === 3) {
-                renderAdsStep();
-                ensureCreativeModalReady();
+                renderBidStep();
             }
             if (step === 4) {
                 renderConfigSummary();
@@ -7912,6 +8485,17 @@ window.updatePerfView = function(element, type) {
                     }
                     closeModal();
 
+                    // Check if uploading from Takeover drawer - show toast
+                    if (window.currentUploadPlacementId) {
+                        const allPlacements = [...(window.fullHomepagePlacements || []), ...(window.halfHomepagePlacements || []), ...(window.l1TakeoverPlacements || [])];
+                        const pl = allPlacements.find(p => p.id === window.currentUploadPlacementId);
+                        if (window.showUploadSuccessToast) {
+                            window.showUploadSuccessToast(pl ? pl.name : 'Creative');
+                        }
+                        window.currentUploadPlacementId = null;
+                        return; // Don't add to wizard grid
+                    }
+
                     const grid = getActiveAdGrid();
                     if (grid) {
                         const tempDiv = document.createElement('div');
@@ -7965,17 +8549,32 @@ window.updatePerfView = function(element, type) {
                 return true;
             }
             if (step === 2) {
+                // For L1 takeover, user must select a page
+                // For Full/Half HP, page is auto-selected
                 if (!window.takeoverState.pageId) {
-                    showTakeoverError('Please select a page');
+                    showTakeoverError('Please select an L1 category page');
                     return false;
                 }
-                if (!window.takeoverState.placementId) {
-                    showTakeoverError('Please select a placement');
+                // Placements are now automatically included based on takeover type, no selection needed
+                return true;
+            }
+            if (step === 3) {
+                // Validate bid amount
+                const bidAmount = window.takeoverState.bidAmount;
+                const takeoverType = window.takeoverState.takeoverType;
+                const config = takeoverBidConfig[takeoverType];
+                
+                if (bidAmount === null || bidAmount === undefined || isNaN(bidAmount)) {
+                    showTakeoverError('Please enter a bid amount');
+                    return false;
+                }
+                
+                if (bidAmount < config.minBid) {
+                    showTakeoverError(`Bid must be at least ₹${config.minBid}L for ${takeoverTypeLabel(takeoverType)}`);
                     return false;
                 }
                 return true;
             }
-            // Step 3 is intentionally non-blocking (user can review pricing/config before uploading creatives)
             return true;
         }
 
@@ -7991,7 +8590,8 @@ window.updatePerfView = function(element, type) {
                 if (s < 4) {
                     goToTakeoverStep(s + 1);
                 } else {
-                    alert('Campaign Submitted for Approval!');
+                    // Show success modal instead of alert
+                    showTakeoverSuccessModal();
                     window.navigateTo('awareness', 'nav-overview', 'Home');
                 }
             });
@@ -8031,13 +8631,445 @@ window.updatePerfView = function(element, type) {
             window.takeoverState.ihbDayIndex = null;
             window.takeoverState.takeoverType = '';
             window.takeoverState.priceL = null;
+            window.takeoverState.bidAmount = null;
             resetInventorySelection();
 
-            // Ads grid reset
-            const area = document.getElementById('takeover-ad-upload-area');
-            if (area) area.innerHTML = '';
+            // Reset bid input if exists
+            const bidInput = document.getElementById('takeover-bid-input');
+            if (bidInput) bidInput.value = '';
 
             goToTakeoverStep(1);
+        };
+
+        // ================== TAKEOVER UPLOAD DRAWER ==================
+        window.openTakeoverUploadDrawer = function(takeoverType, pageName, dateStr) {
+            const overlay = document.getElementById('takeover-upload-overlay');
+            const drawer = document.getElementById('takeover-upload-drawer');
+            const title = document.getElementById('takeover-drawer-title');
+            const subtitle = document.getElementById('takeover-drawer-subtitle');
+            const placementsList = document.getElementById('takeover-drawer-placements');
+            
+            if (!overlay || !drawer) return;
+
+            // Update header
+            const typeLabel = takeoverType === 'FULL_HP' ? 'Full Homepage Takeover' 
+                            : takeoverType === 'HALF_HP' ? 'Half Homepage Takeover' 
+                            : 'L1 Category Takeover';
+            if (title) title.textContent = 'Upload Ads';
+            if (subtitle) subtitle.textContent = `${typeLabel} • ${pageName} • ${dateStr}`;
+
+            // Get placements for this takeover type
+            let placements = [];
+            if (takeoverType === 'FULL_HP') {
+                placements = fullHomepagePlacements;
+            } else if (takeoverType === 'HALF_HP') {
+                placements = halfHomepagePlacements;
+            } else {
+                placements = l1TakeoverPlacements;
+            }
+
+            // Mock ad status data (in real app this would come from backend)
+            const mockAdStatus = {
+                'home_top_carousel': { uploaded: true, status: 'approved' },
+                'home_cover_widget_bg': { uploaded: true, status: 'pending' },
+                'home_cover_scroll': { uploaded: false, status: null },
+                'home_thick_strip': { uploaded: false, status: null },
+                'home_product_widget': { uploaded: false, status: null },
+                'l1_cover_widget_bg': { uploaded: true, status: 'rejected' },
+                'l1_cover_scroll': { uploaded: false, status: null },
+                'l1_thin_banner': { uploaded: false, status: null }
+            };
+
+            // Render placements
+            placementsList.innerHTML = placements.map(pl => {
+                const adInfo = mockAdStatus[pl.id] || { uploaded: false, status: null };
+                const contactNote = pl.contactRequired 
+                    ? `<div class="text-[10px] text-orange-600 mt-1"><i class="ri-phone-line"></i> Contact Business Team to enable</div>` 
+                    : '';
+                
+                let statusBadge = '';
+                let actionBtn = '';
+                
+                // If contact required, don't show upload button - show disabled state instead
+                if (pl.contactRequired) {
+                    statusBadge = `<span class="px-2 py-1 bg-gray-100 text-gray-400 text-[10px] font-bold rounded-full">Not Enabled</span>`;
+                    actionBtn = `<span class="px-3 py-1.5 text-xs font-medium text-gray-400 italic">Contact to enable</span>`;
+                } else if (adInfo.uploaded) {
+                    if (adInfo.status === 'approved') {
+                        statusBadge = `<span class="px-2 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded-full"><i class="ri-check-line"></i> Approved</span>`;
+                        actionBtn = `<button onclick="openCreativeModalForPlacement('${pl.id}')" class="px-3 py-1.5 text-xs font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition">Replace</button>`;
+                    } else if (adInfo.status === 'pending') {
+                        statusBadge = `<span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-[10px] font-bold rounded-full"><i class="ri-time-line"></i> Under Review</span>`;
+                        actionBtn = `<button onclick="openCreativeModalForPlacement('${pl.id}')" class="px-3 py-1.5 text-xs font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition">Replace</button>`;
+                    } else if (adInfo.status === 'rejected') {
+                        statusBadge = `<span class="px-2 py-1 bg-red-100 text-red-700 text-[10px] font-bold rounded-full"><i class="ri-close-line"></i> Rejected</span>`;
+                        actionBtn = `<button onclick="openCreativeModalForPlacement('${pl.id}')" class="px-3 py-1.5 text-xs font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 transition">Re-upload</button>`;
+                    }
+                } else {
+                    statusBadge = `<span class="px-2 py-1 bg-gray-100 text-gray-500 text-[10px] font-bold rounded-full">No Ad</span>`;
+                    actionBtn = `<button onclick="openCreativeModalForPlacement('${pl.id}')" class="px-3 py-1.5 text-xs font-medium text-white bg-primary rounded-lg hover:bg-primary-light transition"><i class="ri-upload-2-line"></i> Upload</button>`;
+                }
+
+                return `
+                    <div class="border border-gray-200 rounded-xl p-4 hover:border-primary/30 transition">
+                        <div class="flex items-start justify-between gap-4">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2">
+                                    <i class="ri-image-line text-gray-400"></i>
+                                    <span class="font-semibold text-gray-900 text-sm">${pl.name}</span>
+                                </div>
+                                ${contactNote}
+                                <div class="mt-2">${statusBadge}</div>
+                            </div>
+                            <div class="flex-shrink-0">
+                                ${actionBtn}
+                            </div>
+                        </div>
+                        ${(adInfo.uploaded && !pl.contactRequired) ? `
+                            <div class="mt-3 pt-3 border-t border-gray-100">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-16 h-10 bg-gray-100 rounded overflow-hidden">
+                                        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=100" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="text-xs text-gray-500">
+                                        <div>creative_${pl.id.split('_').pop()}.jpg</div>
+                                        <div class="text-gray-400">Uploaded 2 days ago</div>
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+
+            // Show drawer
+            overlay.classList.remove('hidden');
+            setTimeout(() => {
+                drawer.classList.remove('translate-x-full');
+            }, 10);
+        };
+
+        window.closeTakeoverUploadDrawer = function() {
+            const overlay = document.getElementById('takeover-upload-overlay');
+            const drawer = document.getElementById('takeover-upload-drawer');
+            
+            if (drawer) drawer.classList.add('translate-x-full');
+            setTimeout(() => {
+                if (overlay) overlay.classList.add('hidden');
+            }, 300);
+        };
+
+        window.openCreativeModalForPlacement = function(placementId) {
+            // Store which placement we're uploading for
+            window.currentUploadPlacementId = placementId;
+            
+            // Open the existing creative modal
+            const modalBackdrop = document.getElementById('modal-backdrop');
+            const createAdModal = document.getElementById('create-ad-modal');
+            
+            if (modalBackdrop) modalBackdrop.style.display = 'block';
+            if (createAdModal) createAdModal.style.display = 'flex';
+        };
+
+        // ================== TAKEOVER SUCCESS MODAL ==================
+        window.showTakeoverSuccessModal = function() {
+            const overlay = document.getElementById('takeover-success-overlay');
+            const summary = document.getElementById('takeover-success-summary');
+            
+            if (!overlay) return;
+
+            // Build summary from state
+            const state = window.takeoverState;
+            const typeLabel = state.takeoverType === 'FULL_HP' ? 'Full Homepage Takeover' 
+                            : state.takeoverType === 'HALF_HP' ? 'Half Homepage Takeover' 
+                            : 'L1 Category Takeover';
+            
+            const pageName = state.takeoverType === 'L1' 
+                ? (takeoverPages.find(p => p.id === state.pageId)?.name || 'L1 Page')
+                : 'Homepage';
+
+            if (summary) {
+                summary.innerHTML = `
+                    <div class="grid grid-cols-2 gap-3 text-sm">
+                        <div>
+                            <div class="text-gray-500 text-xs">Takeover Type</div>
+                            <div class="font-bold text-gray-900">${typeLabel}</div>
+                        </div>
+                        <div>
+                            <div class="text-gray-500 text-xs">Page</div>
+                            <div class="font-bold text-gray-900">${pageName}</div>
+                        </div>
+                        <div>
+                            <div class="text-gray-500 text-xs">Date</div>
+                            <div class="font-bold text-gray-900">${state.selectedDay || 'N/A'} February 2026</div>
+                        </div>
+                        <div>
+                            <div class="text-gray-500 text-xs">Your Bid</div>
+                            <div class="font-bold text-green-600">₹${state.bidAmount ? state.bidAmount.toLocaleString() : '0'}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            overlay.classList.remove('hidden');
+        };
+
+        window.closeTakeoverSuccessModal = function() {
+            const overlay = document.getElementById('takeover-success-overlay');
+            if (overlay) overlay.classList.add('hidden');
+        };
+
+        // ================== TAKEOVER DETAILS DRAWER ==================
+        window.openTakeoverDetailsDrawer = function(bidId) {
+            const overlay = document.getElementById('takeover-details-overlay');
+            const drawer = document.getElementById('takeover-details-drawer');
+            const content = document.getElementById('takeover-details-content');
+            
+            if (!overlay || !drawer || !content) return;
+
+            // Mock bid data (in real app this would come from backend)
+            const bidData = {
+                'full_hp_7feb': {
+                    type: 'Full Homepage Takeover',
+                    status: 'won',
+                    page: 'Homepage',
+                    date: '7th February 2026',
+                    dayType: 'Weekend',
+                    floorBid: 750000,
+                    yourBid: 1000000,
+                    submittedOn: '18th January 2026',
+                    expectedImpressions: '1M - 1.2M',
+                    placements: ['Top Carousel', 'Cover Widget Background', 'Cover Widget Scrollable', 'Thick Strip Banner', 'Product Widget'],
+                    adsStatus: { uploaded: 2, pending: 1, approved: 1, total: 5 }
+                },
+                'half_hp_7feb': {
+                    type: 'Half Homepage Takeover',
+                    status: 'rejected',
+                    page: 'Homepage',
+                    date: '7th February 2026',
+                    dayType: 'Weekend',
+                    floorBid: 375000,
+                    yourBid: 600000,
+                    submittedOn: '18th January 2026',
+                    expectedImpressions: '700K - 750K',
+                    rejectionReason: 'Full Homepage Takeover was won for this day. All Half Homepage bids are auto-rejected when Full Homepage is booked.',
+                    placements: ['Cover Widget Background', 'Cover Widget Scrollable', 'Thick Strip Banner']
+                },
+                'l1_skin_8feb': {
+                    type: 'L1 Skin Takeover',
+                    status: 'action_required',
+                    page: 'L1 Page Skin',
+                    date: '8th February 2026',
+                    dayType: 'BAU',
+                    floorBid: 250000,
+                    yourBid: 400000,
+                    submittedOn: '19th January 2026',
+                    expectedImpressions: '150K - 250K',
+                    placements: ['Cover Widget Background', 'Cover Widget Scrollable', '"Powered by" Thin Banner'],
+                    adsStatus: { uploaded: 3, rejected: 2, pending: 1, total: 3 },
+                    adsRejectionReason: 'Creative dimensions do not match requirements. Please upload 1920x400 for banner.'
+                }
+            };
+
+            const bid = bidData[bidId];
+            if (!bid) return;
+
+            // Status badge
+            let statusBadge = '';
+            if (bid.status === 'won') {
+                statusBadge = '<span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full"><i class="ri-check-line"></i> Bid Won</span>';
+            } else if (bid.status === 'rejected') {
+                statusBadge = '<span class="px-3 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full"><i class="ri-close-line"></i> Bid Rejected</span>';
+            } else if (bid.status === 'action_required') {
+                statusBadge = '<span class="px-3 py-1 bg-orange-100 text-orange-700 text-xs font-bold rounded-full"><i class="ri-error-warning-line"></i> Action Required</span>';
+            }
+
+            content.innerHTML = `
+                <div class="space-y-6">
+                    <!-- Header -->
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-lg">${bid.type}</h3>
+                            <p class="text-sm text-gray-500 mt-1">${bid.page} • ${bid.date}</p>
+                        </div>
+                        ${statusBadge}
+                    </div>
+
+                    <!-- Bid Info -->
+                    <div class="bg-gray-50 rounded-xl p-4">
+                        <div class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Bid Information</div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <div class="text-xs text-gray-500">Floor Bid</div>
+                                <div class="font-bold text-gray-900">₹${bid.floorBid.toLocaleString()}</div>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-500">Your Bid</div>
+                                <div class="font-bold ${bid.status === 'rejected' ? 'text-red-600' : 'text-green-600'}">₹${bid.yourBid.toLocaleString()}</div>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-500">Day Type</div>
+                                <div class="font-semibold text-gray-700">${bid.dayType}</div>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-500">Submitted On</div>
+                                <div class="font-semibold text-gray-700">${bid.submittedOn}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Expected Performance -->
+                    <div class="bg-purple-50 rounded-xl p-4">
+                        <div class="text-xs font-bold text-purple-600 uppercase tracking-wider mb-2">Expected Performance</div>
+                        <div class="flex items-center gap-2">
+                            <i class="ri-eye-line text-purple-500"></i>
+                            <span class="font-bold text-purple-900">${bid.expectedImpressions} impressions</span>
+                        </div>
+                    </div>
+
+                    ${bid.rejectionReason ? `
+                        <div class="bg-red-50 border border-red-100 rounded-xl p-4">
+                            <div class="text-xs font-bold text-red-600 uppercase tracking-wider mb-2">Rejection Reason</div>
+                            <p class="text-sm text-red-700">${bid.rejectionReason}</p>
+                        </div>
+                    ` : ''}
+
+                    ${bid.adsRejectionReason ? `
+                        <div class="bg-orange-50 border border-orange-100 rounded-xl p-4">
+                            <div class="text-xs font-bold text-orange-600 uppercase tracking-wider mb-2">Ads Rejection Reason</div>
+                            <p class="text-sm text-orange-700">${bid.adsRejectionReason}</p>
+                        </div>
+                    ` : ''}
+
+                    <!-- Placements -->
+                    <div>
+                        <div class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Included Placements</div>
+                        <div class="space-y-2">
+                            ${bid.placements.map(p => `
+                                <div class="flex items-center gap-2 text-sm text-gray-700">
+                                    <i class="ri-checkbox-circle-line text-green-500"></i>
+                                    ${p}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    ${bid.adsStatus ? `
+                        <div class="bg-gray-50 rounded-xl p-4">
+                            <div class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Ads Upload Progress</div>
+                            <div class="flex items-center gap-4">
+                                <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                    <div class="h-full bg-green-500 rounded-full" style="width: ${(bid.adsStatus.approved / bid.adsStatus.total) * 100}%"></div>
+                                </div>
+                                <span class="text-xs font-bold text-gray-600">${bid.adsStatus.approved || 0}/${bid.adsStatus.total} approved</span>
+                            </div>
+                            <div class="mt-3 flex gap-3 text-xs">
+                                ${bid.adsStatus.pending ? `<span class="text-yellow-600"><i class="ri-time-line"></i> ${bid.adsStatus.pending} pending</span>` : ''}
+                                ${bid.adsStatus.rejected ? `<span class="text-red-600"><i class="ri-close-line"></i> ${bid.adsStatus.rejected} rejected</span>` : ''}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <!-- Timeline -->
+                    <div>
+                        <div class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Timeline</div>
+                        <div class="space-y-3">
+                            <div class="flex gap-3 text-sm">
+                                <div class="w-2 h-2 bg-green-500 rounded-full mt-1.5"></div>
+                                <div>
+                                    <div class="font-semibold text-gray-900">Bid Submitted</div>
+                                    <div class="text-gray-500 text-xs">${bid.submittedOn}</div>
+                                </div>
+                            </div>
+                            <div class="flex gap-3 text-sm">
+                                <div class="w-2 h-2 ${bid.status === 'rejected' ? 'bg-red-500' : 'bg-green-500'} rounded-full mt-1.5"></div>
+                                <div>
+                                    <div class="font-semibold text-gray-900">Auction Results</div>
+                                    <div class="text-gray-500 text-xs">20th January 2026</div>
+                                </div>
+                            </div>
+                            ${bid.status !== 'rejected' ? `
+                                <div class="flex gap-3 text-sm">
+                                    <div class="w-2 h-2 ${bid.adsStatus?.approved === bid.adsStatus?.total ? 'bg-green-500' : 'bg-gray-300'} rounded-full mt-1.5"></div>
+                                    <div>
+                                        <div class="font-semibold ${bid.adsStatus?.approved === bid.adsStatus?.total ? 'text-gray-900' : 'text-gray-400'}">Creatives Approved</div>
+                                        <div class="text-gray-500 text-xs">Deadline: 24th January 2026</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3 text-sm">
+                                    <div class="w-2 h-2 bg-gray-300 rounded-full mt-1.5"></div>
+                                    <div>
+                                        <div class="font-semibold text-gray-400">Campaign Live</div>
+                                        <div class="text-gray-500 text-xs">${bid.date}</div>
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Show drawer
+            overlay.classList.remove('hidden');
+            setTimeout(() => {
+                drawer.classList.remove('translate-x-full');
+            }, 10);
+        };
+
+        window.closeTakeoverDetailsDrawer = function() {
+            const overlay = document.getElementById('takeover-details-overlay');
+            const drawer = document.getElementById('takeover-details-drawer');
+            
+            if (drawer) drawer.classList.add('translate-x-full');
+            setTimeout(() => {
+                if (overlay) overlay.classList.add('hidden');
+            }, 300);
+        };
+
+        // ================== AD UPLOAD FEEDBACK (TOAST) ==================
+        window.showUploadSuccessToast = function(placementName) {
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-6 right-6 bg-green-600 text-white px-5 py-3 rounded-xl shadow-lg flex items-center gap-3 z-[9999] animate-slide-up';
+            toast.innerHTML = `
+                <i class="ri-check-line text-xl"></i>
+                <div>
+                    <div class="font-bold">Ad Uploaded Successfully</div>
+                    <div class="text-sm text-green-100">${placementName || 'Creative'} is now under review</div>
+                </div>
+            `;
+            document.body.appendChild(toast);
+
+            // Auto remove after 4 seconds
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(20px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        };
+
+        // Override the save/upload function to show feedback
+        window.onCreativeModalSave = function() {
+            const placementId = window.currentUploadPlacementId;
+            
+            // Find placement name
+            let placementName = 'Creative';
+            const allPlacements = [...fullHomepagePlacements, ...halfHomepagePlacements, ...l1TakeoverPlacements];
+            const pl = allPlacements.find(p => p.id === placementId);
+            if (pl) placementName = pl.name;
+
+            // Close modal
+            const modalBackdrop = document.getElementById('modal-backdrop');
+            const createAdModal = document.getElementById('create-ad-modal');
+            if (modalBackdrop) modalBackdrop.style.display = 'none';
+            if (createAdModal) createAdModal.style.display = 'none';
+
+            // Show success toast
+            showUploadSuccessToast(placementName);
+
+            // Update the drawer if open (simulate status change)
+            // In real app, this would refresh from backend
+            window.currentUploadPlacementId = null;
         };
 
     })();

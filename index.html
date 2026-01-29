@@ -1916,14 +1916,9 @@
                                 <div class="font-bold text-green-600">₹10L</div>
                             </div>
                         </div>
-                        <div class="flex gap-2">
-                            <button onclick="openTakeoverUploadDrawer('FULL_HP', 'Homepage', '7th February 2026')" class="flex-1 py-2 bg-green-600 text-white text-xs font-bold rounded-lg hover:bg-green-700 transition flex items-center justify-center gap-1">
-                                <i class="ri-upload-2-line"></i> Upload Ads
-                            </button>
-                            <button onclick="openTakeoverDetailsDrawer('full_hp_7feb')" class="px-3 py-2 bg-white border border-green-300 text-green-700 text-xs font-bold rounded-lg hover:bg-green-100 transition" title="View Details">
-                                <i class="ri-eye-line"></i>
-                            </button>
-                        </div>
+                        <button onclick="openTakeoverDetailsDrawer('full_hp_7feb')" class="w-full py-2 bg-green-600 text-white text-xs font-bold rounded-lg hover:bg-green-700 transition flex items-center justify-center gap-1">
+                            <i class="ri-eye-line"></i> View Details
+                        </button>
                     </div>
 
                     <!-- Card 2: Half Homepage Takeover - REJECTED -->
@@ -1954,10 +1949,11 @@
                         </button>
                     </div>
 
-                    <!-- Card 3: L1 Skin Takeover - WON but ADS REJECTED -->
-                    <div class="border-2 border-orange-200 bg-orange-50 rounded-xl p-4 relative">
+                    <!-- Card 3: L1 Skin Takeover - WON -->
+                    <div class="border-2 border-green-200 bg-green-50 rounded-xl p-4 relative overflow-hidden">
+                        <div class="absolute top-2 right-2 text-2xl">🎉</div>
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="px-2 py-0.5 bg-orange-500 text-white text-[10px] font-bold rounded-full uppercase">Action Required</span>
+                            <span class="px-2 py-0.5 bg-green-500 text-white text-[10px] font-bold rounded-full uppercase">Bid Won</span>
                         </div>
                         <div class="font-bold text-gray-900 text-sm mb-1">L1 Skin Takeover</div>
                         <div class="text-xs text-gray-600 mb-3 flex items-center gap-1">
@@ -1973,18 +1969,9 @@
                                 <div class="font-bold text-green-600">₹4L</div>
                             </div>
                         </div>
-                        <div class="text-[10px] text-orange-700 bg-orange-100 rounded-lg p-2 mb-2 flex items-start gap-1">
-                            <i class="ri-error-warning-line mt-0.5"></i>
-                            <span><strong>Ads Rejected:</strong> Please upload new creatives.</span>
-                        </div>
-                        <div class="flex gap-2">
-                            <button onclick="openTakeoverUploadDrawer('L1', 'L1 Page Skin', '8th February 2026')" class="flex-1 py-2 bg-orange-600 text-white text-xs font-bold rounded-lg hover:bg-orange-700 transition flex items-center justify-center gap-1">
-                                <i class="ri-refresh-line"></i> Re-upload
-                            </button>
-                            <button onclick="openTakeoverDetailsDrawer('l1_skin_8feb')" class="px-3 py-2 bg-white border border-orange-300 text-orange-700 text-xs font-bold rounded-lg hover:bg-orange-100 transition" title="View Details">
-                                <i class="ri-eye-line"></i>
-                            </button>
-                        </div>
+                        <button onclick="openTakeoverDetailsDrawer('l1_skin_8feb')" class="w-full py-2 bg-green-600 text-white text-xs font-bold rounded-lg hover:bg-green-700 transition flex items-center justify-center gap-1">
+                            <i class="ri-eye-line"></i> View Details
+                        </button>
                     </div>
 
                     <!-- Card 4: Placeholder / Create New -->
@@ -2152,46 +2139,6 @@
                 </div>
             </div>
 
-            <!-- TAKEOVER UPLOAD ADS DRAWER -->
-            <div id="takeover-upload-overlay" class="fixed inset-0 bg-black/50 z-50 hidden" onclick="closeTakeoverUploadDrawer()"></div>
-            <div id="takeover-upload-drawer" class="fixed top-0 right-0 h-full w-[600px] bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
-                <!-- Drawer Header -->
-                <div class="p-6 border-b border-gray-100 flex-shrink-0">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <h2 class="text-lg font-bold text-gray-900" id="takeover-drawer-title">Upload Ads</h2>
-                            <p class="text-sm text-gray-500 mt-1" id="takeover-drawer-subtitle">Full Homepage Takeover • 7th February 2026</p>
-                        </div>
-                        <button onclick="closeTakeoverUploadDrawer()" class="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-600 transition">
-                            <i class="ri-close-line text-xl"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Drawer Body -->
-                <div class="flex-1 overflow-y-auto p-6">
-                    <div class="mb-4">
-                        <div class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Placements to Upload</div>
-                    </div>
-                    
-                    <!-- Placements List -->
-                    <div id="takeover-drawer-placements" class="space-y-3">
-                        <!-- JS will populate this -->
-                    </div>
-                </div>
-
-                <!-- Drawer Footer -->
-                <div class="p-6 border-t border-gray-100 bg-gray-50 flex-shrink-0">
-                    <div class="flex items-center justify-between">
-                        <div class="text-xs text-gray-500">
-                            <i class="ri-information-line"></i> All creatives must be approved by the 24th
-                        </div>
-                        <button onclick="closeTakeoverUploadDrawer()" class="px-4 py-2 bg-primary text-white text-sm font-bold rounded-lg hover:bg-primary-light transition">
-                            Done
-                        </button>
-                    </div>
-                </div>
-            </div>
         </div>
         
         <!-- ================= BUNDLES (Fixed Packages) ================= -->
@@ -2478,37 +2425,47 @@
         <div class="geo-location-content">
             <div class="geo-column">
                 <h5>Included States (upto 20)</h5>
-                <div class="location-input-wrapper" style="gap: 10px; align-items: flex-end;">
+                <div class="location-input-wrapper" style="gap: 10px; align-items: flex-start;">
                     <div style="flex: 1;">
-                        <label style="font-size: 12px; color: var(--cc-text-light);">State</label>
-                        <select class="form-select" id="include-state-select" style="width: 100%;">
+                        <label style="font-size: 12px; color: var(--cc-text-light); display: block; margin-bottom: 6px;">State</label>
+                        <select class="form-select" id="include-state-select" style="width: 100%; height: 40px;">
                             <option value="">Select state</option>
+                            <option value="ALL_STATES">All States</option>
                         </select>
                     </div>
                     <div style="flex: 1;">
-                        <label style="font-size: 12px; color: var(--cc-text-light);">Quickness (optional)</label>
-                        <select class="form-select" id="include-speed-select" style="width: 100%;" disabled>
+                        <label style="font-size: 12px; color: var(--cc-text-light); display: block; margin-bottom: 6px;">Quickness (optional)</label>
+                        <select class="form-select" id="include-speed-select" style="width: 100%; height: 40px;" disabled>
                             <option value="ALL">All users in state</option>
                             <option value="QUICK">Quick</option>
                             <option value="NON_QUICK">Non-Quick</option>
                         </select>
                         <div style="font-size: 11px; color: var(--cc-text-light); margin-top: 4px;" id="quickness-hint">Select a state to check availability</div>
                     </div>
-                    <button class="cc-button" id="include-add-btn" style="height: 40px; padding: 0 14px; border-radius: 8px;">Add</button>
+                    <div style="padding-top: 22px;">
+                        <button class="cc-button" id="include-add-btn" style="height: 40px; padding: 0 14px; border-radius: 8px;">Add</button>
+                    </div>
                 </div>
                 <div class="location-pills" id="included-pills" style="margin-top: 14px;"></div>
+                <!-- Overlap error message -->
+                <div id="geo-overlap-error" class="hidden" style="margin-top: 10px; padding: 10px 14px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; color: #dc2626; font-size: 12px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span>Warning: Same state in Include and Exclude results in 0% targeting (100% overlap). Remove the duplicate.</span>
+                </div>
             </div>
 
             <div class="geo-column">
                 <h5>Excluded States (upto 20)</h5>
-                <div class="location-input-wrapper" style="gap: 10px; align-items: flex-end;">
+                <div class="location-input-wrapper" style="gap: 10px; align-items: flex-start;">
                     <div style="flex: 1;">
-                        <label style="font-size: 12px; color: var(--cc-text-light);">State</label>
-                        <select class="form-select" id="exclude-state-select" style="width: 100%;">
+                        <label style="font-size: 12px; color: var(--cc-text-light); display: block; margin-bottom: 6px;">State</label>
+                        <select class="form-select" id="exclude-state-select" style="width: 100%; height: 40px;">
                             <option value="">Select state</option>
                         </select>
                     </div>
-                    <button class="cc-button" id="exclude-add-btn" style="height: 40px; padding: 0 14px; border-radius: 8px; background:#fff; border: 1px solid var(--cc-border-color); color: var(--cc-text-dark);">Exclude</button>
+                    <div style="padding-top: 22px;">
+                        <button class="cc-button" id="exclude-add-btn" style="height: 40px; padding: 0 14px; border-radius: 8px; background:#fff; border: 1px solid var(--cc-border-color); color: var(--cc-text-dark);">Exclude</button>
+                    </div>
                 </div>
                 <div class="location-pills" id="excluded-pills" style="margin-top: 14px;"></div>
             </div>
@@ -2656,6 +2613,19 @@
                 <div style="margin-bottom: 24px;"><h2>Campaign Configuration & Launch</h2><p style="color: var(--cc-text-light); margin-top: 8px;">Set your schedule and budget to finalize the campaign.</p></div>
                 <div class="config-workspace">
                     <div class="config-main">
+                        <!-- Campaign Name Card -->
+                        <div class="config-card" style="margin-bottom: 24px;">
+                            <h4><i class="fa-solid fa-pen"></i> Campaign Details</h4>
+                            <div class="form-group">
+                                <label for="campaign-name">Campaign Name <span style="color: #dc2626;">*</span></label>
+                                <input type="text" id="campaign-name" class="form-input" placeholder="e.g., Summer Sale 2026 - Homepage" maxlength="100">
+                                <p class="helper-text">Give your campaign a descriptive name (required)</p>
+                                <div id="campaign-name-error" class="hidden" style="color: #dc2626; font-size: 12px; margin-top: 6px; display: flex; align-items: center; gap: 6px;">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                    <span>Campaign name is required</span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="config-card" style="margin-bottom: 24px;">
                             <h4><i class="fa-solid fa-calendar-days"></i> Schedule</h4>
                             <div class="date-inputs">
@@ -3397,6 +3367,25 @@
                             <h2 style="font-weight: 700; color: #111827; margin-bottom: 8px;">Review & Submit</h2>
                             <div style="font-size: 13px; color: #64748b; margin-bottom: 24px; line-height: 1.6;">
                                 Please review your takeover booking details before submitting your bid.
+                            </div>
+
+                            <!-- Campaign Details Card -->
+                            <div style="background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:24px; margin-bottom: 20px;">
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+                                    <i class="fa-solid fa-pen" style="color: #9c00ad;"></i>
+                                    <span style="font-weight: 700; color: #111827;">Campaign Details</span>
+                                </div>
+                                <div style="margin-bottom: 0;">
+                                    <label style="display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 8px;">
+                                        Campaign Name <span style="color: #dc2626;">*</span>
+                                    </label>
+                                    <input type="text" id="takeover-campaign-name" placeholder="e.g., Feb 7 Full Homepage Takeover - Brand Launch" maxlength="100" style="width: 100%; padding: 12px 14px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 14px; color: #111827; outline: none; transition: border-color 0.2s;">
+                                    <div style="font-size: 11px; color: #9ca3af; margin-top: 6px;">Give your campaign a descriptive name (required)</div>
+                                    <div id="takeover-campaign-name-error" class="hidden" style="color: #dc2626; font-size: 12px; margin-top: 6px; display: none; align-items: center; gap: 6px;">
+                                        <i class="fa-solid fa-circle-exclamation"></i>
+                                        <span>Campaign name is required</span>
+                                    </div>
+                                </div>
                             </div>
 
                             <div id="takeover-config-summary" style="background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:24px;"></div>
@@ -5443,6 +5432,33 @@ renderAllCalendars();
                         return;
                     }
                 }
+                
+                // STEP 4 VALIDATION (on Submit)
+                else if (currentStep === 4) {
+                    const campaignNameInput = document.getElementById('campaign-name');
+                    const campaignNameError = document.getElementById('campaign-name-error');
+                    
+                    if (!campaignNameInput || !campaignNameInput.value.trim()) {
+                        showWizardError("Please enter a Campaign Name");
+                        if (campaignNameError) {
+                            campaignNameError.classList.remove('hidden');
+                            campaignNameError.style.display = 'flex';
+                        }
+                        if (campaignNameInput) {
+                            campaignNameInput.style.borderColor = '#dc2626';
+                            campaignNameInput.focus();
+                        }
+                        return;
+                    } else {
+                        if (campaignNameError) {
+                            campaignNameError.classList.add('hidden');
+                            campaignNameError.style.display = 'none';
+                        }
+                        if (campaignNameInput) {
+                            campaignNameInput.style.borderColor = '';
+                        }
+                    }
+                }
 
                 // Move to Next Step
                 if (currentStep < 4) {
@@ -5480,38 +5496,18 @@ renderAllCalendars();
                         { id: 'l1_makeup_41624', name: 'L1 Page Makeup', pageId: 41624, pageType: 'l1', icon: 'fa-solid fa-palette' },
                         { id: 'l1_skin_41622', name: 'L1 Page Skin', pageId: 41622, pageType: 'l1', icon: 'fa-solid fa-droplet' },
                         { id: 'l1_shopmore_41767', name: 'L1 Shop More', pageId: 41767, pageType: 'l1', icon: 'fa-solid fa-cart-shopping' },
-                        { id: 'l2_categories', name: 'L2 Category Pages', pageId: 'various', pageType: 'l2', icon: 'fa-solid fa-list' },
                         { id: 'thankyou', name: 'Thank You Page', pageId: null, pageType: 'thankyou', icon: 'fa-solid fa-circle-check' }
                     ],
                     // Placements per Page (No Slots - Direct Selection)
                     placements: {
                         'home_27659': [
-                            { id: 'home_cover_widget', name: 'Cover Widget', featureId: 'NA', impressions: '1,751,157' },
-                            { id: 'home_cover_scroll', name: 'Cover Widget Scroll Chips', featureId: 'NA', impressions: '8,339,546' },
                             { id: 'home_top_carousel', name: 'Top Carousel (auto-rotate)', featureId: '5001', impressions: '10,833,193' },
-
-                            // Celebrity Area 1 (5 vertical banners)
                             { id: 'home_ca1_a', name: 'Celebrity Area 1A', featureId: 'NA', impressions: '337,886' },
                             { id: 'home_ca1_b', name: 'Celebrity Area 1B', featureId: 'NA', impressions: '337,834' },
-                            { id: 'home_ca1_c', name: 'Celebrity Area 1C', featureId: 'NA', impressions: '333,737' },
-                            { id: 'home_ca1_d', name: 'Celebrity Area 1D', featureId: 'NA', impressions: '333,700' },
-                            { id: 'home_ca1_e', name: 'Celebrity Area 1E', featureId: 'NA', impressions: '343,844' },
-
-                            // Celebrity Area 2 (5 vertical banners)
                             { id: 'home_ca2_a', name: 'Celebrity Area 2A', featureId: 'NA', impressions: '162,277' },
                             { id: 'home_ca2_b', name: 'Celebrity Area 2B', featureId: 'NA', impressions: '162,062' },
-                            { id: 'home_ca2_c', name: 'Celebrity Area 2C', featureId: 'NA', impressions: '161,962' },
-                            { id: 'home_ca2_d', name: 'Celebrity Area 2D', featureId: 'NA', impressions: '161,497' },
-                            { id: 'home_ca2_e', name: 'Celebrity Area 2E', featureId: 'NA', impressions: '160,644' },
-
-                            // Celebrity Area 3 (5 vertical banners)
                             { id: 'home_ca3_a', name: 'Celebrity Area 3A', featureId: 'NA', impressions: '88,494' },
-                            { id: 'home_ca3_b', name: 'Celebrity Area 3B', featureId: 'NA', impressions: '88,482' },
-                            { id: 'home_ca3_c', name: 'Celebrity Area 3C', featureId: 'NA', impressions: '88,424' },
-                            { id: 'home_ca3_d', name: 'Celebrity Area 3D', featureId: 'NA', impressions: '88,415' },
-                            { id: 'home_ca3_e', name: 'Celebrity Area 3E', featureId: 'NA', impressions: '88,247' },
-
-                            { id: 'home_takeover', name: 'Takeover banner under Top Carousel', featureId: 'NA', impressions: 'NA' }
+                            { id: 'home_ca3_b', name: 'Celebrity Area 3B', featureId: 'NA', impressions: '88,482' }
                         ],
                         'l1_brand_41762': [
                             { id: 'l1brand_brands_focus', name: 'Brands in Focus', featureId: '5003', impressions: '176,830' },
@@ -5638,15 +5634,26 @@ renderAllCalendars();
                             { id: 'l2_facerazor', name: 'Face & Eyebrow Razor - Banner', featureId: '1001', impressions: '12,842', categoryId: 540 }
                         ],
                         'thankyou': [
-                            { id: 'thankyou_tiles', name: 'Tiles (5 banners)', featureId: 'NA', impressions: '414,700' }
+                            { id: 'thankyou_a', name: 'Thank You A', featureId: 'NA', impressions: '414,700' },
+                            { id: 'thankyou_b', name: 'Thank You B', featureId: 'NA', impressions: '398,542' },
+                            { id: 'thankyou_c', name: 'Thank You C', featureId: 'NA', impressions: '385,210' },
+                            { id: 'thankyou_d', name: 'Thank You D', featureId: 'NA', impressions: '372,890' },
+                            { id: 'thankyou_e', name: 'Thank You E', featureId: 'NA', impressions: '358,650' }
                         ]
                     }
                 };
 
-                // State
+                // State (exposed globally for Step 3 access)
                 let selectedPageId = null;
                 let selectedPlacementIds = new Set(); // Selected placements (no slots)
                 let searchTerm = '';
+                
+                // Expose for Step 3 Ads
+                window.visibilityWizardState = {
+                    getSelectedPageId: () => selectedPageId,
+                    getSelectedPlacementIds: () => selectedPlacementIds,
+                    getDb: () => db
+                };
 
                 // DOM Elements
                 const pageListContainer = document.getElementById('page-list-container');
@@ -6010,18 +6017,59 @@ renderAllCalendars();
                 let includedCount = 0;
                 let excludedCount = 0;
 
-                const populateStateSelect = (sel) => {
+                const populateStateSelect = (sel, includeAllStates = false) => {
                     if (!sel) return;
-                    // preserve first option
-                    const first = sel.querySelector('option');
+                    // preserve first two options for include select (Select state + All States)
                     sel.innerHTML = '';
-                    if (first) sel.appendChild(first);
+                    const defaultOpt = document.createElement('option');
+                    defaultOpt.value = '';
+                    defaultOpt.textContent = 'Select state';
+                    sel.appendChild(defaultOpt);
+                    
+                    if (includeAllStates) {
+                        const allOpt = document.createElement('option');
+                        allOpt.value = 'ALL_STATES';
+                        allOpt.textContent = 'All States';
+                        sel.appendChild(allOpt);
+                    }
+                    
                     STATES.forEach(s => {
                         const opt = document.createElement('option');
                         opt.value = s;
                         opt.textContent = s;
                         sel.appendChild(opt);
                     });
+                };
+
+                // Track included/excluded states for overlap detection
+                let includedStates = new Set();
+                let excludedStates = new Set();
+                let allStatesIncluded = false;
+
+                const checkOverlap = () => {
+                    const overlapError = document.getElementById('geo-overlap-error');
+                    if (!overlapError) return;
+                    
+                    let hasOverlap = false;
+                    
+                    // Check for direct overlap
+                    for (const state of includedStates) {
+                        if (excludedStates.has(state)) {
+                            hasOverlap = true;
+                            break;
+                        }
+                    }
+                    
+                    // If "All States" is included and any state is excluded, that's a valid use case (not an error)
+                    // But if same specific state is both included AND excluded, that's an error
+                    
+                    if (hasOverlap) {
+                        overlapError.classList.remove('hidden');
+                        overlapError.style.display = 'flex';
+                    } else {
+                        overlapError.classList.add('hidden');
+                        overlapError.style.display = 'none';
+                    }
                 };
 
                 const setSpeedSelectState = () => {
@@ -6037,10 +6085,10 @@ renderAllCalendars();
                         return;
                     }
 
-                    if (!state) {
+                    if (!state || state === 'ALL_STATES') {
                         includeSpeedSelect.value = 'ALL';
                         includeSpeedSelect.disabled = true;
-                        if (quicknessHint) quicknessHint.textContent = 'Select a state to check availability';
+                        if (quicknessHint) quicknessHint.textContent = state === 'ALL_STATES' ? 'Quickness not available for All States' : 'Select a state to check availability';
                         return;
                     }
 
@@ -6099,13 +6147,24 @@ renderAllCalendars();
                     // Enforce limit
                     if (includedCount >= 20) return;
 
+                    // Check if already added
+                    if (state === 'ALL_STATES') {
+                        if (allStatesIncluded) return; // Already added
+                        allStatesIncluded = true;
+                    } else {
+                        if (includedStates.has(state)) return; // Already added
+                        includedStates.add(state);
+                    }
+
                     let speed = 'ALL';
-                    const supported = QUICKNESS_SUPPORTED.has(state) && (window.currentCampaignType === 'visibility');
+                    const supported = QUICKNESS_SUPPORTED.has(state) && (window.currentCampaignType === 'visibility') && state !== 'ALL_STATES';
                     if (supported && includeSpeedSelect) {
                         speed = includeSpeedSelect.value || 'ALL';
                     }
 
-                    const pill = makePill({ type: 'include', state, speed });
+                    const displayState = state === 'ALL_STATES' ? 'All States' : state;
+                    const pill = makePill({ type: 'include', state: displayState, speed });
+                    pill.dataset.stateValue = state; // Store original value for tracking
                     includedPillsContainer.appendChild(pill);
                     includedCount++;
 
@@ -6114,6 +6173,7 @@ renderAllCalendars();
                     if (includeSpeedSelect) includeSpeedSelect.value = 'ALL';
                     setSpeedSelectState();
                     updateGeoSummary();
+                    checkOverlap();
                 };
 
                 const addExcluded = () => {
@@ -6124,18 +6184,24 @@ renderAllCalendars();
                     // Enforce limit
                     if (excludedCount >= 20) return;
 
+                    // Check if already added
+                    if (excludedStates.has(state)) return;
+                    excludedStates.add(state);
+
                     const pill = makePill({ type: 'exclude', state });
+                    pill.dataset.stateValue = state;
                     excludedPillsContainer.appendChild(pill);
                     excludedCount++;
 
                     // Reset
                     excludeStateSelect.value = '';
                     updateGeoSummary();
+                    checkOverlap();
                 };
 
                 if (geoContent) {
-                    populateStateSelect(includeStateSelect);
-                    populateStateSelect(excludeStateSelect);
+                    populateStateSelect(includeStateSelect, true); // Include "All States" option
+                    populateStateSelect(excludeStateSelect, false); // No "All States" for exclude
 
                     if (includeStateSelect) {
                         includeStateSelect.addEventListener('change', setSpeedSelectState);
@@ -6164,9 +6230,23 @@ renderAllCalendars();
                         if (e.target.matches('.remove-pill')) {
                             const pill = e.target.parentElement;
                             const type = pill.classList.contains('exclude') ? 'exclude' : 'include';
-                            if (type === 'include') includedCount--; else excludedCount--;
+                            const stateValue = pill.dataset.stateValue || pill.dataset.state;
+                            
+                            if (type === 'include') {
+                                includedCount--;
+                                if (stateValue === 'ALL_STATES' || stateValue === 'All States') {
+                                    allStatesIncluded = false;
+                                } else {
+                                    includedStates.delete(stateValue);
+                                }
+                            } else {
+                                excludedCount--;
+                                excludedStates.delete(stateValue);
+                            }
+                            
                             pill.remove();
                             updateGeoSummary();
+                            checkOverlap();
                         }
                     });
 
@@ -6193,26 +6273,81 @@ renderAllCalendars();
 
             // --- STEP 3: ADS LOGIC (Gray Icons) ---
             function initializeStep3() {
-                // 1. POPULATE SIDEBAR (Left Panel)
+                // 1. POPULATE SIDEBAR (Left Panel) - Based on Step 1 selections
                 const inventoryNavList = document.getElementById('inventory-nav-list');
-                const inventories = [
-                    { id: 'inv1', name: 'Select an Inventory', info: 'Choose below to edit' },
-                    { id: 'inv2', name: 'Top Main Carousel', info: 'Home Page' },
-                    { id: 'inv3', name: 'Deal of the Day', info: 'Home Page' }
-                ];
+                const adPanelTitle = document.getElementById('ad-panel-title');
+                const adPanelDesc = document.getElementById('ad-panel-desc');
+                
+                // Get selections from Step 1
+                const wizardState = window.visibilityWizardState;
+                let selectedInventories = [];
+                
+                if (wizardState) {
+                    const selectedPlacementIds = wizardState.getSelectedPlacementIds();
+                    const db = wizardState.getDb();
+                    
+                    if (selectedPlacementIds && selectedPlacementIds.size > 0 && db) {
+                        // Build list of selected placements with their page names
+                        selectedPlacementIds.forEach(placementId => {
+                            for (const pageKey in db.placements) {
+                                const placement = db.placements[pageKey].find(p => p.id === placementId);
+                                if (placement) {
+                                    const page = db.pages.find(pg => pg.id === pageKey);
+                                    selectedInventories.push({
+                                        id: placement.id,
+                                        name: placement.name,
+                                        info: page ? page.name : pageKey,
+                                        pageId: pageKey
+                                    });
+                                    break;
+                                }
+                            }
+                        });
+                    }
+                }
 
                 if (inventoryNavList) {
-                    inventoryNavList.innerHTML = inventories.map((inv, idx) => `
-                        <li class="inventory-nav-item ${idx === 1 ? 'active' : ''}" style="border-bottom:1px solid #f3f4f6;">
-                            <div class="item-header">
-                                <i class="fa-solid fa-layer-group item-icon"></i>
-                                <div class="item-info">
-                                    <h5 style="font-weight:600; color:#374151;">${inv.name}</h5>
-                                    <p>${inv.info}</p>
+                    if (selectedInventories.length === 0) {
+                        // No placements selected - show empty state
+                        inventoryNavList.innerHTML = `
+                            <li class="inventory-nav-item" style="border-bottom:1px solid #f3f4f6; padding: 20px; text-align: center;">
+                                <div style="color: #9ca3af;">
+                                    <i class="fa-solid fa-box-open" style="font-size: 24px; margin-bottom: 8px;"></i>
+                                    <p style="font-size: 13px;">No placements selected</p>
+                                    <p style="font-size: 11px; color: #d1d5db; margin-top: 4px;">Go back to Step 1 to select placements</p>
                                 </div>
-                            </div>
-                        </li>
-                    `).join('');
+                            </li>
+                        `;
+                        if (adPanelTitle) adPanelTitle.textContent = 'No Placements Selected';
+                        if (adPanelDesc) adPanelDesc.textContent = 'Please go back to Step 1 and select at least one placement to upload ads.';
+                    } else {
+                        // Render selected placements
+                        inventoryNavList.innerHTML = selectedInventories.map((inv, idx) => `
+                            <li class="inventory-nav-item ${idx === 0 ? 'active' : ''}" data-placement-id="${inv.id}" style="border-bottom:1px solid #f3f4f6; cursor: pointer;">
+                                <div class="item-header">
+                                    <i class="fa-solid fa-layer-group item-icon"></i>
+                                    <div class="item-info">
+                                        <h5 style="font-weight:600; color:#374151;">${inv.name}</h5>
+                                        <p style="font-size: 11px; color: #9ca3af;">${inv.info}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        `).join('');
+                        
+                        // Update panel title with first selected placement
+                        if (adPanelTitle && selectedInventories[0]) adPanelTitle.textContent = selectedInventories[0].name;
+                        if (adPanelDesc) adPanelDesc.textContent = 'Upload creatives for this placement. New uploads go under review; approved creatives are eligible to serve.';
+                        
+                        // Add click handler for inventory items
+                        inventoryNavList.querySelectorAll('.inventory-nav-item').forEach(item => {
+                            item.addEventListener('click', () => {
+                                inventoryNavList.querySelectorAll('.inventory-nav-item').forEach(i => i.classList.remove('active'));
+                                item.classList.add('active');
+                                const inv = selectedInventories.find(i => i.id === item.dataset.placementId);
+                                if (inv && adPanelTitle) adPanelTitle.textContent = inv.name;
+                            });
+                        });
+                    }
                 }
 
                 // 2. RENDER AD GRID (Right Panel)
@@ -6388,6 +6523,22 @@ renderAllCalendars();
 
             // --- STEP 4: CONFIG LOGIC (Cleaned) ---
             function initializeStep4() {
+                // Campaign Name validation listener
+                const campaignNameInput = document.getElementById('campaign-name');
+                const campaignNameError = document.getElementById('campaign-name-error');
+                
+                if (campaignNameInput) {
+                    campaignNameInput.addEventListener('input', () => {
+                        if (campaignNameInput.value.trim()) {
+                            campaignNameInput.style.borderColor = '';
+                            if (campaignNameError) {
+                                campaignNameError.classList.add('hidden');
+                                campaignNameError.style.display = 'none';
+                            }
+                        }
+                    });
+                }
+                
                 // 1. Set Default Dates
                 const startDateInput = document.getElementById('start-date');
                 const endDateInput = document.getElementById('end-date');
@@ -7586,27 +7737,27 @@ window.updatePerfView = function(element, type) {
             { id: 'l1_41622', name: 'L1 Page Skin', pageId: 41622, pageType: 'l1', icon: 'fa-solid fa-layer-group' }
         ];
 
-        // Placements for Full Homepage Takeover
+        // Placements for Full Homepage Takeover (all require contacting Business Team)
         const fullHomepagePlacements = [
-            { id: 'home_top_carousel', name: 'Top Carousel', contactRequired: false },
-            { id: 'home_cover_widget_bg', name: 'Cover Widget Background', contactRequired: false },
+            { id: 'home_top_carousel', name: 'Top Carousel', contactRequired: true },
+            { id: 'home_cover_widget_bg', name: 'Cover Widget Background', contactRequired: true },
             { id: 'home_cover_scroll', name: 'Cover Widget Scrollable Product Display', contactRequired: true },
-            { id: 'home_thick_strip', name: 'Thick Strip Banner', contactRequired: false },
+            { id: 'home_thick_strip', name: 'Thick Strip Banner', contactRequired: true },
             { id: 'home_product_widget', name: 'Product Widget', contactRequired: true }
         ];
 
-        // Placements for Half Homepage Takeover
+        // Placements for Half Homepage Takeover (all require contacting Business Team)
         const halfHomepagePlacements = [
-            { id: 'home_cover_widget_bg', name: 'Cover Widget Background', contactRequired: false },
+            { id: 'home_cover_widget_bg', name: 'Cover Widget Background', contactRequired: true },
             { id: 'home_cover_scroll', name: 'Cover Widget Scrollable Product Display', contactRequired: true },
-            { id: 'home_thick_strip', name: 'Thick Strip Banner', contactRequired: false }
+            { id: 'home_thick_strip', name: 'Thick Strip Banner', contactRequired: true }
         ];
 
-        // Placements for L1 Category Takeover (same for all L1 pages)
+        // Placements for L1 Category Takeover (all require contacting Business Team)
         const l1TakeoverPlacements = [
-            { id: 'l1_cover_widget_bg', name: 'Cover Widget Background', contactRequired: false },
+            { id: 'l1_cover_widget_bg', name: 'Cover Widget Background', contactRequired: true },
             { id: 'l1_cover_scroll', name: 'Cover Widget Scrollable Product Display', contactRequired: true },
-            { id: 'l1_thin_banner', name: '"Powered by" Thin Banner', contactRequired: false }
+            { id: 'l1_thin_banner', name: '"Powered by" Thin Banner', contactRequired: true }
         ];
 
         // Expose placement arrays globally for toast lookups
@@ -8336,6 +8487,23 @@ window.updatePerfView = function(element, type) {
             }
             if (step === 4) {
                 renderConfigSummary();
+                
+                // Add input listener for campaign name to clear errors
+                const campaignNameInput = document.getElementById('takeover-campaign-name');
+                const campaignNameError = document.getElementById('takeover-campaign-name-error');
+                
+                if (campaignNameInput && !campaignNameInput.dataset.listenerAdded) {
+                    campaignNameInput.addEventListener('input', () => {
+                        if (campaignNameInput.value.trim()) {
+                            campaignNameInput.style.borderColor = '';
+                            if (campaignNameError) {
+                                campaignNameError.classList.add('hidden');
+                                campaignNameError.style.display = 'none';
+                            }
+                        }
+                    });
+                    campaignNameInput.dataset.listenerAdded = 'true';
+                }
             }
         }
 
@@ -8485,17 +8653,6 @@ window.updatePerfView = function(element, type) {
                     }
                     closeModal();
 
-                    // Check if uploading from Takeover drawer - show toast
-                    if (window.currentUploadPlacementId) {
-                        const allPlacements = [...(window.fullHomepagePlacements || []), ...(window.halfHomepagePlacements || []), ...(window.l1TakeoverPlacements || [])];
-                        const pl = allPlacements.find(p => p.id === window.currentUploadPlacementId);
-                        if (window.showUploadSuccessToast) {
-                            window.showUploadSuccessToast(pl ? pl.name : 'Creative');
-                        }
-                        window.currentUploadPlacementId = null;
-                        return; // Don't add to wizard grid
-                    }
-
                     const grid = getActiveAdGrid();
                     if (grid) {
                         const tempDiv = document.createElement('div');
@@ -8575,6 +8732,33 @@ window.updatePerfView = function(element, type) {
                 }
                 return true;
             }
+            if (step === 4) {
+                // Validate campaign name
+                const campaignNameInput = document.getElementById('takeover-campaign-name');
+                const campaignNameError = document.getElementById('takeover-campaign-name-error');
+                
+                if (!campaignNameInput || !campaignNameInput.value.trim()) {
+                    showTakeoverError('Please enter a Campaign Name');
+                    if (campaignNameError) {
+                        campaignNameError.classList.remove('hidden');
+                        campaignNameError.style.display = 'flex';
+                    }
+                    if (campaignNameInput) {
+                        campaignNameInput.style.borderColor = '#dc2626';
+                        campaignNameInput.focus();
+                    }
+                    return false;
+                } else {
+                    if (campaignNameError) {
+                        campaignNameError.classList.add('hidden');
+                        campaignNameError.style.display = 'none';
+                    }
+                    if (campaignNameInput) {
+                        campaignNameInput.style.borderColor = '';
+                    }
+                }
+                return true;
+            }
             return true;
         }
 
@@ -8639,136 +8823,6 @@ window.updatePerfView = function(element, type) {
             if (bidInput) bidInput.value = '';
 
             goToTakeoverStep(1);
-        };
-
-        // ================== TAKEOVER UPLOAD DRAWER ==================
-        window.openTakeoverUploadDrawer = function(takeoverType, pageName, dateStr) {
-            const overlay = document.getElementById('takeover-upload-overlay');
-            const drawer = document.getElementById('takeover-upload-drawer');
-            const title = document.getElementById('takeover-drawer-title');
-            const subtitle = document.getElementById('takeover-drawer-subtitle');
-            const placementsList = document.getElementById('takeover-drawer-placements');
-            
-            if (!overlay || !drawer) return;
-
-            // Update header
-            const typeLabel = takeoverType === 'FULL_HP' ? 'Full Homepage Takeover' 
-                            : takeoverType === 'HALF_HP' ? 'Half Homepage Takeover' 
-                            : 'L1 Category Takeover';
-            if (title) title.textContent = 'Upload Ads';
-            if (subtitle) subtitle.textContent = `${typeLabel} • ${pageName} • ${dateStr}`;
-
-            // Get placements for this takeover type
-            let placements = [];
-            if (takeoverType === 'FULL_HP') {
-                placements = fullHomepagePlacements;
-            } else if (takeoverType === 'HALF_HP') {
-                placements = halfHomepagePlacements;
-            } else {
-                placements = l1TakeoverPlacements;
-            }
-
-            // Mock ad status data (in real app this would come from backend)
-            const mockAdStatus = {
-                'home_top_carousel': { uploaded: true, status: 'approved' },
-                'home_cover_widget_bg': { uploaded: true, status: 'pending' },
-                'home_cover_scroll': { uploaded: false, status: null },
-                'home_thick_strip': { uploaded: false, status: null },
-                'home_product_widget': { uploaded: false, status: null },
-                'l1_cover_widget_bg': { uploaded: true, status: 'rejected' },
-                'l1_cover_scroll': { uploaded: false, status: null },
-                'l1_thin_banner': { uploaded: false, status: null }
-            };
-
-            // Render placements
-            placementsList.innerHTML = placements.map(pl => {
-                const adInfo = mockAdStatus[pl.id] || { uploaded: false, status: null };
-                const contactNote = pl.contactRequired 
-                    ? `<div class="text-[10px] text-orange-600 mt-1"><i class="ri-phone-line"></i> Contact Business Team to enable</div>` 
-                    : '';
-                
-                let statusBadge = '';
-                let actionBtn = '';
-                
-                // If contact required, don't show upload button - show disabled state instead
-                if (pl.contactRequired) {
-                    statusBadge = `<span class="px-2 py-1 bg-gray-100 text-gray-400 text-[10px] font-bold rounded-full">Not Enabled</span>`;
-                    actionBtn = `<span class="px-3 py-1.5 text-xs font-medium text-gray-400 italic">Contact to enable</span>`;
-                } else if (adInfo.uploaded) {
-                    if (adInfo.status === 'approved') {
-                        statusBadge = `<span class="px-2 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded-full"><i class="ri-check-line"></i> Approved</span>`;
-                        actionBtn = `<button onclick="openCreativeModalForPlacement('${pl.id}')" class="px-3 py-1.5 text-xs font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition">Replace</button>`;
-                    } else if (adInfo.status === 'pending') {
-                        statusBadge = `<span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-[10px] font-bold rounded-full"><i class="ri-time-line"></i> Under Review</span>`;
-                        actionBtn = `<button onclick="openCreativeModalForPlacement('${pl.id}')" class="px-3 py-1.5 text-xs font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition">Replace</button>`;
-                    } else if (adInfo.status === 'rejected') {
-                        statusBadge = `<span class="px-2 py-1 bg-red-100 text-red-700 text-[10px] font-bold rounded-full"><i class="ri-close-line"></i> Rejected</span>`;
-                        actionBtn = `<button onclick="openCreativeModalForPlacement('${pl.id}')" class="px-3 py-1.5 text-xs font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 transition">Re-upload</button>`;
-                    }
-                } else {
-                    statusBadge = `<span class="px-2 py-1 bg-gray-100 text-gray-500 text-[10px] font-bold rounded-full">No Ad</span>`;
-                    actionBtn = `<button onclick="openCreativeModalForPlacement('${pl.id}')" class="px-3 py-1.5 text-xs font-medium text-white bg-primary rounded-lg hover:bg-primary-light transition"><i class="ri-upload-2-line"></i> Upload</button>`;
-                }
-
-                return `
-                    <div class="border border-gray-200 rounded-xl p-4 hover:border-primary/30 transition">
-                        <div class="flex items-start justify-between gap-4">
-                            <div class="flex-1">
-                                <div class="flex items-center gap-2">
-                                    <i class="ri-image-line text-gray-400"></i>
-                                    <span class="font-semibold text-gray-900 text-sm">${pl.name}</span>
-                                </div>
-                                ${contactNote}
-                                <div class="mt-2">${statusBadge}</div>
-                            </div>
-                            <div class="flex-shrink-0">
-                                ${actionBtn}
-                            </div>
-                        </div>
-                        ${(adInfo.uploaded && !pl.contactRequired) ? `
-                            <div class="mt-3 pt-3 border-t border-gray-100">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-16 h-10 bg-gray-100 rounded overflow-hidden">
-                                        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=100" class="w-full h-full object-cover">
-                                    </div>
-                                    <div class="text-xs text-gray-500">
-                                        <div>creative_${pl.id.split('_').pop()}.jpg</div>
-                                        <div class="text-gray-400">Uploaded 2 days ago</div>
-                                    </div>
-                                </div>
-                            </div>
-                        ` : ''}
-                    </div>
-                `;
-            }).join('');
-
-            // Show drawer
-            overlay.classList.remove('hidden');
-            setTimeout(() => {
-                drawer.classList.remove('translate-x-full');
-            }, 10);
-        };
-
-        window.closeTakeoverUploadDrawer = function() {
-            const overlay = document.getElementById('takeover-upload-overlay');
-            const drawer = document.getElementById('takeover-upload-drawer');
-            
-            if (drawer) drawer.classList.add('translate-x-full');
-            setTimeout(() => {
-                if (overlay) overlay.classList.add('hidden');
-            }, 300);
-        };
-
-        window.openCreativeModalForPlacement = function(placementId) {
-            // Store which placement we're uploading for
-            window.currentUploadPlacementId = placementId;
-            
-            // Open the existing creative modal
-            const modalBackdrop = document.getElementById('modal-backdrop');
-            const createAdModal = document.getElementById('create-ad-modal');
-            
-            if (modalBackdrop) modalBackdrop.style.display = 'block';
-            if (createAdModal) createAdModal.style.display = 'flex';
         };
 
         // ================== TAKEOVER SUCCESS MODAL ==================
@@ -8839,8 +8893,7 @@ window.updatePerfView = function(element, type) {
                     yourBid: 1000000,
                     submittedOn: '18th January 2026',
                     expectedImpressions: '1M - 1.2M',
-                    placements: ['Top Carousel', 'Cover Widget Background', 'Cover Widget Scrollable', 'Thick Strip Banner', 'Product Widget'],
-                    adsStatus: { uploaded: 2, pending: 1, approved: 1, total: 5 }
+                    placements: ['Top Carousel', 'Cover Widget Background', 'Cover Widget Scrollable', 'Thick Strip Banner', 'Product Widget']
                 },
                 'half_hp_7feb': {
                     type: 'Half Homepage Takeover',
@@ -8857,7 +8910,7 @@ window.updatePerfView = function(element, type) {
                 },
                 'l1_skin_8feb': {
                     type: 'L1 Skin Takeover',
-                    status: 'action_required',
+                    status: 'won',
                     page: 'L1 Page Skin',
                     date: '8th February 2026',
                     dayType: 'BAU',
@@ -8865,9 +8918,7 @@ window.updatePerfView = function(element, type) {
                     yourBid: 400000,
                     submittedOn: '19th January 2026',
                     expectedImpressions: '150K - 250K',
-                    placements: ['Cover Widget Background', 'Cover Widget Scrollable', '"Powered by" Thin Banner'],
-                    adsStatus: { uploaded: 3, rejected: 2, pending: 1, total: 3 },
-                    adsRejectionReason: 'Creative dimensions do not match requirements. Please upload 1920x400 for banner.'
+                    placements: ['Cover Widget Background', 'Cover Widget Scrollable', '"Powered by" Thin Banner']
                 }
             };
 
@@ -8880,8 +8931,6 @@ window.updatePerfView = function(element, type) {
                 statusBadge = '<span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full"><i class="ri-check-line"></i> Bid Won</span>';
             } else if (bid.status === 'rejected') {
                 statusBadge = '<span class="px-3 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full"><i class="ri-close-line"></i> Bid Rejected</span>';
-            } else if (bid.status === 'action_required') {
-                statusBadge = '<span class="px-3 py-1 bg-orange-100 text-orange-700 text-xs font-bold rounded-full"><i class="ri-error-warning-line"></i> Action Required</span>';
             }
 
             content.innerHTML = `
@@ -8934,13 +8983,6 @@ window.updatePerfView = function(element, type) {
                         </div>
                     ` : ''}
 
-                    ${bid.adsRejectionReason ? `
-                        <div class="bg-orange-50 border border-orange-100 rounded-xl p-4">
-                            <div class="text-xs font-bold text-orange-600 uppercase tracking-wider mb-2">Ads Rejection Reason</div>
-                            <p class="text-sm text-orange-700">${bid.adsRejectionReason}</p>
-                        </div>
-                    ` : ''}
-
                     <!-- Placements -->
                     <div>
                         <div class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Included Placements</div>
@@ -8953,22 +8995,6 @@ window.updatePerfView = function(element, type) {
                             `).join('')}
                         </div>
                     </div>
-
-                    ${bid.adsStatus ? `
-                        <div class="bg-gray-50 rounded-xl p-4">
-                            <div class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Ads Upload Progress</div>
-                            <div class="flex items-center gap-4">
-                                <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
-                                    <div class="h-full bg-green-500 rounded-full" style="width: ${(bid.adsStatus.approved / bid.adsStatus.total) * 100}%"></div>
-                                </div>
-                                <span class="text-xs font-bold text-gray-600">${bid.adsStatus.approved || 0}/${bid.adsStatus.total} approved</span>
-                            </div>
-                            <div class="mt-3 flex gap-3 text-xs">
-                                ${bid.adsStatus.pending ? `<span class="text-yellow-600"><i class="ri-time-line"></i> ${bid.adsStatus.pending} pending</span>` : ''}
-                                ${bid.adsStatus.rejected ? `<span class="text-red-600"><i class="ri-close-line"></i> ${bid.adsStatus.rejected} rejected</span>` : ''}
-                            </div>
-                        </div>
-                    ` : ''}
 
                     <!-- Timeline -->
                     <div>
@@ -8989,13 +9015,6 @@ window.updatePerfView = function(element, type) {
                                 </div>
                             </div>
                             ${bid.status !== 'rejected' ? `
-                                <div class="flex gap-3 text-sm">
-                                    <div class="w-2 h-2 ${bid.adsStatus?.approved === bid.adsStatus?.total ? 'bg-green-500' : 'bg-gray-300'} rounded-full mt-1.5"></div>
-                                    <div>
-                                        <div class="font-semibold ${bid.adsStatus?.approved === bid.adsStatus?.total ? 'text-gray-900' : 'text-gray-400'}">Creatives Approved</div>
-                                        <div class="text-gray-500 text-xs">Deadline: 24th January 2026</div>
-                                    </div>
-                                </div>
                                 <div class="flex gap-3 text-sm">
                                     <div class="w-2 h-2 bg-gray-300 rounded-full mt-1.5"></div>
                                     <div>
@@ -9024,52 +9043,6 @@ window.updatePerfView = function(element, type) {
             setTimeout(() => {
                 if (overlay) overlay.classList.add('hidden');
             }, 300);
-        };
-
-        // ================== AD UPLOAD FEEDBACK (TOAST) ==================
-        window.showUploadSuccessToast = function(placementName) {
-            // Create toast element
-            const toast = document.createElement('div');
-            toast.className = 'fixed bottom-6 right-6 bg-green-600 text-white px-5 py-3 rounded-xl shadow-lg flex items-center gap-3 z-[9999] animate-slide-up';
-            toast.innerHTML = `
-                <i class="ri-check-line text-xl"></i>
-                <div>
-                    <div class="font-bold">Ad Uploaded Successfully</div>
-                    <div class="text-sm text-green-100">${placementName || 'Creative'} is now under review</div>
-                </div>
-            `;
-            document.body.appendChild(toast);
-
-            // Auto remove after 4 seconds
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateY(20px)';
-                setTimeout(() => toast.remove(), 300);
-            }, 4000);
-        };
-
-        // Override the save/upload function to show feedback
-        window.onCreativeModalSave = function() {
-            const placementId = window.currentUploadPlacementId;
-            
-            // Find placement name
-            let placementName = 'Creative';
-            const allPlacements = [...fullHomepagePlacements, ...halfHomepagePlacements, ...l1TakeoverPlacements];
-            const pl = allPlacements.find(p => p.id === placementId);
-            if (pl) placementName = pl.name;
-
-            // Close modal
-            const modalBackdrop = document.getElementById('modal-backdrop');
-            const createAdModal = document.getElementById('create-ad-modal');
-            if (modalBackdrop) modalBackdrop.style.display = 'none';
-            if (createAdModal) createAdModal.style.display = 'none';
-
-            // Show success toast
-            showUploadSuccessToast(placementName);
-
-            // Update the drawer if open (simulate status change)
-            // In real app, this would refresh from backend
-            window.currentUploadPlacementId = null;
         };
 
     })();

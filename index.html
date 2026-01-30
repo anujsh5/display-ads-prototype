@@ -801,6 +801,7 @@
                         <div id="awarenessSub" class="submenu pl-4 space-y-1 overflow-hidden transition-all duration-300" style="max-height: 0px; opacity: 0;">
                             <a href="#" onclick="navigateTo('awareness'); updateAwarenessView(this, 'Visibility')" class="awareness-link block px-2 py-2 text-xs text-white/50 hover:text-white hover:bg-white/5 rounded transition">Visibility</a>
                             <a href="#" onclick="navigateTo('awareness'); updateAwarenessView(this, 'Takeover')" class="awareness-link block px-2 py-2 text-xs text-white/50 hover:text-white hover:bg-white/5 rounded transition">Takeover</a>
+                            <a href="#" onclick="navigateTo('product-display-ads'); event.stopPropagation();" id="nav-product-display" class="awareness-link block px-2 py-2 text-xs text-white/50 hover:text-white hover:bg-white/5 rounded transition">Product Display Ads</a>
                         </div>
                     </div>
                     <!-- Performance Sub-Menu (With Active Logic) -->
@@ -2139,6 +2140,436 @@
                 </div>
             </div>
 
+        </div>
+
+        <!-- ================= PRODUCT DISPLAY ADS ================= -->
+        <div id="page-product-display-ads" class="page-section hidden">
+            <!-- HERO BANNER -->
+            <div class="bg-gradient-to-r from-[#7c3aed] to-[#9c00ad] text-white rounded-xl h-56 flex justify-between items-center shadow-lg relative overflow-hidden mb-6">
+                <div class="relative z-10 w-1/2 h-full flex flex-col justify-center pl-12">
+                    <div class="inline-block bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider w-fit mb-3 flex items-center gap-2">
+                        <i class="ri-eye-line text-yellow-300"></i> Brand Visibility
+                    </div>
+                    <h2 class="text-3xl font-bold">Product Display Ads</h2>
+                    <p class="text-purple-100 text-base mt-3 max-w-md">Contextually relevant ad campaigns for individual product listings</p>
+                    <div class="mt-5 flex items-center gap-3">
+                        <button onclick="openProductDisplayCreator()" class="bg-white text-purple-700 px-5 py-2.5 rounded-lg font-bold shadow-lg hover:bg-purple-50 transition text-xs">
+                            <i class="ri-add-line"></i> Create Campaign
+                        </button>
+                    </div>
+                </div>
+                <div class="relative z-10 w-1/2 h-full flex items-center justify-center pr-10">
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
+                            <i class="ri-shopping-bag-3-line text-3xl text-yellow-300 mb-2"></i>
+                            <div class="text-sm font-bold">Product Ads</div>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
+                            <i class="ri-focus-3-line text-3xl text-green-300 mb-2"></i>
+                            <div class="text-sm font-bold">Contextual</div>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
+                            <i class="ri-bar-chart-box-line text-3xl text-blue-300 mb-2"></i>
+                            <div class="text-sm font-bold">High CTR</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI METRICS + PERFORMANCE TRENDS (Side by Side) -->
+            <div class="grid grid-cols-12 gap-6 mb-8">
+                <!-- Left: KPI Cards Stacked -->
+                <div class="col-span-4 flex flex-col gap-3">
+                    <!-- KPI Card 1: Ad Impressions -->
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-card flex justify-between items-start border-l-4 border-l-purple-500">
+                        <div class="flex-1">
+                            <div class="text-xs text-gray-500 font-bold uppercase flex items-center gap-1">
+                                <span>Ad Impressions</span>
+                            </div>
+                            <div class="text-2xl font-bold text-gray-800 mt-2">2.4M</div>
+                            <div class="text-xs text-green-500 font-medium mt-1"><i class="ri-arrow-up-line"></i> 18.2% vs last month</div>
+                        </div>
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i class="ri-eye-line text-purple-600 text-lg"></i>
+                        </div>
+                    </div>
+                    <!-- KPI Card 2: CTR -->
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-card flex justify-between items-start border-l-4 border-l-blue-500">
+                        <div class="flex-1">
+                            <div class="text-xs text-gray-500 font-bold uppercase flex items-center gap-1">
+                                <span>CTR</span>
+                            </div>
+                            <div class="text-2xl font-bold text-gray-800 mt-2">3.8%</div>
+                            <div class="text-xs text-green-500 font-medium mt-1"><i class="ri-arrow-up-line"></i> 0.6% vs last month</div>
+                        </div>
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i class="ri-cursor-line text-blue-600 text-lg"></i>
+                        </div>
+                    </div>
+                    <!-- KPI Card 3: Ad Clicks -->
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-card flex justify-between items-start border-l-4 border-l-green-500">
+                        <div class="flex-1">
+                            <div class="text-xs text-gray-500 font-bold uppercase flex items-center gap-1">
+                                <span>Ad Clicks</span>
+                            </div>
+                            <div class="text-2xl font-bold text-gray-800 mt-2">91.2K</div>
+                            <div class="text-xs text-green-500 font-medium mt-1"><i class="ri-arrow-up-line"></i> 22.1% vs last month</div>
+                        </div>
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="ri-mouse-line text-green-600 text-lg"></i>
+                        </div>
+                    </div>
+                    <!-- KPI Card 4: Tagged Product Revenue -->
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-card flex justify-between items-start border-l-4 border-l-yellow-500">
+                        <div class="flex-1">
+                            <div class="text-xs text-gray-500 font-bold uppercase flex items-center gap-1">
+                                <span>Tagged Product Revenue</span>
+                            </div>
+                            <div class="text-2xl font-bold text-gray-800 mt-2">₹4.8L</div>
+                            <div class="text-xs text-green-500 font-medium mt-1"><i class="ri-arrow-up-line"></i> 31.5% vs last month</div>
+                        </div>
+                        <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+                            <i class="ri-money-rupee-circle-line text-yellow-600 text-lg"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Performance Trends Graph -->
+                <div class="col-span-8 bg-white rounded-xl shadow-card border border-gray-100 p-6 flex flex-col">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-gray-800">Performance Trends</h3>
+                        <div class="flex gap-2">
+                            <button class="px-3 py-1 bg-purple-100 text-purple-700 rounded-lg text-xs font-bold">7 Days</button>
+                            <button class="px-3 py-1 bg-gray-100 text-gray-600 rounded-lg text-xs font-medium hover:bg-gray-200">30 Days</button>
+                            <button class="px-3 py-1 bg-gray-100 text-gray-600 rounded-lg text-xs font-medium hover:bg-gray-200">90 Days</button>
+                        </div>
+                    </div>
+                    <div class="flex-1 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg flex items-center justify-center min-h-[280px]">
+                        <div class="text-center text-gray-400">
+                            <i class="ri-line-chart-line text-4xl mb-2"></i>
+                            <p class="text-sm">Performance chart visualization</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Campaigns Table -->
+            <div class="bg-white rounded-xl shadow-card border border-gray-100 flex flex-col mb-6">
+                <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50 rounded-t-xl">
+                    <div class="flex items-center gap-4">
+                        <h3 class="font-bold text-gray-800">Campaigns</h3>
+                    </div>
+                    <button onclick="openProductDisplayCreator()" class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-xs font-bold hover:bg-primary-light transition">
+                        <i class="ri-add-line"></i> Create Campaign
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-50 text-[11px] text-gray-500 uppercase tracking-wider">
+                            <tr>
+                                <th class="px-4 py-3">Campaign</th>
+                                <th class="px-4 py-3">Status</th>
+                                <th class="px-4 py-3">Impressions</th>
+                                <th class="px-4 py-3">Clicks</th>
+                                <th class="px-4 py-3">CTR</th>
+                                <th class="px-4 py-3">Spend</th>
+                                <th class="px-4 py-3">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm divide-y divide-gray-100">
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 font-medium text-gray-900">Lakme Lip Collection</td>
+                                <td class="px-4 py-3"><span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">Active</span></td>
+                                <td class="px-4 py-3">245,892</td>
+                                <td class="px-4 py-3">9,435</td>
+                                <td class="px-4 py-3">3.84%</td>
+                                <td class="px-4 py-3 font-medium">₹24,589</td>
+                                <td class="px-4 py-3"><button class="text-primary hover:underline text-xs font-medium">View</button></td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 font-medium text-gray-900">Skincare Essentials Feb</td>
+                                <td class="px-4 py-3"><span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs font-bold rounded-full">Under Review</span></td>
+                                <td class="px-4 py-3">—</td>
+                                <td class="px-4 py-3">—</td>
+                                <td class="px-4 py-3">—</td>
+                                <td class="px-4 py-3">—</td>
+                                <td class="px-4 py-3"><button class="text-primary hover:underline text-xs font-medium">View</button></td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 font-medium text-gray-900">Hair Care Bundle</td>
+                                <td class="px-4 py-3"><span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-bold rounded-full">Draft</span></td>
+                                <td class="px-4 py-3">—</td>
+                                <td class="px-4 py-3">—</td>
+                                <td class="px-4 py-3">—</td>
+                                <td class="px-4 py-3">—</td>
+                                <td class="px-4 py-3"><button class="text-primary hover:underline text-xs font-medium">Edit</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PRODUCT DISPLAY ADS CREATOR ================= -->
+        <div id="page-create-product-display" class="page-section hidden wizard-wrapper">
+            <div class="cc-module-container">
+                <header class="cc-header">
+                    <div class="cc-stepper" id="pda-stepper">
+                        <div class="cc-step active" data-step="1"><i class="fa-solid fa-layer-group step-icon"></i>&nbsp; Step 1: Page Selection</div>
+                        <div class="cc-step" data-step="2"><i class="fa-solid fa-bullseye step-icon"></i>&nbsp; Step 2: Targeting</div>
+                        <div class="cc-step" data-step="3"><i class="fa-solid fa-image step-icon"></i>&nbsp; Step 3: Ads</div>
+                        <div class="cc-step" data-step="4"><i class="fa-solid fa-cog step-icon"></i>&nbsp; Step 4: Config</div>
+                    </div>
+                </header>
+
+                <main class="cc-steps-container">
+                    <!-- Step 1: Page Selection -->
+                    <div id="pda-step-1" class="step-content active" style="padding: 40px;">
+                        <div style="max-width: 800px; margin: 0 auto;">
+                            <h2 style="font-weight: 700; color: #111827; margin-bottom: 8px;">Select Page</h2>
+                            <div style="font-size: 13px; color: #64748b; margin-bottom: 24px;">
+                                Choose the page where your Product Display Ads will appear.
+                            </div>
+
+                            <!-- Page Card -->
+                            <div id="pda-page-card" class="border-2 border-gray-200 rounded-xl p-6 cursor-pointer hover:border-primary transition" onclick="selectPDAPage(this)" style="background: #fff;">
+                                <div class="flex items-start gap-4">
+                                    <div class="w-5 h-5 border-2 border-gray-300 rounded-full flex items-center justify-center mt-1" id="pda-page-radio">
+                                        <div class="w-2.5 h-2.5 bg-primary rounded-full hidden" id="pda-page-check"></div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="font-bold text-gray-900 text-lg mb-2">Product Display Page</div>
+                                        <div class="grid grid-cols-2 gap-4 mt-4">
+                                            <div class="bg-purple-50 rounded-lg p-3">
+                                                <div class="text-xs text-purple-600 font-medium">Projected Daily Impressions (next 30 days)</div>
+                                                <div class="text-xl font-bold text-purple-700 mt-1">12.2L</div>
+                                            </div>
+                                            <div class="bg-gray-50 rounded-lg p-3">
+                                                <div class="text-xs text-gray-500 font-medium">Avg Daily Impressions (last 30 days)</div>
+                                                <div class="text-xl font-bold text-gray-700 mt-1">65.9K</div>
+                                            </div>
+                                            <div class="bg-gray-50 rounded-lg p-3">
+                                                <div class="text-xs text-gray-500 font-medium">Total Inventories</div>
+                                                <div class="text-xl font-bold text-gray-700 mt-1">112</div>
+                                            </div>
+                                            <div class="bg-gray-50 rounded-lg p-3">
+                                                <div class="text-xs text-gray-500 font-medium">Targeting Options</div>
+                                                <div class="text-xl font-bold text-gray-700 mt-1">3</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Targeting -->
+                    <div id="pda-step-2" class="step-content" style="padding: 40px;">
+                        <div style="max-width: 900px; margin: 0 auto;">
+                            <h2 style="font-weight: 700; color: #111827; margin-bottom: 8px;">Product Catalog Targeting</h2>
+                            <div style="font-size: 13px; color: #64748b; margin-bottom: 24px;">
+                                Define the product categories your campaign will target. This is a mandatory step.
+                            </div>
+
+                            <div class="bg-white border border-gray-200 rounded-xl p-6">
+                                <div id="pda-targeting-rules" class="space-y-4">
+                                    <!-- First Rule Row (L1 - required) -->
+                                    <div class="pda-rule-row flex items-center gap-3" data-row="0">
+                                        <select class="pda-level-select border border-gray-300 rounded-lg px-3 py-2.5 text-sm bg-white font-medium" style="min-width: 140px;" onchange="onPDALevelChange(this, 0)">
+                                            <option value="">Select Category</option>
+                                            <option value="L1">Category L1</option>
+                                            <option value="L2" class="text-green-600">Category L2</option>
+                                            <option value="L3" class="text-blue-600">Category L3</option>
+                                        </select>
+                                        <select class="pda-operator-select border border-gray-300 rounded-lg px-3 py-2.5 text-sm bg-white" style="min-width: 120px;">
+                                            <option value="is any of">is any of</option>
+                                            <option value="is none of">is none of</option>
+                                        </select>
+                                        <select id="pda-values-0" class="pda-value-select flex-1 border border-gray-300 rounded-lg px-3 py-2.5 text-sm bg-white" style="min-width: 250px;" disabled>
+                                            <option value="">-- Select category level first --</option>
+                                        </select>
+                                        <button class="pda-remove-rule w-8 h-8 text-gray-300 cursor-not-allowed rounded flex items-center justify-center" disabled>
+                                            <i class="ri-close-line text-lg"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Add Rule Button -->
+                                <button onclick="addPDATargetingRule()" class="mt-4 flex items-center gap-2 text-primary font-medium text-sm hover:underline">
+                                    <i class="ri-add-line"></i> Add Another Rule
+                                </button>
+
+                                <div class="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-700 text-xs flex items-start gap-2">
+                                    <i class="ri-information-line mt-0.5"></i>
+                                    <span>At least one category selection is required to proceed. Select categories to target specific product listings.</span>
+                                </div>
+
+                                <!-- Selected Categories Summary -->
+                                <div id="pda-targeting-summary" class="mt-4 hidden">
+                                    <div class="text-xs font-bold text-gray-500 uppercase mb-2">Selected Targeting</div>
+                                    <div id="pda-targeting-pills" class="flex flex-wrap gap-2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Ads Upload -->
+                    <div id="pda-step-3" class="step-content" style="padding: 40px;">
+                        <div style="max-width: 900px; margin: 0 auto;">
+                            <h2 style="font-weight: 700; color: #111827; margin-bottom: 8px;">Create Your Ad</h2>
+                            <div style="font-size: 13px; color: #64748b; margin-bottom: 24px;">
+                                Product Display Ads use products as creatives. Select products for your ad sets.
+                            </div>
+
+                            <!-- Ad Name -->
+                            <div class="bg-white border border-gray-200 rounded-xl p-6 mb-6">
+                                <div class="mb-4">
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Ad Name <span class="text-red-500">*</span></label>
+                                    <input type="text" id="pda-ad-name" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:border-primary focus:outline-none" placeholder="e.g., Lakme Lip Collection - Feb 2026">
+                                    <div id="pda-ad-name-error" class="hidden text-red-500 text-xs mt-2"><i class="fa-solid fa-circle-exclamation"></i> Ad name is required</div>
+                                </div>
+                            </div>
+
+                            <!-- Product Sets -->
+                            <div class="grid grid-cols-2 gap-6">
+                                <!-- Product Set A -->
+                                <div class="bg-white border border-gray-200 rounded-xl p-6">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <div>
+                                            <h4 class="font-bold text-gray-900">Product Set A <span class="text-red-500">*</span></h4>
+                                            <p class="text-xs text-gray-500 mt-1">Select 1-10 products</p>
+                                        </div>
+                                        <span id="pda-set-a-count" class="text-xs font-bold text-gray-400">0/10</span>
+                                    </div>
+                                    <div id="pda-set-a-products" class="min-h-[120px] border-2 border-dashed border-gray-200 rounded-lg p-4 mb-4">
+                                        <div class="text-center text-gray-400 py-4">
+                                            <i class="ri-shopping-bag-line text-3xl mb-2"></i>
+                                            <p class="text-xs">No products selected</p>
+                                        </div>
+                                    </div>
+                                    <button onclick="openPDAProductModal('A')" class="w-full py-2.5 border border-primary text-primary font-bold rounded-lg hover:bg-purple-50 transition text-sm">
+                                        <i class="ri-add-line"></i> Add Products
+                                    </button>
+                                    <div id="pda-set-a-error" class="hidden text-red-500 text-xs mt-2"><i class="fa-solid fa-circle-exclamation"></i> At least 1 product required</div>
+                                </div>
+
+                                <!-- Product Set B -->
+                                <div class="bg-white border border-gray-200 rounded-xl p-6">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <div>
+                                            <h4 class="font-bold text-gray-900">Product Set B <span class="text-red-500">*</span></h4>
+                                            <p class="text-xs text-gray-500 mt-1">Select 1-10 products</p>
+                                        </div>
+                                        <span id="pda-set-b-count" class="text-xs font-bold text-gray-400">0/10</span>
+                                    </div>
+                                    <div id="pda-set-b-products" class="min-h-[120px] border-2 border-dashed border-gray-200 rounded-lg p-4 mb-4">
+                                        <div class="text-center text-gray-400 py-4">
+                                            <i class="ri-shopping-bag-line text-3xl mb-2"></i>
+                                            <p class="text-xs">No products selected</p>
+                                        </div>
+                                    </div>
+                                    <button onclick="openPDAProductModal('B')" class="w-full py-2.5 border border-primary text-primary font-bold rounded-lg hover:bg-purple-50 transition text-sm">
+                                        <i class="ri-add-line"></i> Add Products
+                                    </button>
+                                    <div id="pda-set-b-error" class="hidden text-red-500 text-xs mt-2"><i class="fa-solid fa-circle-exclamation"></i> At least 1 product required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Config -->
+                    <div id="pda-step-4" class="step-content" style="padding: 40px;">
+                        <div style="max-width: 800px; margin: 0 auto;">
+                            <h2 style="font-weight: 700; color: #111827; margin-bottom: 8px;">Campaign Configuration</h2>
+                            <div style="font-size: 13px; color: #64748b; margin-bottom: 24px;">
+                                Set your campaign schedule and bidding.
+                            </div>
+
+                            <!-- Campaign Name -->
+                            <div class="bg-white border border-gray-200 rounded-xl p-6 mb-6">
+                                <h4 class="font-bold text-gray-900 mb-4"><i class="fa-solid fa-pen text-primary mr-2"></i> Campaign Details</h4>
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Campaign Name <span class="text-red-500">*</span></label>
+                                    <input type="text" id="pda-campaign-name" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:border-primary focus:outline-none" placeholder="e.g., Lakme Spring Collection 2026">
+                                    <div id="pda-campaign-name-error" class="hidden text-red-500 text-xs mt-2"><i class="fa-solid fa-circle-exclamation"></i> Campaign name is required</div>
+                                </div>
+                            </div>
+
+                            <!-- Schedule -->
+                            <div class="bg-white border border-gray-200 rounded-xl p-6 mb-6">
+                                <h4 class="font-bold text-gray-900 mb-4"><i class="fa-solid fa-calendar-days text-primary mr-2"></i> Schedule</h4>
+                                <div class="grid grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-bold text-gray-700 mb-2">Start Date <span class="text-red-500">*</span></label>
+                                        <input type="date" id="pda-start-date" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:border-primary focus:outline-none">
+                                        <div id="pda-start-date-error" class="hidden text-red-500 text-xs mt-2"><i class="fa-solid fa-circle-exclamation"></i> Start date is required</div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-bold text-gray-700 mb-2">End Date <span class="text-gray-400 font-normal">(Optional)</span></label>
+                                        <input type="date" id="pda-end-date" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:border-primary focus:outline-none">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bidding -->
+                            <div class="bg-white border border-gray-200 rounded-xl p-6">
+                                <h4 class="font-bold text-gray-900 mb-4"><i class="fa-solid fa-hand-holding-dollar text-primary mr-2"></i> Bidding</h4>
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">CPM Bid (₹) <span class="text-red-500">*</span></label>
+                                    <input type="number" id="pda-cpm-bid" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:border-primary focus:outline-none" placeholder="Enter CPM bid" min="250">
+                                    <p class="text-xs text-gray-500 mt-2">Minimum CPM floor: <strong>₹250</strong></p>
+                                    <div id="pda-cpm-error" class="hidden text-red-500 text-xs mt-2"><i class="fa-solid fa-circle-exclamation"></i> CPM must be at least ₹250</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+
+                <footer class="cc-footer" style="padding: 20px 32px; border-top: 1px solid #e5e7eb; display:flex; justify-content:space-between; background:#fff;">
+                    <button id="pda-back-btn" class="cc-button" style="background: #fff; color: #374151; border: 1px solid #e5e7eb; display: none;">Back</button>
+                    <button id="pda-next-btn" class="cc-button" style="background-color: var(--cc-primary-color); color: #fff; margin-left:auto;">Next</button>
+                </footer>
+            </div>
+        </div>
+
+        <!-- PDA PRODUCT SELECTION MODAL -->
+        <div id="pda-product-modal" class="fixed inset-0 bg-black/60 z-[9999] hidden flex items-center justify-center">
+            <div class="bg-white rounded-xl shadow-2xl w-[900px] max-w-[95%] h-[80vh] flex flex-col">
+                <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-xl">
+                    <h3 class="font-bold text-lg text-gray-900">Add Products</h3>
+                    <button onclick="closePDAProductModal()" class="text-gray-400 hover:text-gray-700"><i class="ri-close-line text-2xl"></i></button>
+                </div>
+                <div class="px-6 py-3 border-b border-gray-100 flex justify-between items-center">
+                    <span class="text-sm text-gray-600"><span id="pda-modal-product-count">2,315</span> Products</span>
+                    <button class="p-2 border border-gray-200 rounded-lg hover:bg-gray-50"><i class="ri-filter-3-line"></i></button>
+                </div>
+                <div class="flex-1 overflow-y-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-50 sticky top-0 text-xs text-gray-500 uppercase">
+                            <tr>
+                                <th class="px-4 py-3 w-10"><input type="checkbox" id="pda-select-all" class="accent-primary"></th>
+                                <th class="px-4 py-3">Image</th>
+                                <th class="px-4 py-3">Name</th>
+                                <th class="px-4 py-3">Brand</th>
+                                <th class="px-4 py-3">Category</th>
+                                <th class="px-4 py-3">Availability</th>
+                                <th class="px-4 py-3">Price</th>
+                                <th class="px-4 py-3">Sale Price</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pda-product-list" class="text-sm divide-y divide-gray-100">
+                            <!-- Products populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="px-6 py-4 border-t border-gray-100 flex justify-between items-center bg-gray-50 rounded-b-xl">
+                    <span class="text-sm text-gray-600"><span id="pda-selected-count">0</span> selected</span>
+                    <div class="flex gap-3">
+                        <button onclick="closePDAProductModal()" class="px-4 py-2 border border-gray-200 text-gray-600 rounded-lg font-medium hover:bg-gray-100">Cancel</button>
+                        <button onclick="confirmPDAProducts()" class="px-4 py-2 bg-primary text-white rounded-lg font-bold hover:bg-primary-light">Add Selected</button>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <!-- ================= BUNDLES (Fixed Packages) ================= -->
@@ -9046,6 +9477,761 @@ window.updatePerfView = function(element, type) {
         };
 
     })();
+
+// --- PRODUCT DISPLAY ADS LOGIC ---
+(function() {
+    // State
+    window.pdaState = {
+        step: 1,
+        pageSelected: false,
+        targetingRules: [], // Array of {level, operator, values}
+        adName: '',
+        productSetA: [],
+        productSetB: [],
+        campaignName: '',
+        startDate: '',
+        endDate: '',
+        cpmBid: null,
+        currentProductSet: 'A',
+        ruleCount: 1
+    };
+
+    // Category L1 Options
+    const categoryL1Options = [
+        'accessories', 'appliances', 'bath-and-body', 'combos', 'electronics', 'fragrance', 
+        'fun', 'gift', 'gift-and-value', 'hair', 'intimate', 'makeup', 'massage', 
+        'miniatures', 'natural', 'personal', 'personal-care', 'sensuous', 'skincare', 
+        'solutions', 'wellness'
+    ];
+
+    // Category L2 Options (all combined) - format: "L1 > L2"
+    const categoryL2Options = [
+        // Accessories
+        'accessories > bangles & bracelets', 'accessories > beauty groomers', 'accessories > earrings',
+        'accessories > hair accessories', 'accessories > jewellery', 'accessories > necklaces & pendants',
+        // Appliances
+        'appliances > men shavers & trimmers',
+        // Bath and Body
+        'bath-and-body > baby care', 'bath-and-body > baby wipes', 'bath-and-body > baby powder',
+        'bath-and-body > baby shampoo', 'bath-and-body > bath & body', 'bath-and-body > bath accessory',
+        'bath-and-body > bath oil', 'bath-and-body > body care', 'bath-and-body > body butter',
+        'bath-and-body > body lotion', 'bath-and-body > body mask', 'bath-and-body > body oil',
+        'bath-and-body > body powder', 'bath-and-body > body scrub', 'bath-and-body > body treatment',
+        'bath-and-body > body wash', 'bath-and-body > body wipes', 'bath-and-body > essential oils',
+        'bath-and-body > foot cream', 'bath-and-body > gift and value sets', 'bath-and-body > hair removal & shaving',
+        'bath-and-body > hand and nail care', 'bath-and-body > moisturiser', 'bath-and-body > body paint',
+        'bath-and-body > bath salt & bubbles', 'bath-and-body > soap', 'bath-and-body > talc',
+        'bath-and-body > hand and foot tools', 'bath-and-body > waxing and shaving',
+        'bath-and-body > body cloth accessory', 'bath-and-body > mom care', 'bath-and-body > gifts & value sets',
+        'bath-and-body > personal hygiene', 'bath-and-body > fragrance for kids',
+        // Combos
+        'combos > facial kit',
+        // Electronics
+        'electronics > hair removal tools',
+        // Fragrance
+        'fragrance > body mist', 'fragrance > cologne', 'fragrance > deodorant men',
+        'fragrance > deodorant women', 'fragrance > fragrance oils', 'fragrance > fragrance women',
+        'fragrance > gift and value sets', 'fragrance > gift and value sets for women',
+        'fragrance > fragrance kit', 'fragrance > perfume men', 'fragrance > perfumes',
+        'fragrance > solid perfume',
+        // Hair
+        'hair > hair styler', 'hair > hair care', 'hair > hair brush & comb', 'hair > conditioner',
+        'hair > gift and value sets', 'hair > hair accessories', 'hair > hair brushes',
+        'hair > hair colour', 'hair > hair extension', 'hair > hair fiber', 'hair > hair mask',
+        'hair > hair nourishment kits', 'hair > hair oil', 'hair > hair perfumes', 'hair > hair serum',
+        'hair > hair spa kits', 'hair > hair styling', 'hair > hair treatments',
+        'hair > heat protection serum and spray', 'hair > hair nourishment', 'hair > shampoo',
+        'hair > styling tools',
+        // Intimate
+        'intimate > intimate massager',
+        // Makeup
+        'makeup > body', 'makeup > brushes and tools', 'makeup > eyes', 'makeup > face',
+        'makeup > gift and value sets', 'makeup > lips', 'makeup > makeup kit',
+        'makeup > makeup remover', 'makeup > nails', 'makeup > sindoor', 'makeup > fabulous february',
+        // Massage
+        'massage > massage oils',
+        // Natural
+        'natural > body care moisturizers', 'natural > stretch marks & cellulite creams',
+        // Personal Care
+        'personal-care > foot care', 'personal-care > skin accessories', 'personal-care > hair removal shaving',
+        'personal-care > hand and nail care', 'personal-care > trimmers & clippers',
+        'personal-care > diet & nutrition', 'personal-care > pain relief & first aid',
+        'personal-care > personal care gifts & value sets', 'personal-care > sexual health',
+        'personal-care > dental hygiene', 'personal-care > men bath kits', 'personal-care > men body wash',
+        'personal-care > men conditioner', 'personal-care > men face care', 'personal-care > men gift sets',
+        'personal-care > men hair care', 'personal-care > men shaving care', 'personal-care > men skincare',
+        'personal-care > family nutrition', 'personal-care > lubricants', 'personal-care > vitamins & supplements',
+        'personal-care > weight management', 'personal-care > menstrual care', 'personal-care > cotton buds & balls',
+        'personal-care > nail care', 'personal-care > hand cream & mask',
+        // Skincare
+        'skincare > bleach', 'skincare > skin care', 'skincare > face mist', 'skincare > face treatment',
+        'skincare > facial oil', 'skincare > facial spray', 'skincare > facial tissue',
+        'skincare > gift and value sets', 'skincare > hand & foot care', 'skincare > masks',
+        'skincare > sheet mask', 'skincare > skin treatment', 'skincare > specialised skincare',
+        'skincare > anti ageing', 'skincare > cleanser', 'skincare > eye care', 'skincare > face cream',
+        'skincare > face pack', 'skincare > face polish', 'skincare > face wash', 'skincare > facial kit',
+        'skincare > facial wipes', 'skincare > lip care', 'skincare > moisturizer', 'skincare > night cream',
+        'skincare > scrub', 'skincare > serum', 'skincare > sun care', 'skincare > sunscreen',
+        'skincare > toner', 'skincare > tonic lotion',
+        // Solutions
+        'solutions > body', 'solutions > face',
+        // Wellness
+        'wellness > allergy sinus & asthma devices', 'wellness > womens health'
+    ];
+
+    // Category L3 Options (all combined) - format: "L1 > L2 > L3"
+    const categoryL3Options = [
+        // Accessories L3
+        'accessories > jewellery > anklet & toe ring', 'accessories > jewellery > hand accessory',
+        'accessories > jewellery > nose pin & ring', 'accessories > jewellery > occasion',
+        'accessories > jewellery > pendant', 'accessories > jewellery > mangalsutra',
+        'accessories > jewellery > saari accessory', 'accessories > jewellery > jewellery set',
+        'accessories > jewellery > teeka', 'accessories > brushes and tools > makeup pouch',
+        // Appliances L3
+        'appliances > men shavers > electric shaver',
+        // Bath and Body L3
+        'bath-and-body > baby care > baby wipes', 'bath-and-body > baby care > self defense',
+        'bath-and-body > baby care > baby powder', 'bath-and-body > baby care > baby shampoo',
+        'bath-and-body > baby care > baby bath and oil', 'bath-and-body > baby care > baby skin care',
+        'bath-and-body > gift sets > bath and body kit', 'bath-and-body > body cloth accessory > fashion tape',
+        'bath-and-body > body cloth accessory > shapewear', 'bath-and-body > body cloth accessory > sweat control',
+        'bath-and-body > mom care > maternity care', 'bath-and-body > body oil > carrier oil',
+        'bath-and-body > body powder > edible body powder & body paint',
+        'bath-and-body > hand and nail care > hand and nail treatment', 'bath-and-body > hand and nail care > nail treatment',
+        'bath-and-body > nursing > nursing & feeding',
+        // Fragrance L3
+        'fragrance > body mist > body mist & spray for women', 'fragrance > deodorant > deodorant & roll-on for men',
+        'fragrance > deodorant > deodorant & roll-on for women', 'fragrance > perfume > perfume for women',
+        'fragrance > perfume > perfume for men', 'fragrance > gift sets > gift and value sets for men',
+        'fragrance > gift sets > gift and value sets for women', 'fragrance > perfume > perfumed cream & solid perfume',
+        // Hair L3
+        'hair > hair accessories > hair curler', 'hair > hair accessories > hair dryer',
+        'hair > hair accessories > hair straightener', 'hair > hair accessories > hair clip & band',
+        'hair > hair accessories > scissors', 'hair > hair styling > hair gels & gums',
+        'hair > hair styling > hair spray', 'hair > hair styling > hair straightening',
+        'hair > hair styling > styling cream gel & wax', 'hair > gift sets > hair care kit',
+        'hair > shampoo > curly hair', 'hair > styling tools > hair crimper',
+        'hair > styling tools > hair jewellery', 'hair > styling tools > hair & scalp care tool',
+        // Makeup L3
+        'makeup > body > bronzer', 'makeup > body > glitter', 'makeup > brushes and tools > makeup brush',
+        'makeup > brushes and tools > makeup bag & organizer', 'makeup > brushes and tools > makeup tool',
+        'makeup > brushes and tools > beauty blender and sponge', 'makeup > eyes > coloured contact lenses',
+        'makeup > eyes > eyebrow enhancer', 'makeup > eyes > eye primer', 'makeup > eyes > false eyelash',
+        'makeup > eyes > eyeliner', 'makeup > eyes > eyeshadow', 'makeup > eyes > kajal',
+        'makeup > eyes > mascara', 'makeup > face > bb & cc cream', 'makeup > face > blush',
+        'makeup > face > highlighter & illuminator', 'makeup > face > concealer and colour corrector',
+        'makeup > face > contour', 'makeup > face > setting spray powder & fixer',
+        'makeup > face > foundation', 'makeup > face > loose powder', 'makeup > face > compact',
+        'makeup > face > primer', 'makeup > lips > lip crayon', 'makeup > lips > lip gloss',
+        'makeup > lips > lip liner', 'makeup > lips > lip stain & tint', 'makeup > lips > lipstick',
+        'makeup > gift sets > makeup kit', 'makeup > nails > artificial nail', 'makeup > nails > nail polish',
+        'makeup > nails > nail polish remover', 'makeup > nails > soak-off', 'makeup > nails > top and base coat',
+        'makeup > nails > pedicure',
+        // Personal Care L3
+        'personal-care > foot care > foot care', 'personal-care > skin accessories > body razor & cartridge',
+        'personal-care > hair removal > epilator & trimmer', 'personal-care > hair removal > face & eyebrow razor',
+        'personal-care > hair removal > hair removal cream & powder', 'personal-care > hair removal > pre & post wax essential',
+        'personal-care > hair removal > shaving foam & gel', 'personal-care > hair removal > wax & wax strip',
+        'personal-care > hand and nail care > hand wash and sanitizer', 'personal-care > hand and nail care > manicure & pedicure kit',
+        'personal-care > trimmers > beard trimmer and clipper', 'personal-care > diet > health food and drink',
+        'personal-care > diet > health and sport supplement', 'personal-care > pain relief > pain relief and first aid',
+        'personal-care > personal care > personal care kit', 'personal-care > sexual health > condom and lubricant',
+        'personal-care > dental > floss & tongue cleaner', 'personal-care > dental > mouthwash',
+        'personal-care > dental > toothbrush', 'personal-care > dental > toothpaste',
+        'personal-care > men > bath kits', 'personal-care > men > shower gels for men',
+        'personal-care > men > conditioner for men', 'personal-care > men > face creams for men',
+        'personal-care > men > face pack masks and peels for men', 'personal-care > men > face treatment for men',
+        'personal-care > men > face wash for men', 'personal-care > men > gift and value sets for men',
+        'personal-care > men > hair colour for men', 'personal-care > men > hair styling for men',
+        'personal-care > men > shampoo for men', 'personal-care > men > moisturizers for men',
+        'personal-care > men > scrub for men', 'personal-care > men > mens shaving',
+        'personal-care > men > beard care', 'personal-care > men > shaving kits',
+        'personal-care > men > skincare for men', 'personal-care > men > soap for men',
+        'personal-care > men > talc for men', 'personal-care > wellness > family nutrition',
+        'personal-care > wellness > lubricants', 'personal-care > wellness > vitamins & supplements',
+        'personal-care > wellness > weight management products', 'personal-care > womens health > menstrual care',
+        'personal-care > face > cotton buds & balls', 'personal-care > nails > nail care',
+        'personal-care > skincare > hand cream & mask',
+        // Skincare L3
+        'skincare > face treatment > fairness creams', 'skincare > face treatment > face gels',
+        'skincare > face treatment > spa treatment', 'skincare > gift sets > skin care kit',
+        'skincare > masks > sleeping mask', 'skincare > specialised > spot treatment/corrector',
+        'skincare > specialised > bleach', 'skincare > specialised > face tool',
+        'skincare > specialised > nose strip', 'skincare > eye care > under eye serum & eye cream',
+        'skincare > eye care > eye mask & patch', 'skincare > face cream > face moisturizer and day cream',
+        'skincare > face pack > face pack face mask and peel off mask', 'skincare > lip care > lip balm',
+        'skincare > lip care > lip mask and treatment', 'skincare > lip care > lip scrub',
+        'skincare > sun care > body sunscreen', 'skincare > sun care > face sunscreen',
+        // Solutions L3
+        'solutions > body > stretch marks', 'solutions > face > acne',
+        'solutions > face > pigmentation', 'solutions > face > under eye circles',
+        // Wellness L3
+        'wellness > devices > allergy sinus & asthma devices', 'wellness > womens health > womens health'
+    ];
+
+    // Get options for a level
+    window.getPDAOptionsForLevel = function(level) {
+        if (level === 'L1') return categoryL1Options;
+        if (level === 'L2') return categoryL2Options;
+        if (level === 'L3') return categoryL3Options;
+        return [];
+    };
+
+    // Handle level change
+    window.onPDALevelChange = function(selectEl, rowIndex) {
+        const level = selectEl.value;
+        const valueSelect = document.getElementById('pda-values-' + rowIndex);
+        
+        if (!valueSelect) return;
+
+        if (!level) {
+            valueSelect.innerHTML = '<option value="">-- Select category level first --</option>';
+            valueSelect.disabled = true;
+            return;
+        }
+
+        const options = getPDAOptionsForLevel(level);
+        valueSelect.innerHTML = '<option value="">-- Select value --</option>' + 
+            options.map(opt => `<option value="${opt}">${opt}</option>`).join('');
+        valueSelect.disabled = false;
+
+        // Update select color based on level
+        selectEl.classList.remove('text-green-600', 'text-blue-600');
+        if (level === 'L2') selectEl.classList.add('text-green-600');
+        if (level === 'L3') selectEl.classList.add('text-blue-600');
+    };
+
+    // Add targeting rule
+    window.addPDATargetingRule = function() {
+        const rulesContainer = document.getElementById('pda-targeting-rules');
+        const rowIndex = window.pdaState.ruleCount++;
+        
+        const rowHtml = `
+            <div class="pda-rule-row flex items-center gap-3" data-row="${rowIndex}">
+                <div class="w-10 text-xs font-medium text-gray-500">and</div>
+                <select class="pda-level-select border border-gray-300 rounded-lg px-3 py-2.5 text-sm bg-white font-medium" style="min-width: 140px;" onchange="onPDALevelChange(this, ${rowIndex})">
+                    <option value="">Select Category</option>
+                    <option value="L1">Category L1</option>
+                    <option value="L2" class="text-green-600">Category L2</option>
+                    <option value="L3" class="text-blue-600">Category L3</option>
+                </select>
+                <select class="pda-operator-select border border-gray-300 rounded-lg px-3 py-2.5 text-sm bg-white" style="min-width: 120px;">
+                    <option value="is any of">is any of</option>
+                    <option value="is none of">is none of</option>
+                </select>
+                <select id="pda-values-${rowIndex}" class="pda-value-select flex-1 border border-gray-300 rounded-lg px-3 py-2.5 text-sm bg-white" style="min-width: 250px;" disabled>
+                    <option value="">-- Select category level first --</option>
+                </select>
+                <button onclick="removePDATargetingRule(${rowIndex})" class="pda-remove-rule w-8 h-8 text-red-400 hover:text-red-600 hover:bg-red-50 rounded flex items-center justify-center transition">
+                    <i class="ri-close-line text-lg"></i>
+                </button>
+            </div>
+        `;
+        
+        rulesContainer.insertAdjacentHTML('beforeend', rowHtml);
+    };
+
+    // Remove targeting rule
+    window.removePDATargetingRule = function(rowIndex) {
+        const row = document.querySelector(`.pda-rule-row[data-row="${rowIndex}"]`);
+        if (row) row.remove();
+    };
+
+    // Sample Products Data
+    // Sample Products Data - organized by L1 category
+    const sampleProducts = [
+        // MAKEUP products
+        { id: 1, image: 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=100', name: 'Lakme 9 To 5 Flawless Matte Complexion Compact', brand: 'Lakme', category: 'makeup > face makeup > compact', availability: 'out of stock', price: 550, salePrice: 310 },
+        { id: 2, image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=100', name: 'Lakme Powerplay Priming Powder Foundation', brand: 'Lakme', category: 'makeup > face makeup > compact', availability: 'out of stock', price: 600, salePrice: 336 },
+        { id: 3, image: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=100', name: 'Lakme 9 To 5 Primer Matte Powder Foundation', brand: 'Lakme', category: 'makeup > face makeup > compact', availability: 'out of stock', price: 600, salePrice: 391 },
+        { id: 4, image: 'https://images.unsplash.com/photo-1631214524020-7e18db9a8f92?w=100', name: 'Lakme 9 to 5 CC Cream Bronze (9 ml)', brand: 'Lakme', category: 'makeup > face makeup > bb & cc cream', availability: 'in stock', price: 115, salePrice: 114 },
+        { id: 5, image: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=100', name: 'Lakme Sun Expert Ultra Matte SPF 40 PA+++', brand: 'Lakme', category: 'makeup > face makeup > compact', availability: 'out of stock', price: 210, salePrice: 142 },
+        { id: 6, image: 'https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=100', name: 'Lakme Ultimate Glam Eye Liner | Semi Matte', brand: 'Lakme', category: 'makeup > eye makeup > eyeliner', availability: 'out of stock', price: 150, salePrice: 115 },
+        { id: 7, image: 'https://images.unsplash.com/photo-1583241800698-e8ab01830a07?w=100', name: 'Lakme Absolute Gloss Artist Eye Liner - Black', brand: 'Lakme', category: 'makeup > eye makeup > eyeliner', availability: 'out of stock', price: 650, salePrice: 488 },
+        { id: 8, image: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=100', name: 'Lakme Black Kajal (2 gm)', brand: 'Lakme', category: 'makeup > eye makeup > kajal', availability: 'out of stock', price: 75, salePrice: 75 },
+        { id: 20, image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=100', name: 'Lakme Color Crush Nail Art - G4 (6 ml)', brand: 'Lakme', category: 'makeup > nail > nail polish', availability: 'out of stock', price: 165, salePrice: 139 },
+        { id: 21, image: 'https://images.unsplash.com/photo-1631214524020-7e18db9a8f92?w=100', name: 'Lakme Absolute Matte Lipstick - Red Rush', brand: 'Lakme', category: 'makeup > lip makeup > lipstick', availability: 'in stock', price: 450, salePrice: 395 },
+        { id: 22, image: 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=100', name: 'Lakme Enrich Lip Gloss - Pink Kiss', brand: 'Lakme', category: 'makeup > lip makeup > lip gloss', availability: 'in stock', price: 275, salePrice: 220 },
+        // SKINCARE products
+        { id: 9, image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=100', name: 'Lakme Absolute Perfect Radiance Facial Foam', brand: 'Lakme', category: 'skincare > cleanser > wash and cleanser', availability: 'out of stock', price: 499, salePrice: 484 },
+        { id: 12, image: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=100', name: 'Lakme Absolute Pore Fix Toner 60 ml', brand: 'Lakme', category: 'skincare > toner & face mist > toner', availability: 'in stock', price: 325, salePrice: 243 },
+        { id: 13, image: 'https://images.unsplash.com/photo-1608248597279-f99d160bfcb8?w=100', name: 'Lakme 9 to 5 Vitamin C Day Cream', brand: 'Lakme', category: 'skincare > moisturizer > face moisturizer and day cream', availability: 'in stock', price: 399, salePrice: 349 },
+        { id: 14, image: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=100', name: 'Lakme Hydrating Face Mask - Sheet', brand: 'Lakme', category: 'skincare > mask', availability: 'in stock', price: 150, salePrice: 125 },
+        { id: 15, image: 'https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=100', name: 'Lakme Vitamin C+ Serum', brand: 'Lakme', category: 'skincare > face treatment', availability: 'in stock', price: 599, salePrice: 499 },
+        // HAIR CARE products
+        { id: 16, image: 'https://images.unsplash.com/photo-1608248597279-f99d160bfcb8?w=100', name: 'Lakme Teknia Shampoo - Hydra', brand: 'Lakme', category: 'hair care > shampoo & conditioner', availability: 'in stock', price: 450, salePrice: 380 },
+        { id: 17, image: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=100', name: 'Lakme Hair Serum - Argan Oil', brand: 'Lakme', category: 'hair care > hair nourishment', availability: 'out of stock', price: 350, salePrice: 299 },
+        { id: 18, image: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=100', name: 'Lakme K.Style Hair Spray - Strong Hold', brand: 'Lakme', category: 'hair care > hair styling', availability: 'in stock', price: 499, salePrice: 425 },
+        // BATH AND BODY products
+        { id: 10, image: 'https://images.unsplash.com/photo-1608248597279-f99d160bfcb8?w=100', name: 'Lakme Peach Milk Intense Moisturiser', brand: 'Lakme', category: 'bath and body > body care > lotion & moisturizer', availability: 'in stock', price: 99, salePrice: 98 },
+        { id: 19, image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=100', name: 'Lakme Body Lotion - Rose', brand: 'Lakme', category: 'bath and body > body care > lotion & moisturizer', availability: 'in stock', price: 199, salePrice: 175 },
+        { id: 23, image: 'https://images.unsplash.com/photo-1583241800698-e8ab01830a07?w=100', name: 'Lakme Shower Gel - Peach', brand: 'Lakme', category: 'bath and body > bath & shower', availability: 'in stock', price: 175, salePrice: 149 },
+        // FRAGRANCE products  
+        { id: 24, image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=100', name: 'Lakme Floral EDP - Rose Bloom', brand: 'Lakme', category: 'fragrance > fragrance for women', availability: 'in stock', price: 899, salePrice: 750 },
+        { id: 25, image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=100', name: 'Lakme Aqua Fresh EDT', brand: 'Lakme', category: 'fragrance > perfume for men', availability: 'out of stock', price: 799, salePrice: 650 },
+    ];
+
+    // Function to extract L1 category from a category string or targeting value
+    function extractL1Category(categoryStr) {
+        if (!categoryStr) return null;
+        // Category format: "L1 > L2 > L3" or just "L1"
+        const parts = categoryStr.split(' > ');
+        return parts[0].trim().toLowerCase();
+    }
+
+    // Function to get L1 categories from current targeting selections
+    function getTargetedL1Categories() {
+        const l1Categories = new Set();
+        const rules = document.querySelectorAll('#pda-targeting-rules .pda-rule-row');
+        
+        rules.forEach(row => {
+            const levelSelect = row.querySelector('.pda-level-select');
+            const valueSelect = row.querySelector('.pda-value-select');
+            
+            if (levelSelect && valueSelect && levelSelect.value && valueSelect.value) {
+                const level = levelSelect.value;
+                const value = valueSelect.value;
+                
+                if (level === 'L1') {
+                    // Direct L1 selection
+                    l1Categories.add(value.toLowerCase());
+                } else if (level === 'L2' || level === 'L3') {
+                    // Extract L1 from L2/L3 format "L1 > L2" or "L1 > L2 > L3"
+                    const l1 = extractL1Category(value);
+                    if (l1) l1Categories.add(l1);
+                }
+            }
+        });
+        
+        return l1Categories;
+    }
+
+    let tempSelectedProducts = [];
+
+    // Navigation functions
+    window.openProductDisplayCreator = function() {
+        navigateTo('create-product-display', 'nav-product-display', 'Home / Awareness / Product Display Ads / <span class="text-primary font-bold">Create Campaign</span>');
+        resetPDAState();
+        goToPDAStep(1);
+    };
+
+    function resetPDAState() {
+        window.pdaState = {
+            step: 1,
+            pageSelected: false,
+            targetingRules: [],
+            adName: '',
+            productSetA: [],
+            productSetB: [],
+            campaignName: '',
+            startDate: '',
+            endDate: '',
+            cpmBid: null,
+            currentProductSet: 'A',
+            ruleCount: 1
+        };
+        // Reset UI elements
+        const pageCard = document.getElementById('pda-page-card');
+        if (pageCard) {
+            pageCard.classList.remove('border-primary', 'bg-purple-50');
+            pageCard.classList.add('border-gray-200');
+            const check = document.getElementById('pda-page-check');
+            if (check) check.classList.add('hidden');
+        }
+        
+        // Reset targeting rules UI
+        const rulesContainer = document.getElementById('pda-targeting-rules');
+        if (rulesContainer) {
+            rulesContainer.innerHTML = `
+                <div class="pda-rule-row flex items-center gap-3" data-row="0">
+                    <select class="pda-level-select border border-gray-300 rounded-lg px-3 py-2.5 text-sm bg-white font-medium" style="min-width: 140px;" onchange="onPDALevelChange(this, 0)">
+                        <option value="">Select Category</option>
+                        <option value="L1">Category L1</option>
+                        <option value="L2" class="text-green-600">Category L2</option>
+                        <option value="L3" class="text-blue-600">Category L3</option>
+                    </select>
+                    <select class="pda-operator-select border border-gray-300 rounded-lg px-3 py-2.5 text-sm bg-white" style="min-width: 120px;">
+                        <option value="is any of">is any of</option>
+                        <option value="is none of">is none of</option>
+                    </select>
+                    <select id="pda-values-0" class="pda-value-select flex-1 border border-gray-300 rounded-lg px-3 py-2.5 text-sm bg-white" style="min-width: 250px;" disabled>
+                        <option value="">-- Select category level first --</option>
+                    </select>
+                    <button class="pda-remove-rule w-8 h-8 text-gray-300 cursor-not-allowed rounded flex items-center justify-center" disabled>
+                        <i class="ri-close-line text-lg"></i>
+                    </button>
+                </div>
+            `;
+        }
+        
+        // Reset product sets
+        const setAContainer = document.getElementById('pda-set-a-products');
+        const setBContainer = document.getElementById('pda-set-b-products');
+        const emptyHtml = `<div class="text-center text-gray-400 py-4"><i class="ri-shopping-bag-line text-3xl mb-2"></i><p class="text-xs">No products selected</p></div>`;
+        if (setAContainer) setAContainer.innerHTML = emptyHtml;
+        if (setBContainer) setBContainer.innerHTML = emptyHtml;
+        document.getElementById('pda-set-a-count')?.textContent && (document.getElementById('pda-set-a-count').textContent = '0/10');
+        document.getElementById('pda-set-b-count')?.textContent && (document.getElementById('pda-set-b-count').textContent = '0/10');
+    }
+
+    window.selectPDAPage = function(card) {
+        window.pdaState.pageSelected = true;
+        card.classList.remove('border-gray-200');
+        card.classList.add('border-primary', 'bg-purple-50');
+        const check = document.getElementById('pda-page-check');
+        if (check) check.classList.remove('hidden');
+        const radio = document.getElementById('pda-page-radio');
+        if (radio) radio.classList.add('border-primary');
+    };
+
+    function goToPDAStep(step) {
+        window.pdaState.step = step;
+
+        // Update stepper
+        const stepper = document.getElementById('pda-stepper');
+        if (stepper) {
+            stepper.querySelectorAll('.cc-step').forEach(el => {
+                el.classList.toggle('active', parseInt(el.getAttribute('data-step'), 10) === step);
+            });
+        }
+
+        // Show/hide step content
+        for (let i = 1; i <= 4; i++) {
+            const el = document.getElementById('pda-step-' + i);
+            if (el) el.classList.toggle('active', i === step);
+        }
+
+        // Update buttons
+        const backBtn = document.getElementById('pda-back-btn');
+        const nextBtn = document.getElementById('pda-next-btn');
+        if (backBtn) backBtn.style.display = (step > 1) ? 'inline-block' : 'none';
+        if (nextBtn) nextBtn.textContent = (step === 4) ? 'Submit for Review' : 'Next';
+
+        // Step-specific init
+        if (step === 4) {
+            // Set default start date to tomorrow
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const startInput = document.getElementById('pda-start-date');
+            if (startInput && !startInput.value) {
+                startInput.value = tomorrow.toISOString().split('T')[0];
+            }
+        }
+    }
+
+    function validatePDAStep(step) {
+        if (step === 1) {
+            if (!window.pdaState.pageSelected) {
+                showPDAError('Please select the Product Display Page');
+                return false;
+            }
+            return true;
+        }
+        if (step === 2) {
+            // Check if at least one targeting rule has a value selected
+            const rules = document.querySelectorAll('#pda-targeting-rules .pda-rule-row');
+            let hasValidRule = false;
+            
+            rules.forEach(row => {
+                const levelSelect = row.querySelector('.pda-level-select');
+                const valueSelect = row.querySelector('.pda-value-select');
+                if (levelSelect && valueSelect && levelSelect.value && valueSelect.value) {
+                    hasValidRule = true;
+                }
+            });
+            
+            if (!hasValidRule) {
+                showPDAError('Please select at least one category and value');
+                return false;
+            }
+            return true;
+        }
+        if (step === 3) {
+            const adName = document.getElementById('pda-ad-name');
+            const adNameError = document.getElementById('pda-ad-name-error');
+            const setAError = document.getElementById('pda-set-a-error');
+            const setBError = document.getElementById('pda-set-b-error');
+
+            let valid = true;
+
+            if (!adName || !adName.value.trim()) {
+                if (adNameError) adNameError.classList.remove('hidden');
+                if (adName) adName.style.borderColor = '#dc2626';
+                valid = false;
+            } else {
+                if (adNameError) adNameError.classList.add('hidden');
+                if (adName) adName.style.borderColor = '';
+            }
+
+            if (window.pdaState.productSetA.length === 0) {
+                if (setAError) setAError.classList.remove('hidden');
+                valid = false;
+            } else {
+                if (setAError) setAError.classList.add('hidden');
+            }
+
+            if (window.pdaState.productSetB.length === 0) {
+                if (setBError) setBError.classList.remove('hidden');
+                valid = false;
+            } else {
+                if (setBError) setBError.classList.add('hidden');
+            }
+
+            if (!valid) {
+                showPDAError('Please fill all required fields');
+                return false;
+            }
+            return true;
+        }
+        if (step === 4) {
+            const campaignName = document.getElementById('pda-campaign-name');
+            const startDate = document.getElementById('pda-start-date');
+            const cpmBid = document.getElementById('pda-cpm-bid');
+
+            let valid = true;
+
+            if (!campaignName || !campaignName.value.trim()) {
+                document.getElementById('pda-campaign-name-error')?.classList.remove('hidden');
+                if (campaignName) campaignName.style.borderColor = '#dc2626';
+                valid = false;
+            } else {
+                document.getElementById('pda-campaign-name-error')?.classList.add('hidden');
+                if (campaignName) campaignName.style.borderColor = '';
+            }
+
+            if (!startDate || !startDate.value) {
+                document.getElementById('pda-start-date-error')?.classList.remove('hidden');
+                if (startDate) startDate.style.borderColor = '#dc2626';
+                valid = false;
+            } else {
+                document.getElementById('pda-start-date-error')?.classList.add('hidden');
+                if (startDate) startDate.style.borderColor = '';
+            }
+
+            if (!cpmBid || !cpmBid.value || parseFloat(cpmBid.value) < 250) {
+                document.getElementById('pda-cpm-error')?.classList.remove('hidden');
+                if (cpmBid) cpmBid.style.borderColor = '#dc2626';
+                valid = false;
+            } else {
+                document.getElementById('pda-cpm-error')?.classList.add('hidden');
+                if (cpmBid) cpmBid.style.borderColor = '';
+            }
+
+            if (!valid) {
+                showPDAError('Please fill all required fields correctly');
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
+
+    function showPDAError(msg) {
+        let toast = document.getElementById('pda-error-toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'pda-error-toast';
+            toast.className = 'error-toast';
+            document.body.appendChild(toast);
+        }
+        toast.innerHTML = '<i class="ri-error-warning-fill" style="color:#f87171; font-size:20px;"></i> ' + msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // Product Modal Functions
+    window.openPDAProductModal = function(setType) {
+        window.pdaState.currentProductSet = setType;
+        tempSelectedProducts = [];
+        renderPDAProductList();
+        document.getElementById('pda-product-modal').classList.remove('hidden');
+        updatePDASelectedCount();
+    };
+
+    window.closePDAProductModal = function() {
+        document.getElementById('pda-product-modal').classList.add('hidden');
+        tempSelectedProducts = [];
+    };
+
+    function renderPDAProductList() {
+        const tbody = document.getElementById('pda-product-list');
+        const countEl = document.getElementById('pda-modal-product-count');
+        if (!tbody) return;
+
+        // Get targeted L1 categories from Step 2
+        const targetedL1s = getTargetedL1Categories();
+        
+        // Filter products based on L1 targeting
+        let filteredProducts = sampleProducts;
+        if (targetedL1s.size > 0) {
+            filteredProducts = sampleProducts.filter(p => {
+                const productL1 = extractL1Category(p.category);
+                return targetedL1s.has(productL1);
+            });
+        }
+
+        // Update count display
+        if (countEl) {
+            countEl.textContent = filteredProducts.length.toLocaleString();
+        }
+
+        if (filteredProducts.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="8" class="px-4 py-8 text-center text-gray-400">
+                        <i class="ri-search-line text-3xl mb-2"></i>
+                        <p class="text-sm">No products found for the selected targeting.</p>
+                        <p class="text-xs mt-1">Please adjust your category targeting in Step 2.</p>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        tbody.innerHTML = filteredProducts.map(p => `
+            <tr class="hover:bg-gray-50 cursor-pointer" onclick="togglePDAProduct(${p.id})">
+                <td class="px-4 py-3"><input type="checkbox" class="pda-product-check accent-primary" data-id="${p.id}" ${tempSelectedProducts.includes(p.id) ? 'checked' : ''}></td>
+                <td class="px-4 py-3"><img src="${p.image}" class="w-10 h-10 rounded object-cover bg-gray-100"></td>
+                <td class="px-4 py-3 font-medium text-gray-900 max-w-[200px] truncate">${p.name}</td>
+                <td class="px-4 py-3 text-gray-600">${p.brand}</td>
+                <td class="px-4 py-3 text-gray-500 text-xs max-w-[180px] truncate">${p.category}</td>
+                <td class="px-4 py-3"><span class="${p.availability === 'in stock' ? 'text-green-600' : 'text-gray-400'}">${p.availability}</span></td>
+                <td class="px-4 py-3">₹${p.price}</td>
+                <td class="px-4 py-3 font-medium ${p.salePrice < p.price ? 'text-green-600' : ''}">₹${p.salePrice}</td>
+            </tr>
+        `).join('');
+    }
+
+    window.togglePDAProduct = function(id) {
+        const currentSet = window.pdaState.currentProductSet;
+        const maxProducts = 10;
+
+        if (tempSelectedProducts.includes(id)) {
+            tempSelectedProducts = tempSelectedProducts.filter(p => p !== id);
+        } else {
+            if (tempSelectedProducts.length >= maxProducts) {
+                showPDAError('Maximum 10 products per set');
+                return;
+            }
+            tempSelectedProducts.push(id);
+        }
+
+        // Update checkbox
+        const checkbox = document.querySelector(`.pda-product-check[data-id="${id}"]`);
+        if (checkbox) checkbox.checked = tempSelectedProducts.includes(id);
+
+        updatePDASelectedCount();
+    };
+
+    function updatePDASelectedCount() {
+        const countEl = document.getElementById('pda-selected-count');
+        if (countEl) countEl.textContent = tempSelectedProducts.length;
+    }
+
+    window.confirmPDAProducts = function() {
+        const currentSet = window.pdaState.currentProductSet;
+        const selectedProducts = sampleProducts.filter(p => tempSelectedProducts.includes(p.id));
+
+        if (currentSet === 'A') {
+            window.pdaState.productSetA = selectedProducts;
+            renderPDAProductSet('A', selectedProducts);
+        } else {
+            window.pdaState.productSetB = selectedProducts;
+            renderPDAProductSet('B', selectedProducts);
+        }
+
+        closePDAProductModal();
+    };
+
+    function renderPDAProductSet(set, products) {
+        const container = document.getElementById(`pda-set-${set.toLowerCase()}-products`);
+        const countEl = document.getElementById(`pda-set-${set.toLowerCase()}-count`);
+
+        if (!container) return;
+
+        if (products.length === 0) {
+            container.innerHTML = `
+                <div class="text-center text-gray-400 py-4">
+                    <i class="ri-shopping-bag-line text-3xl mb-2"></i>
+                    <p class="text-xs">No products selected</p>
+                </div>
+            `;
+        } else {
+            container.innerHTML = `
+                <div class="flex flex-wrap gap-2">
+                    ${products.map(p => `
+                        <div class="flex items-center gap-2 bg-gray-50 rounded-lg p-2 pr-3">
+                            <img src="${p.image}" class="w-8 h-8 rounded object-cover">
+                            <span class="text-xs font-medium text-gray-700 max-w-[100px] truncate">${p.name.split(' ').slice(0, 3).join(' ')}...</span>
+                            <button onclick="removePDAProduct('${set}', ${p.id})" class="text-gray-400 hover:text-red-500"><i class="ri-close-line"></i></button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        if (countEl) countEl.textContent = `${products.length}/10`;
+    }
+
+    window.removePDAProduct = function(set, id) {
+        if (set === 'A') {
+            window.pdaState.productSetA = window.pdaState.productSetA.filter(p => p.id !== id);
+            renderPDAProductSet('A', window.pdaState.productSetA);
+        } else {
+            window.pdaState.productSetB = window.pdaState.productSetB.filter(p => p.id !== id);
+            renderPDAProductSet('B', window.pdaState.productSetB);
+        }
+    };
+
+    // Initialize on DOM ready
+    document.addEventListener('DOMContentLoaded', () => {
+        // Footer buttons
+        const backBtn = document.getElementById('pda-back-btn');
+        const nextBtn = document.getElementById('pda-next-btn');
+
+        if (backBtn) {
+            backBtn.addEventListener('click', () => {
+                if (window.pdaState.step > 1) goToPDAStep(window.pdaState.step - 1);
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                const s = window.pdaState.step;
+                if (!validatePDAStep(s)) return;
+                if (s < 4) {
+                    goToPDAStep(s + 1);
+                } else {
+                    // Submit
+                    alert('Campaign submitted for review!');
+                    navigateTo('product-display-ads', 'nav-product-display', 'Home / Awareness / <span class="text-primary font-bold">Product Display Ads</span>');
+                }
+            });
+        }
+
+        // Input listeners for clearing errors
+        document.getElementById('pda-ad-name')?.addEventListener('input', function() {
+            if (this.value.trim()) {
+                this.style.borderColor = '';
+                document.getElementById('pda-ad-name-error')?.classList.add('hidden');
+            }
+        });
+
+        document.getElementById('pda-campaign-name')?.addEventListener('input', function() {
+            if (this.value.trim()) {
+                this.style.borderColor = '';
+                document.getElementById('pda-campaign-name-error')?.classList.add('hidden');
+            }
+        });
+
+        document.getElementById('pda-cpm-bid')?.addEventListener('input', function() {
+            if (parseFloat(this.value) >= 250) {
+                this.style.borderColor = '';
+                document.getElementById('pda-cpm-error')?.classList.add('hidden');
+            }
+        });
+    });
+})();
 
 // --- BIDDING SECTION LOGIC ---
     

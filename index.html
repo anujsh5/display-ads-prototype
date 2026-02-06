@@ -223,7 +223,55 @@
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 10000;
         }
-        .error-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }    
+        .error-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+        /* Calendar Blocking Overlay */
+        .calendar-block-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(4px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+        }
+        .calendar-block-icon {
+            font-size: 48px;
+            color: #9c00ad;
+            margin-bottom: 16px;
+            opacity: 0.7;
+        }
+        .calendar-block-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        .calendar-block-subtitle {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+        .calendar-block-cta {
+            background: #f3f4f6;
+            color: #6b7280;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .calendar-block-cta i {
+            margin-right: 6px;
+        }
 /* Wizard Stepper */
         .cc-header { background-color: #ffffff; padding: 16px 24px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 24px; flex-shrink: 0; }
         .cc-stepper { display: flex; align-items: center; }
@@ -779,6 +827,20 @@
             </div>
         </div>
 
+        <!-- Demo Mode Toggle (for Takeover Auction Status) -->
+        <div class="px-5 py-3 border-b border-white/10">
+            <div class="text-[10px] uppercase text-white/50 font-bold mb-2 tracking-wider">Demo Mode:</div>
+            <div class="flex items-center justify-between bg-white/10 rounded-lg p-2">
+                <span class="text-xs text-white/80">Auction Status</span>
+                <div class="flex items-center gap-2">
+                    <span id="auctionStatusText" class="text-xs font-bold text-green-300">Open</span>
+                    <button onclick="window.toggleAuctionDemoMode()" class="relative w-10 h-5 bg-white/20 rounded-full transition-colors duration-300" id="auctionToggleBtn">
+                        <div id="auctionToggleSlider" class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform duration-300 shadow-sm"></div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- Navigation -->
         <nav class="flex-1 overflow-y-auto py-2 space-y-1 px-4">
             <!-- 1. Overview -->
@@ -800,7 +862,12 @@
                         </div>
                         <div id="awarenessSub" class="submenu pl-4 space-y-1 overflow-hidden transition-all duration-300" style="max-height: 0px; opacity: 0;">
                             <a href="#" onclick="navigateTo('awareness'); updateAwarenessView(this, 'Visibility')" class="awareness-link block px-2 py-2 text-xs text-white/50 hover:text-white hover:bg-white/5 rounded transition">Visibility</a>
-                            <a href="#" onclick="navigateTo('awareness'); updateAwarenessView(this, 'Takeover')" class="awareness-link block px-2 py-2 text-xs text-white/50 hover:text-white hover:bg-white/5 rounded transition">Takeover</a>
+                            <a href="#" onclick="navigateTo('awareness'); updateAwarenessView(this, 'Takeover')" class="awareness-link block px-2 py-2 text-xs text-white/50 hover:text-white hover:bg-white/5 rounded transition">
+                                <span class="flex items-center justify-between">
+                                    <span>Takeover</span>
+                                    <span id="takeover-auction-status" class="text-[10px] px-1.5 py-0.5 rounded bg-white/10 hidden"></span>
+                                </span>
+                            </a>
                             <a href="#" onclick="navigateTo('product-display-ads'); event.stopPropagation();" id="nav-product-display" class="awareness-link block px-2 py-2 text-xs text-white/50 hover:text-white hover:bg-white/5 rounded transition">Product Display Ads</a>
                         </div>
                     </div>
@@ -5675,6 +5742,21 @@ renderAllCalendars();
             // ==========================================
             // A. GLOBAL DASHBOARD INITIALIZATION
             // ==========================================
+            
+            // Update takeover auction status and initialize demo toggle
+            window.updateTakeoverAuctionStatus();
+            
+            // Initialize demo toggle UI based on current state
+            const slider = document.getElementById('auctionToggleSlider');
+            const btn = document.getElementById('auctionToggleBtn');
+            const statusText = document.getElementById('auctionStatusText');
+            if (slider && btn && statusText) {
+                // Set initial state (pre-auction by default)
+                slider.style.transform = 'translateX(0)';
+                btn.classList.add('bg-white/20');
+                statusText.textContent = 'Open';
+                statusText.className = 'text-xs font-bold text-green-300';
+            }
            
 
   // 2. Render Transactions (Full Data & Pagination) - FIXED
@@ -8104,6 +8186,16 @@ window.updatePerfView = function(element, type) {
             // Set campaign type flag for Step 1 restrictions
             window.currentCampaignType = 'visibility';
         } else if (type === 'Takeover') {
+            // Check if auction is completed before allowing access
+            if (window.isAuctionCompleted()) {
+                // Show error toast instead of navigating
+                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                const displayMonth = monthNames[window.auctionDemoMode.activeMonth];
+                const displayYear = window.auctionDemoMode.activeYear;
+                window.showErrorToast(`Takeover auction for ${displayMonth} ${displayYear} has ended. New dates coming soon!`);
+                return;
+            }
+            
             // Takeover has its own wizard
             navigateTo('create-takeover', activeNavLinkId, `Home / Awareness / Takeover / <span class='text-primary font-bold'>Create Campaign</span>`);
             window.currentCampaignType = 'takeover';
@@ -8122,6 +8214,163 @@ window.updatePerfView = function(element, type) {
                 link.classList.add('text-white', 'font-bold', 'bg-white/10');
             }
         }
+    };
+    
+    // ==============================
+    // AUCTION DATE CHECK LOGIC
+    // ==============================
+    
+    // Demo mode state management
+    window.auctionDemoMode = {
+        isPostAuction: false, // Default: show pre-auction view
+        activeMonth: 1, // February (0-indexed)
+        activeYear: 2026
+    };
+
+    // Function to check if auction is completed (after 20th of each month)
+    window.isAuctionCompleted = function() {
+        // In demo mode, use the toggle state instead of real date
+        return window.auctionDemoMode.isPostAuction;
+        
+        /* Production logic (commented out for demo):
+        const today = new Date();
+        const currentDay = today.getDate();
+        
+        // Check if current date is on or after 20th of the current month
+        return currentDay >= 20;
+        */
+    };
+    
+    // Function to create calendar blocking overlay
+    window.createCalendarBlockOverlay = function() {
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const displayMonth = monthNames[window.auctionDemoMode.activeMonth];
+        const displayYear = window.auctionDemoMode.activeYear;
+        
+        return `
+            <div class="calendar-block-overlay">
+                <div class="calendar-block-icon">
+                    <i class="ri-calendar-close-line"></i>
+                </div>
+                <div class="calendar-block-title">
+                    Next Month Events Coming Soon
+                </div>
+                <div class="calendar-block-subtitle">
+                    The auction for ${displayMonth} ${displayYear} takeovers has ended.<br>
+                    New slots for upcoming months will be available soon.
+                </div>
+                <div class="calendar-block-cta">
+                    <i class="ri-notification-line"></i>
+                    We'll notify you when new dates are available
+                </div>
+            </div>
+        `;
+    };
+    
+    // Function to check and apply calendar blocking
+    window.checkAndApplyCalendarBlock = function() {
+        if (window.isAuctionCompleted()) {
+            const takeoverCalendar = document.getElementById('takeover-calendar');
+            if (takeoverCalendar && !takeoverCalendar.querySelector('.calendar-block-overlay')) {
+                takeoverCalendar.style.position = 'relative';
+                takeoverCalendar.innerHTML += window.createCalendarBlockOverlay();
+            }
+        }
+    };
+    
+    // Generic error toast function
+    window.showErrorToast = function(message) {
+        let toast = document.getElementById('generic-error-toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'generic-error-toast';
+            toast.className = 'error-toast';
+            document.body.appendChild(toast);
+        }
+        toast.innerHTML = `<i class="ri-error-warning-fill" style="color:#f87171; font-size:20px;"></i> ${message}`;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    };
+    
+    // Function to toggle auction demo mode
+    window.toggleAuctionDemoMode = function() {
+        window.auctionDemoMode.isPostAuction = !window.auctionDemoMode.isPostAuction;
+        
+        // Update toggle UI
+        const slider = document.getElementById('auctionToggleSlider');
+        const btn = document.getElementById('auctionToggleBtn');
+        const statusText = document.getElementById('auctionStatusText');
+        
+        if (window.auctionDemoMode.isPostAuction) {
+            // Post-auction state
+            slider.style.transform = 'translateX(20px)';
+            btn.classList.add('bg-red-500/30');
+            btn.classList.remove('bg-white/20');
+            statusText.textContent = 'Ended';
+            statusText.className = 'text-xs font-bold text-red-300';
+        } else {
+            // Pre-auction state
+            slider.style.transform = 'translateX(0)';
+            btn.classList.remove('bg-red-500/30');
+            btn.classList.add('bg-white/20');
+            statusText.textContent = 'Open';
+            statusText.className = 'text-xs font-bold text-green-300';
+        }
+        
+        // Update all UI elements
+        window.updateTakeoverAuctionStatus();
+        
+        // If takeover calendar is visible, re-render it
+        const takeoverCalendar = document.getElementById('takeover-calendar');
+        if (takeoverCalendar) {
+            const renderFunc = window.renderCalendar;
+            if (renderFunc) renderFunc();
+        }
+        
+        console.log(`🔀 Demo mode: ${window.auctionDemoMode.isPostAuction ? 'POST-AUCTION' : 'PRE-AUCTION'}`);
+    };
+
+    // Function to update takeover auction status in sidebar
+    window.updateTakeoverAuctionStatus = function() {
+        const statusBadge = document.getElementById('takeover-auction-status');
+        if (!statusBadge) return;
+        
+        if (window.isAuctionCompleted()) {
+            statusBadge.textContent = 'Ended';
+            statusBadge.className = 'text-[10px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-200';
+            statusBadge.classList.remove('hidden');
+        } else {
+            statusBadge.textContent = 'Open';
+            statusBadge.className = 'text-[10px] px-1.5 py-0.5 rounded bg-green-500/20 text-green-200';
+            statusBadge.classList.remove('hidden');
+        }
+    };
+    
+    // Legacy test functions (updated to use new demo system)
+    window.toggleAuctionStatusForTesting = function() {
+        console.log('🔄 Using new demo system: window.toggleAuctionDemoMode()');
+        window.toggleAuctionDemoMode();
+    };
+    
+    window.restoreAuctionStatus = function() {
+        console.log('🔄 Using new demo system: window.toggleAuctionDemoMode()');
+        window.auctionDemoMode.isPostAuction = false;
+        window.toggleAuctionDemoMode();
+    };
+    
+    // Additional demo functions for testing different scenarios
+    window.setDemoMonth = function(monthIndex, year) {
+        window.auctionDemoMode.activeMonth = monthIndex;
+        window.auctionDemoMode.activeYear = year;
+        
+        // Update calendar if visible
+        const takeoverCalendar = document.getElementById('takeover-calendar');
+        if (takeoverCalendar) {
+            const renderFunc = window.renderCalendar;
+            if (renderFunc) renderFunc();
+        }
+        
+        console.log(`📅 Demo month set to: ${year}, ${monthIndex + 1} (0-indexed)`);
     };
     
     // ==============================
@@ -8290,6 +8539,13 @@ window.updatePerfView = function(element, type) {
         function renderCalendar() {
             const cal = document.getElementById('takeover-calendar');
             if (!cal) return;
+
+            // Check if auction is completed and show blocking overlay instead
+            if (window.isAuctionCompleted()) {
+                cal.style.position = 'relative';
+                cal.innerHTML = window.createCalendarBlockOverlay();
+                return;
+            }
 
             // Calendar header + weekdays
             const weekdays = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -9254,6 +9510,11 @@ window.updatePerfView = function(element, type) {
             if (bidInput) bidInput.value = '';
 
             goToTakeoverStep(1);
+            
+            // Apply calendar blocking if auction is completed
+            setTimeout(() => {
+                window.checkAndApplyCalendarBlock();
+            }, 100);
         };
 
         // ================== TAKEOVER SUCCESS MODAL ==================

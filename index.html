@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unified Command Center (Final Perfected)</title>
+    <title>Purplle Ads Platform - Brand Side</title>
     
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -853,7 +853,7 @@
                     <div class="flex items-center gap-3"><i class="ri-megaphone-line text-lg"></i> <span>Campaign</span></div>
                     <i class="ri-arrow-up-s-line arrow-rotate" style="transform: rotate(180deg);"></i>
                 </div>
-                <div id="campSub" class="submenu pl-12 pr-2 space-y-1 open" style="max-height: 200px; opacity: 1;">
+                <div id="campSub" class="submenu pl-12 pr-2 space-y-1 open" style="max-height: 600px; opacity: 1;">
                     <!-- Awareness Sub-Menu (Visibility & Takeover) -->
                     <div class="relative">
                         <div onclick="toggleSubmenu('awarenessSub')" class="nav-sub-item flex items-center justify-between px-2 py-2 text-xs text-white/60 hover:text-white hover:bg-white/10 rounded transition cursor-pointer select-none">
@@ -875,7 +875,7 @@
                     <div class="relative">
                         <div onclick="toggleSubmenu('perfSub')" class="nav-sub-item flex items-center justify-between px-2 py-2 text-xs text-white/60 hover:text-white hover:bg-white/10 rounded transition cursor-pointer select-none">
                             <span>Performance</span>
-                            <i class="ri-arrow-down-s-line arrow-rotate transition-transform duration-300"></i>
+                            <i class="ri-arrow-down-s-line arrow-rotate transition-transform duration-300" style="transform: rotate(0deg);"></i>
                         </div>
                         <div id="perfSub" class="submenu pl-4 space-y-1 overflow-hidden transition-all duration-300" style="max-height: 0; opacity: 0;">
                             <!-- Added 'this' to the onclick function -->
@@ -895,10 +895,7 @@
             <a href="#" onclick="navigateTo('balance', 'nav-balance', 'Home / <span class=\'text-primary font-bold\'>Balance & Manage</span>')" id="nav-balance" class="nav-item flex items-center justify-between px-4 py-3 text-white/70 hover:bg-white/10 hover:text-white rounded-lg transition group mt-1">
                 <div class="flex items-center gap-3"><i class="ri-wallet-3-line text-lg"></i> Balance & Manage</div>
             </a>
-            <!-- 4. Transaction -->
-            <a href="#" onclick="navigateTo('transactions', 'nav-transactions', 'Home / <span class=\'text-primary font-bold\'>Transactions</span>')" id="nav-transactions" class="nav-item flex items-center justify-between px-4 py-3 text-white/70 hover:bg-white/10 hover:text-white rounded-lg transition group">
-                <div class="flex items-center gap-3"><i class="ri-exchange-dollar-line text-lg"></i> Transaction</div>
-            </a>
+            <!-- 4. Transaction (removed - now in Balance & Manage) -->
             <!-- 5. Change History -->
             <a href="#" onclick="navigateTo('history', 'nav-history', 'Home / <span class=\'text-primary font-bold\'>Change History</span>')" id="nav-history" class="nav-item flex items-center justify-between px-4 py-3 text-white/70 hover:bg-white/10 hover:text-white rounded-lg transition group">
                 <div class="flex items-center gap-3"><i class="ri-history-line text-lg"></i> Change History</div>
@@ -1018,9 +1015,151 @@
                         <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider leading-tight">Balance</span>
                         <span class="text-base font-black text-gray-900 leading-none whitespace-nowrap">₹ 19,98,662</span>
                     </div>
-                    <button onclick="navigateTo('balance', 'nav-balance')" class="border border-primary text-primary hover:bg-purple-50 px-4 py-1.5 rounded-lg text-xs font-bold transition h-fit shadow-sm whitespace-nowrap">
-                        Manage
-                    </button>
+                    <div class="relative" id="manageWalletContainer">
+                        <button onclick="toggleManageWalletDropdown()" class="border border-primary text-primary hover:bg-purple-50 px-4 py-1.5 rounded-lg text-xs font-bold transition h-fit shadow-sm whitespace-nowrap flex items-center gap-1">
+                            Manage <i class="ri-arrow-down-s-line text-sm"></i>
+                        </button>
+                        <!-- Wallet Dropdown -->
+                        <div id="manageWalletDropdown" class="hidden absolute top-full right-0 mt-2 w-[340px] bg-white rounded-xl shadow-popup border border-gray-100 z-[60] overflow-hidden">
+                            <div class="px-4 py-3 border-b border-gray-100 bg-gray-50">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-gray-800">Active Wallets</span>
+                                    <a href="#" onclick="navigateTo('balance', 'nav-balance'); toggleManageWalletDropdown();" class="text-[10px] text-primary font-bold hover:underline">View All →</a>
+                                </div>
+                            </div>
+                            <!-- Wallet List -->
+                            <div class="max-h-[320px] overflow-y-auto">
+                                <!-- Primary Wallet -->
+                                <div class="manage-wallet-item px-4 py-3 hover:bg-purple-50 cursor-pointer border-b border-gray-50 transition" onclick="openWalletFundMenu(this, 'Default', '₹ -593')">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-7 h-7 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center"><i class="ri-wallet-3-line text-xs"></i></div>
+                                            <div>
+                                                <div class="text-xs font-bold text-gray-800">Default (Primary)</div>
+                                                <div class="text-[10px] text-gray-400">ID: WAL-001</div>
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-xs font-black text-gray-900">-₹ 593</div>
+                                            <div class="text-[10px] text-red-500 font-medium">Low</div>
+                                        </div>
+                                    </div>
+                                    <!-- Fund sub-menu (hidden by default) -->
+                                    <div class="wallet-fund-menu hidden mt-2 pt-2 border-t border-gray-100 space-y-1">
+                                        <button onclick="event.stopPropagation(); openManualCreditModal(); toggleManageWalletDropdown();" class="w-full text-left px-3 py-2 text-xs text-gray-600 hover:bg-purple-100 hover:text-primary rounded transition flex items-center gap-2">
+                                            <i class="ri-file-text-line text-sm"></i> Raise Credit Request
+                                        </button>
+                                        <button onclick="event.stopPropagation(); openPGPaymentModal(); toggleManageWalletDropdown();" class="w-full text-left px-3 py-2 text-xs text-gray-600 hover:bg-purple-100 hover:text-primary rounded transition flex items-center gap-2">
+                                            <i class="ri-bank-card-line text-sm"></i> Payment Gateway Top-up
+                                        </button>
+                                        <button onclick="event.stopPropagation(); openTransferModal(); toggleManageWalletDropdown();" class="w-full text-left px-3 py-2 text-xs text-gray-600 hover:bg-purple-100 hover:text-primary rounded transition flex items-center gap-2">
+                                            <i class="ri-arrow-left-right-line text-sm"></i> Transfer from Another Wallet
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Performance Ads Wallet -->
+                                <div class="manage-wallet-item px-4 py-3 hover:bg-purple-50 cursor-pointer border-b border-gray-50 transition" onclick="openWalletFundMenu(this, 'Performance Ads', '₹ 0')">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-7 h-7 rounded-full bg-green-50 text-green-600 flex items-center justify-center"><i class="ri-speed-line text-xs"></i></div>
+                                            <div>
+                                                <div class="text-xs font-bold text-gray-800">Performance Ads</div>
+                                                <div class="text-[10px] text-gray-400">ID: WAL-002</div>
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-xs font-black text-gray-900">₹ 0</div>
+                                            <div class="text-[10px] text-orange-500 font-medium">Empty</div>
+                                        </div>
+                                    </div>
+                                    <div class="wallet-fund-menu hidden mt-2 pt-2 border-t border-gray-100 space-y-1">
+                                        <button onclick="event.stopPropagation(); openManualCreditModal(); toggleManageWalletDropdown();" class="w-full text-left px-3 py-2 text-xs text-gray-600 hover:bg-purple-100 hover:text-primary rounded transition flex items-center gap-2">
+                                            <i class="ri-file-text-line text-sm"></i> Raise Credit Request
+                                        </button>
+                                        <button onclick="event.stopPropagation(); openPGPaymentModal(); toggleManageWalletDropdown();" class="w-full text-left px-3 py-2 text-xs text-gray-600 hover:bg-purple-100 hover:text-primary rounded transition flex items-center gap-2">
+                                            <i class="ri-bank-card-line text-sm"></i> Payment Gateway Top-up
+                                        </button>
+                                        <button onclick="event.stopPropagation(); openTransferModal(); toggleManageWalletDropdown();" class="w-full text-left px-3 py-2 text-xs text-gray-600 hover:bg-purple-100 hover:text-primary rounded transition flex items-center gap-2">
+                                            <i class="ri-arrow-left-right-line text-sm"></i> Transfer from Another Wallet
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Awareness Ads Wallet -->
+                                <div class="manage-wallet-item px-4 py-3 hover:bg-purple-50 cursor-pointer border-b border-gray-50 transition" onclick="openWalletFundMenu(this, 'Awareness Ads', '₹ 0')">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-7 h-7 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center"><i class="ri-eye-line text-xs"></i></div>
+                                            <div>
+                                                <div class="text-xs font-bold text-gray-800">Awareness Ads</div>
+                                                <div class="text-[10px] text-gray-400">ID: WAL-003</div>
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-xs font-black text-gray-900">₹ 0</div>
+                                            <div class="text-[10px] text-orange-500 font-medium">Empty</div>
+                                        </div>
+                                    </div>
+                                    <div class="wallet-fund-menu hidden mt-2 pt-2 border-t border-gray-100 space-y-1">
+                                        <button onclick="event.stopPropagation(); openManualCreditModal(); toggleManageWalletDropdown();" class="w-full text-left px-3 py-2 text-xs text-gray-600 hover:bg-purple-100 hover:text-primary rounded transition flex items-center gap-2">
+                                            <i class="ri-file-text-line text-sm"></i> Raise Credit Request
+                                        </button>
+                                        <button onclick="event.stopPropagation(); openPGPaymentModal(); toggleManageWalletDropdown();" class="w-full text-left px-3 py-2 text-xs text-gray-600 hover:bg-purple-100 hover:text-primary rounded transition flex items-center gap-2">
+                                            <i class="ri-bank-card-line text-sm"></i> Payment Gateway Top-up
+                                        </button>
+                                        <button onclick="event.stopPropagation(); openTransferModal(); toggleManageWalletDropdown();" class="w-full text-left px-3 py-2 text-xs text-gray-600 hover:bg-purple-100 hover:text-primary rounded transition flex items-center gap-2">
+                                            <i class="ri-arrow-left-right-line text-sm"></i> Transfer from Another Wallet
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- PDA Wallet -->
+                                <div class="manage-wallet-item px-4 py-3 hover:bg-purple-50 cursor-pointer border-b border-gray-50 transition" onclick="openWalletFundMenu(this, 'PDA', '₹ 19,98,765')">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-7 h-7 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center"><i class="ri-layout-grid-line text-xs"></i></div>
+                                            <div>
+                                                <div class="text-xs font-bold text-gray-800">PDA (Product Display)</div>
+                                                <div class="text-[10px] text-gray-400">ID: WAL-004</div>
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-xs font-black text-gray-900">₹ 19,98,765</div>
+                                            <div class="text-[10px] text-green-500 font-medium">Active</div>
+                                        </div>
+                                    </div>
+                                    <div class="wallet-fund-menu hidden mt-2 pt-2 border-t border-gray-100 space-y-1">
+                                        <button onclick="event.stopPropagation(); openManualCreditModal(); toggleManageWalletDropdown();" class="w-full text-left px-3 py-2 text-xs text-gray-600 hover:bg-purple-100 hover:text-primary rounded transition flex items-center gap-2">
+                                            <i class="ri-file-text-line text-sm"></i> Raise Credit Request
+                                        </button>
+                                        <button onclick="event.stopPropagation(); openPGPaymentModal(); toggleManageWalletDropdown();" class="w-full text-left px-3 py-2 text-xs text-gray-600 hover:bg-purple-100 hover:text-primary rounded transition flex items-center gap-2">
+                                            <i class="ri-bank-card-line text-sm"></i> Payment Gateway Top-up
+                                        </button>
+                                        <button onclick="event.stopPropagation(); openTransferModal(); toggleManageWalletDropdown();" class="w-full text-left px-3 py-2 text-xs text-gray-600 hover:bg-purple-100 hover:text-primary rounded transition flex items-center gap-2">
+                                            <i class="ri-arrow-left-right-line text-sm"></i> Transfer from Another Wallet
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Promo Credits -->
+                                <div class="manage-wallet-item px-4 py-3 hover:bg-purple-50 cursor-pointer transition" onclick="openWalletFundMenu(this, 'Promo Credits', '₹ 3,00,000')">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-7 h-7 rounded-full bg-pink-50 text-pink-600 flex items-center justify-center"><i class="ri-coupon-3-line text-xs"></i></div>
+                                            <div>
+                                                <div class="text-xs font-bold text-gray-800">Promo Credits</div>
+                                                <div class="text-[10px] text-gray-400">ID: PROMO-001</div>
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-xs font-black text-gray-900">₹ 3,00,000</div>
+                                            <div class="text-[10px] text-green-500 font-medium">Active</div>
+                                        </div>
+                                    </div>
+                                    <div class="wallet-fund-menu hidden mt-2 pt-2 border-t border-gray-100 space-y-1">
+                                        <div class="px-3 py-2 text-xs text-gray-400 italic">Promo credits are managed by Super Admin</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>               
 <!-- REPLACED CALENDAR DROPDOWN -->
 <div class="relative dropdown-container">
@@ -2392,6 +2531,33 @@
                 <main class="cc-steps-container">
                     <!-- Step 1: Page Selection -->
                     <div id="pda-step-1" class="step-content active" style="padding: 40px;">
+                        <!-- Wallet Selection Card -->
+                        <div id="pda-wallet-selection" class="wallet-selection-card" style="margin-bottom: 20px; padding: 16px 20px; background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border: 1px solid #e9d5ff; border-radius: 12px; max-width: 800px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="width: 32px; height: 32px; border-radius: 8px; background: #7c3aed; display: flex; align-items: center; justify-content: center;">
+                                        <i class="ri-wallet-3-line" style="color: white; font-size: 16px;"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 13px; font-weight: 700; color: #1f2937;">Select Wallet for this Campaign</div>
+                                        <div style="font-size: 11px; color: #6b7280;">Choose which wallet will fund this campaign</div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <select id="pda-wallet-select" onchange="onWalletSelected('pda')" style="padding: 8px 32px 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 12px; font-weight: 600; color: #374151; background: white; cursor: pointer; min-width: 220px; appearance: auto;">
+                                        <option value="">-- Select a Wallet --</option>
+                                        <option value="default">Default (Primary) — -₹ 593</option>
+                                        <option value="performance">Performance Ads — ₹ 0</option>
+                                        <option value="awareness">Awareness Ads — ₹ 0</option>
+                                        <option value="pda">PDA (Product Display) — ₹ 19,98,765</option>
+                                        <option value="promo">Promo Credits — ₹ 3,00,000</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="pda-wallet-error" class="hidden" style="margin-top: 8px; padding: 6px 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; font-size: 11px; color: #dc2626; font-weight: 600;">
+                                <i class="ri-error-warning-line"></i> Please select a wallet before proceeding. You can continue but must select before submission.
+                            </div>
+                        </div>
                         <div style="max-width: 800px; margin: 0 auto;">
                             <h2 style="font-weight: 700; color: #111827; margin-bottom: 8px;">Select Page</h2>
                             <div style="font-size: 13px; color: #64748b; margin-bottom: 24px;">
@@ -2896,6 +3062,33 @@
         <main class="cc-steps-container">
             <!-- STEP 1 CONTENT -->
             <div class="step-content active" id="step-1-content">
+                <!-- Wallet Selection Card -->
+                <div id="vis-wallet-selection" class="wallet-selection-card" style="margin: 0 40px 20px 40px; padding: 16px 20px; background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border: 1px solid #e9d5ff; border-radius: 12px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 32px; height: 32px; border-radius: 8px; background: #7c3aed; display: flex; align-items: center; justify-content: center;">
+                                <i class="ri-wallet-3-line" style="color: white; font-size: 16px;"></i>
+                            </div>
+                            <div>
+                                <div style="font-size: 13px; font-weight: 700; color: #1f2937;">Select Wallet for this Campaign</div>
+                                <div style="font-size: 11px; color: #6b7280;">Choose which wallet will fund this campaign</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <select id="vis-wallet-select" onchange="onWalletSelected('vis')" style="padding: 8px 32px 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 12px; font-weight: 600; color: #374151; background: white; cursor: pointer; min-width: 220px; appearance: auto;">
+                                <option value="">-- Select a Wallet --</option>
+                                <option value="default">Default (Primary) — -₹ 593</option>
+                                <option value="performance">Performance Ads — ₹ 0</option>
+                                <option value="awareness">Awareness Ads — ₹ 0</option>
+                                <option value="pda">PDA (Product Display) — ₹ 19,98,765</option>
+                                <option value="promo">Promo Credits — ₹ 3,00,000</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="vis-wallet-error" class="hidden" style="margin-top: 8px; padding: 6px 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; font-size: 11px; color: #dc2626; font-weight: 600;">
+                        <i class="ri-error-warning-line"></i> Please select a wallet before proceeding. You can continue but must select before submission.
+                    </div>
+                </div>
                 <div class="inventory-workspace">
                     <section class="inventory-column"><div class="inventory-column-header"><h3><i class="fa-solid fa-file-lines"></i> Choose a Page</h3></div><div class="inventory-column-content" id="page-list-container"></div></section>
                     <section class="inventory-column"><div class="inventory-column-header"><h3><i class="fa-solid fa-list-check"></i> Select Inventories <span class="count-badge" id="inventory-available-count">0</span></h3></div><div class="inventory-column-content" id="inventory-list-container"></div></section>
@@ -3214,6 +3407,33 @@
         <main class="cc-steps-container">
             <!-- STEP 1: BASICS -->
             <div class="step-content active" id="ss-step-1" style="display: block;">
+                <!-- Wallet Selection Card -->
+                <div id="ss-wallet-selection" class="wallet-selection-card" style="margin: 0 24px 16px 24px; padding: 16px 20px; background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border: 1px solid #e9d5ff; border-radius: 12px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 32px; height: 32px; border-radius: 8px; background: #7c3aed; display: flex; align-items: center; justify-content: center;">
+                                <i class="ri-wallet-3-line" style="color: white; font-size: 16px;"></i>
+                            </div>
+                            <div>
+                                <div style="font-size: 13px; font-weight: 700; color: #1f2937;">Select Wallet for this Campaign</div>
+                                <div style="font-size: 11px; color: #6b7280;">Choose which wallet will fund this campaign</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <select id="ss-wallet-select" onchange="onWalletSelected('ss')" style="padding: 8px 32px 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 12px; font-weight: 600; color: #374151; background: white; cursor: pointer; min-width: 220px; appearance: auto;">
+                                <option value="">-- Select a Wallet --</option>
+                                <option value="default">Default (Primary) — -₹ 593</option>
+                                <option value="performance">Performance Ads — ₹ 0</option>
+                                <option value="awareness">Awareness Ads — ₹ 0</option>
+                                <option value="pda">PDA (Product Display) — ₹ 19,98,765</option>
+                                <option value="promo">Promo Credits — ₹ 3,00,000</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="ss-wallet-error" class="hidden" style="margin-top: 8px; padding: 6px 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; font-size: 11px; color: #dc2626; font-weight: 600;">
+                        <i class="ri-error-warning-line"></i> Please select a wallet before proceeding. You can continue but must select before submission.
+                    </div>
+                </div>
                 <div class="wizard-body-split">
                     <div class="wizard-sidebar">
                         <div class="wiz-toc-header">Step 1: Basic Info</div>
@@ -3462,6 +3682,33 @@
         <main class="cc-steps-container">
             <!-- STEP 1: BASICS -->
             <div class="step-content active" id="so-step-1" style="display: block;">
+                <!-- Wallet Selection Card -->
+                <div id="so-wallet-selection" class="wallet-selection-card" style="margin: 0 24px 16px 24px; padding: 16px 20px; background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border: 1px solid #e9d5ff; border-radius: 12px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 32px; height: 32px; border-radius: 8px; background: #7c3aed; display: flex; align-items: center; justify-content: center;">
+                                <i class="ri-wallet-3-line" style="color: white; font-size: 16px;"></i>
+                            </div>
+                            <div>
+                                <div style="font-size: 13px; font-weight: 700; color: #1f2937;">Select Wallet for this Campaign</div>
+                                <div style="font-size: 11px; color: #6b7280;">Choose which wallet will fund this campaign</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <select id="so-wallet-select" onchange="onWalletSelected('so')" style="padding: 8px 32px 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 12px; font-weight: 600; color: #374151; background: white; cursor: pointer; min-width: 220px; appearance: auto;">
+                                <option value="">-- Select a Wallet --</option>
+                                <option value="default">Default (Primary) — -₹ 593</option>
+                                <option value="performance">Performance Ads — ₹ 0</option>
+                                <option value="awareness">Awareness Ads — ₹ 0</option>
+                                <option value="pda">PDA (Product Display) — ₹ 19,98,765</option>
+                                <option value="promo">Promo Credits — ₹ 3,00,000</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="so-wallet-error" class="hidden" style="margin-top: 8px; padding: 6px 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; font-size: 11px; color: #dc2626; font-weight: 600;">
+                        <i class="ri-error-warning-line"></i> Please select a wallet before proceeding. You can continue but must select before submission.
+                    </div>
+                </div>
                 <div class="wizard-body-split">
                     <div class="wizard-sidebar">
                         <div class="wiz-toc-header">Step 1: Basic Info</div>
@@ -3689,6 +3936,33 @@
                 <main class="cc-steps-container">
                     <!-- Step 1: Choose Day + Takeover Type -->
                     <div id="takeover-step-1" class="step-content active" style="padding: 40px;">
+                        <!-- Wallet Selection Card -->
+                        <div id="takeover-wallet-selection" class="wallet-selection-card" style="margin-bottom: 20px; padding: 16px 20px; background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border: 1px solid #e9d5ff; border-radius: 12px; max-width: 1200px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="width: 32px; height: 32px; border-radius: 8px; background: #7c3aed; display: flex; align-items: center; justify-content: center;">
+                                        <i class="ri-wallet-3-line" style="color: white; font-size: 16px;"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 13px; font-weight: 700; color: #1f2937;">Select Wallet for this Campaign</div>
+                                        <div style="font-size: 11px; color: #6b7280;">Choose which wallet will fund this campaign</div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <select id="takeover-wallet-select" onchange="onWalletSelected('takeover')" style="padding: 8px 32px 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 12px; font-weight: 600; color: #374151; background: white; cursor: pointer; min-width: 220px; appearance: auto;">
+                                        <option value="">-- Select a Wallet --</option>
+                                        <option value="default">Default (Primary) — -₹ 593</option>
+                                        <option value="performance">Performance Ads — ₹ 0</option>
+                                        <option value="awareness">Awareness Ads — ₹ 0</option>
+                                        <option value="pda">PDA (Product Display) — ₹ 19,98,765</option>
+                                        <option value="promo">Promo Credits — ₹ 3,00,000</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="takeover-wallet-error" class="hidden" style="margin-top: 8px; padding: 6px 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; font-size: 11px; color: #dc2626; font-weight: 600;">
+                                <i class="ri-error-warning-line"></i> Please select a wallet before proceeding. You can continue but must select before submission.
+                            </div>
+                        </div>
                         <div style="max-width: 1200px; margin: 0 auto;">
                             <h2 style="font-weight: 700; color: #111827; margin-bottom: 8px;">Choose your day (February 2026)</h2>
                             <div style="font-size: 13px; color: #64748b; margin-bottom: 18px; line-height: 1.6;">
@@ -4138,8 +4412,16 @@
                 </div>
             </div>
             <div class="lg:col-span-1 bg-white px-4 py-3 rounded-xl border border-gray-100 shadow-card flex flex-col justify-center">
-                <div class="flex justify-between items-center mb-2"><label class="text-xs font-bold text-gray-800">Add Money</label><span class="text-[9px] text-gray-400">GST: 18% Extra</span></div>
-                <div class="flex gap-2"><input type="number" placeholder="Amount" class="w-full pl-3 pr-2 py-1.5 border border-gray-200 rounded text-xs font-bold"><button class="bg-primary text-white font-bold px-3 py-1.5 rounded text-xs whitespace-nowrap">Add Funds</button></div>
+                <label class="text-xs font-bold text-gray-800 mb-3">Add Funds</label>
+                <div class="flex flex-col gap-2">
+                    <button onclick="openManualCreditModal()" class="w-full bg-primary text-white font-bold px-4 py-2.5 rounded-lg text-xs hover:bg-primary-dark transition flex items-center justify-center gap-2">
+                        <i class="ri-file-text-line"></i> Manual Credit Request
+                    </button>
+                    <button onclick="openPGPaymentModal()" class="w-full bg-white border-2 border-primary text-primary font-bold px-4 py-2.5 rounded-lg text-xs hover:bg-purple-50 transition flex items-center justify-center gap-2">
+                        <i class="ri-bank-card-line"></i> Payment Gateway
+                    </button>
+                </div>
+                <span class="text-[9px] text-gray-400 mt-2 text-center">GST: 18% Extra on all top-ups</span>
             </div>
         </div>
     </div>
@@ -4153,6 +4435,8 @@
                 <button onclick="switchBalanceTab('tab-campaigns', this)" class="pb-3 border-b-2 border-primary text-primary font-bold text-xs flex items-center gap-2 transition-colors">Campaign Type</button>
                 <button onclick="switchBalanceTab('tab-transactions', this)" class="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-xs flex items-center gap-2 transition-colors">Transaction Log</button>
                 <button onclick="switchBalanceTab('tab-wallets', this)" class="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-xs flex items-center gap-2 transition-colors">Wallet</button>
+                <button onclick="switchBalanceTab('tab-credit-requests', this)" class="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-xs flex items-center gap-2 transition-colors">Credit Requests</button>
+                <button onclick="switchBalanceTab('tab-ledger', this)" class="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-xs flex items-center gap-2 transition-colors">Ledger</button>
             </nav>
         </div>
 
@@ -4663,6 +4947,133 @@
                     </td>
                 </tr>
 
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- TAB 4: Credit Requests -->
+<div id="tab-credit-requests" class="balance-tab-content hidden h-full flex flex-col">
+    <div class="flex justify-between items-center mb-4 flex-shrink-0">
+        <div class="flex gap-2">
+            <button class="px-3 py-1.5 bg-primary text-white rounded-full text-xs font-bold">All</button>
+            <button class="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-xs font-medium hover:bg-gray-200">Pending</button>
+            <button class="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-xs font-medium hover:bg-gray-200">Credited</button>
+            <button class="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-xs font-medium hover:bg-gray-200">Rejected</button>
+        </div>
+        <div class="flex gap-2">
+            <button class="w-8 h-8 flex items-center justify-center border border-gray-200 rounded-md text-gray-500 hover:text-primary transition"><i class="ri-refresh-line"></i></button>
+            <button class="w-8 h-8 flex items-center justify-center border border-gray-200 rounded-md text-gray-500 hover:text-primary transition"><i class="ri-download-line"></i></button>
+        </div>
+    </div>
+    <div class="border border-gray-100 rounded-lg flex-1 overflow-y-auto h-[calc(100vh-450px)] shadow-inner">
+        <table class="w-full text-left border-collapse min-w-[900px]">
+            <thead class="sticky top-0 bg-gray-50 z-10 shadow-sm">
+                <tr class="text-[11px] text-gray-500 uppercase tracking-wider font-semibold border-b border-gray-200">
+                    <th class="px-4 py-4">Request ID</th>
+                    <th class="px-4 py-4">Type</th>
+                    <th class="px-4 py-4">Amount</th>
+                    <th class="px-4 py-4">Proof Ref</th>
+                    <th class="px-4 py-4">Submitted</th>
+                    <th class="px-4 py-4">Status</th>
+                    <th class="px-4 py-4">Actioned By</th>
+                    <th class="px-4 py-4">Notes</th>
+                </tr>
+            </thead>
+            <tbody class="text-xs text-gray-700 divide-y divide-gray-100">
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="px-4 py-4 font-mono text-[10px] text-gray-400">CR-2026-001</td>
+                    <td class="px-4 py-4"><span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-[10px] font-bold">RO</span></td>
+                    <td class="px-4 py-4 font-medium">₹5,00,000</td>
+                    <td class="px-4 py-4 text-gray-500">RO-LAK-2026-0451</td>
+                    <td class="px-4 py-4 text-gray-500">25 Jan 26, 2:30 PM</td>
+                    <td class="px-4 py-4"><span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-[10px] font-bold">Credited</span></td>
+                    <td class="px-4 py-4 text-gray-500">Priya S.</td>
+                    <td class="px-4 py-4 text-gray-400">Q1 Brand Budget</td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="px-4 py-4 font-mono text-[10px] text-gray-400">CR-2026-002</td>
+                    <td class="px-4 py-4"><span class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-[10px] font-bold">RTGS</span></td>
+                    <td class="px-4 py-4 font-medium">₹10,00,000</td>
+                    <td class="px-4 py-4 text-gray-500">UTR928374650012</td>
+                    <td class="px-4 py-4 text-gray-500">27 Jan 26, 11:00 AM</td>
+                    <td class="px-4 py-4"><span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full text-[10px] font-bold">Submitted</span></td>
+                    <td class="px-4 py-4 text-gray-400">—</td>
+                    <td class="px-4 py-4 text-gray-400">Feb Awareness Campaign</td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="px-4 py-4 font-mono text-[10px] text-gray-400">CR-2026-003</td>
+                    <td class="px-4 py-4"><span class="px-2 py-1 bg-orange-50 text-orange-700 rounded text-[10px] font-bold">PO</span></td>
+                    <td class="px-4 py-4 font-medium">₹3,50,000</td>
+                    <td class="px-4 py-4 text-gray-500">PO-LAK-2026-0089</td>
+                    <td class="px-4 py-4 text-gray-500">20 Jan 26, 4:15 PM</td>
+                    <td class="px-4 py-4"><span class="px-2 py-1 bg-red-100 text-red-700 rounded-full text-[10px] font-bold">Rejected</span></td>
+                    <td class="px-4 py-4 text-gray-500">Rahul M.</td>
+                    <td class="px-4 py-4 text-gray-400">PO amount mismatch</td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="px-4 py-4 font-mono text-[10px] text-gray-400">CR-2025-098</td>
+                    <td class="px-4 py-4"><span class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-[10px] font-bold">RTGS</span></td>
+                    <td class="px-4 py-4 font-medium">₹8,00,000</td>
+                    <td class="px-4 py-4 text-gray-500">UTR837465001298</td>
+                    <td class="px-4 py-4 text-gray-500">15 Dec 25, 10:30 AM</td>
+                    <td class="px-4 py-4"><span class="px-2 py-1 bg-gray-100 text-gray-600 rounded-full text-[10px] font-bold">Reconciled</span></td>
+                    <td class="px-4 py-4 text-gray-500">Priya S.</td>
+                    <td class="px-4 py-4 text-gray-400">Dec campaign fund</td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="px-4 py-4 font-mono text-[10px] text-gray-400">PG-2026-001</td>
+                    <td class="px-4 py-4"><span class="px-2 py-1 bg-green-50 text-green-700 rounded text-[10px] font-bold">PG</span></td>
+                    <td class="px-4 py-4 font-medium">₹4,72,000</td>
+                    <td class="px-4 py-4 text-gray-500">pay_NxK3mL9qR2</td>
+                    <td class="px-4 py-4 text-gray-500">28 Jan 26, 3:45 PM</td>
+                    <td class="px-4 py-4"><span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-[10px] font-bold">Credited</span></td>
+                    <td class="px-4 py-4 text-gray-500">System (Auto)</td>
+                    <td class="px-4 py-4 text-gray-400">PG instant top-up</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- TAB 5: Ledger -->
+<div id="tab-ledger" class="balance-tab-content hidden h-full flex flex-col">
+    <div class="flex justify-between items-center mb-4 flex-shrink-0">
+        <div class="flex gap-2">
+            <button class="px-3 py-1.5 bg-primary text-white rounded-full text-xs font-bold">All</button>
+            <button class="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-xs font-medium hover:bg-gray-200">Credit Ins</button>
+            <button class="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-xs font-medium hover:bg-gray-200">Debit Outs</button>
+            <button class="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-xs font-medium hover:bg-gray-200">Transfers</button>
+            <button class="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-xs font-medium hover:bg-gray-200">Adjustments</button>
+        </div>
+        <div class="flex gap-2 items-center">
+            <div class="relative"><input type="text" placeholder="Search by ref ID..." class="pl-8 pr-3 py-1.5 text-xs border border-gray-200 rounded-lg w-48"><i class="ri-search-line absolute left-2.5 top-2 text-gray-400 text-xs"></i></div>
+            <button class="w-8 h-8 flex items-center justify-center border border-gray-200 rounded-md text-gray-500 hover:text-primary transition"><i class="ri-download-line"></i></button>
+        </div>
+    </div>
+    <div class="border border-gray-100 rounded-lg flex-1 overflow-y-auto h-[calc(100vh-450px)] shadow-inner">
+        <table class="w-full text-left border-collapse min-w-[1100px]">
+            <thead class="sticky top-0 bg-gray-50 z-10 shadow-sm">
+                <tr class="text-[11px] text-gray-500 uppercase tracking-wider font-semibold border-b border-gray-200">
+                    <th class="px-4 py-4">Timestamp</th>
+                    <th class="px-4 py-4">Ledger Txn ID</th>
+                    <th class="px-4 py-4">Wallet</th>
+                    <th class="px-4 py-4">Type</th>
+                    <th class="px-4 py-4">Source</th>
+                    <th class="px-4 py-4 text-right">Amount</th>
+                    <th class="px-4 py-4">Reference</th>
+                    <th class="px-4 py-4">Notes</th>
+                </tr>
+            </thead>
+            <tbody class="text-xs text-gray-700 divide-y divide-gray-100">
+                <tr class="hover:bg-gray-50 transition"><td class="px-4 py-4 text-gray-500">28 Jan 26, 3:45 PM</td><td class="px-4 py-4 font-mono text-[10px] text-gray-400">LDG-90281</td><td class="px-4 py-4">Primary</td><td class="px-4 py-4"><span class="px-2 py-0.5 bg-green-50 text-green-700 rounded text-[10px] font-bold">CREDIT</span></td><td class="px-4 py-4 text-gray-500">Payment Gateway</td><td class="px-4 py-4 text-right font-medium text-green-600">+₹4,72,000</td><td class="px-4 py-4 font-mono text-[10px] text-gray-400">pay_NxK3mL9qR2</td><td class="px-4 py-4 text-gray-400">PG instant top-up</td></tr>
+                <tr class="hover:bg-gray-50 transition"><td class="px-4 py-4 text-gray-500">27 Jan 26, 6:00 PM</td><td class="px-4 py-4 font-mono text-[10px] text-gray-400">LDG-90280</td><td class="px-4 py-4">Primary</td><td class="px-4 py-4"><span class="px-2 py-0.5 bg-red-50 text-red-700 rounded text-[10px] font-bold">DEBIT</span></td><td class="px-4 py-4 text-gray-500">Ad Billing</td><td class="px-4 py-4 text-right font-medium text-red-600">-₹12,450</td><td class="px-4 py-4 font-mono text-[10px] text-gray-400">CAMP-8834</td><td class="px-4 py-4 text-gray-400">CPM Visibility campaign</td></tr>
+                <tr class="hover:bg-gray-50 transition"><td class="px-4 py-4 text-gray-500">25 Jan 26, 2:35 PM</td><td class="px-4 py-4 font-mono text-[10px] text-gray-400">LDG-90279</td><td class="px-4 py-4">Primary</td><td class="px-4 py-4"><span class="px-2 py-0.5 bg-green-50 text-green-700 rounded text-[10px] font-bold">CREDIT</span></td><td class="px-4 py-4 text-gray-500">Manual Request</td><td class="px-4 py-4 text-right font-medium text-green-600">+₹5,00,000</td><td class="px-4 py-4 font-mono text-[10px] text-gray-400">CR-2026-001</td><td class="px-4 py-4 text-gray-400">RO credit approved</td></tr>
+                <tr class="hover:bg-gray-50 transition"><td class="px-4 py-4 text-gray-500">24 Jan 26, 10:00 AM</td><td class="px-4 py-4 font-mono text-[10px] text-gray-400">LDG-90278</td><td class="px-4 py-4">Primary</td><td class="px-4 py-4"><span class="px-2 py-0.5 bg-blue-50 text-blue-700 rounded text-[10px] font-bold">TRANSFER_OUT</span></td><td class="px-4 py-4 text-gray-500">Internal Transfer</td><td class="px-4 py-4 text-right font-medium text-red-600">-₹2,00,000</td><td class="px-4 py-4 font-mono text-[10px] text-gray-400">TRF-0045</td><td class="px-4 py-4 text-gray-400">To PDA wallet</td></tr>
+                <tr class="hover:bg-gray-50 transition"><td class="px-4 py-4 text-gray-500">24 Jan 26, 10:00 AM</td><td class="px-4 py-4 font-mono text-[10px] text-gray-400">LDG-90277</td><td class="px-4 py-4">PDA</td><td class="px-4 py-4"><span class="px-2 py-0.5 bg-blue-50 text-blue-700 rounded text-[10px] font-bold">TRANSFER_IN</span></td><td class="px-4 py-4 text-gray-500">Internal Transfer</td><td class="px-4 py-4 text-right font-medium text-green-600">+₹2,00,000</td><td class="px-4 py-4 font-mono text-[10px] text-gray-400">TRF-0045</td><td class="px-4 py-4 text-gray-400">From Primary wallet</td></tr>
+                <tr class="hover:bg-gray-50 transition"><td class="px-4 py-4 text-gray-500">22 Jan 26, 9:00 AM</td><td class="px-4 py-4 font-mono text-[10px] text-gray-400">LDG-90276</td><td class="px-4 py-4">Primary</td><td class="px-4 py-4"><span class="px-2 py-0.5 bg-red-50 text-red-700 rounded text-[10px] font-bold">DEBIT</span></td><td class="px-4 py-4 text-gray-500">Ad Billing</td><td class="px-4 py-4 text-right font-medium text-red-600">-₹7,50,000</td><td class="px-4 py-4 font-mono text-[10px] text-gray-400">BKG-0012</td><td class="px-4 py-4 text-gray-400">CPD Takeover booking</td></tr>
+                <tr class="hover:bg-gray-50 transition"><td class="px-4 py-4 text-gray-500">20 Jan 26, 3:00 PM</td><td class="px-4 py-4 font-mono text-[10px] text-gray-400">LDG-90275</td><td class="px-4 py-4">Promo</td><td class="px-4 py-4"><span class="px-2 py-0.5 bg-purple-50 text-purple-700 rounded text-[10px] font-bold">CREDIT</span></td><td class="px-4 py-4 text-gray-500">Promo Grant</td><td class="px-4 py-4 text-right font-medium text-green-600">+₹3,00,000</td><td class="px-4 py-4 font-mono text-[10px] text-gray-400">GRT-0098</td><td class="px-4 py-4 text-gray-400">Onboarding promo credit</td></tr>
+                <tr class="hover:bg-gray-50 transition"><td class="px-4 py-4 text-gray-500">18 Jan 26, 11:30 AM</td><td class="px-4 py-4 font-mono text-[10px] text-gray-400">LDG-90274</td><td class="px-4 py-4">Primary</td><td class="px-4 py-4"><span class="px-2 py-0.5 bg-orange-50 text-orange-700 rounded text-[10px] font-bold">ADJUSTMENT</span></td><td class="px-4 py-4 text-gray-500">Adjustment</td><td class="px-4 py-4 text-right font-medium text-red-600">-₹15,000</td><td class="px-4 py-4 font-mono text-[10px] text-gray-400">ADJ-0003</td><td class="px-4 py-4 text-gray-400">PG reversal chargeback</td></tr>
             </tbody>
         </table>
     </div>
@@ -5565,7 +5976,7 @@
         } else {
             // Open it
             submenu.classList.add('open');
-            submenu.style.maxHeight = '200px'; 
+            submenu.style.maxHeight = '600px'; 
             submenu.style.opacity = '1';
             if(arrow) arrow.style.transform = 'rotate(180deg)';
         }
@@ -5713,6 +6124,67 @@ window.selectGlobalWallet = function(name, balance) {
     if(kpi) kpi.innerText = balance; 
     
     window.closeAll(); 
+};
+
+// --- MANAGE WALLET DROPDOWN (Top Bar) ---
+window.toggleManageWalletDropdown = function() {
+    const dd = document.getElementById('manageWalletDropdown');
+    if (!dd) return;
+    dd.classList.toggle('hidden');
+    // Close all fund sub-menus when toggling main dropdown
+    document.querySelectorAll('.wallet-fund-menu').forEach(m => m.classList.add('hidden'));
+    document.querySelectorAll('.manage-wallet-item').forEach(i => i.classList.remove('bg-purple-50'));
+};
+window.openWalletFundMenu = function(el, walletName, walletBalance) {
+    // Close all other fund menus first
+    document.querySelectorAll('.wallet-fund-menu').forEach(m => m.classList.add('hidden'));
+    document.querySelectorAll('.manage-wallet-item').forEach(i => i.classList.remove('bg-purple-50'));
+    // Open this one
+    const menu = el.querySelector('.wallet-fund-menu');
+    if (menu) {
+        menu.classList.toggle('hidden');
+        if (!menu.classList.contains('hidden')) {
+            el.classList.add('bg-purple-50');
+        }
+    }
+};
+// Close manage wallet dropdown on outside click
+document.addEventListener('click', function(e) {
+    const container = document.getElementById('manageWalletContainer');
+    const dd = document.getElementById('manageWalletDropdown');
+    if (container && dd && !container.contains(e.target)) {
+        dd.classList.add('hidden');
+        document.querySelectorAll('.wallet-fund-menu').forEach(m => m.classList.add('hidden'));
+        document.querySelectorAll('.manage-wallet-item').forEach(i => i.classList.remove('bg-purple-50'));
+    }
+});
+
+// --- CAMPAIGN WALLET SELECTION LOGIC ---
+window.campaignWallets = {}; // stores selected wallet per campaign prefix e.g. { vis: 'default', takeover: 'awareness' }
+
+window.onWalletSelected = function(prefix) {
+    const sel = document.getElementById(prefix + '-wallet-select');
+    const errEl = document.getElementById(prefix + '-wallet-error');
+    if (sel && sel.value) {
+        window.campaignWallets[prefix] = sel.value;
+        if (errEl) errEl.classList.add('hidden');
+        sel.style.borderColor = '#7c3aed';
+    } else {
+        delete window.campaignWallets[prefix];
+        if (sel) sel.style.borderColor = '#d1d5db';
+    }
+};
+
+window.checkWalletSelected = function(prefix) {
+    // Returns true if wallet is selected, shows error if not but still allows user to proceed
+    const sel = document.getElementById(prefix + '-wallet-select');
+    const errEl = document.getElementById(prefix + '-wallet-error');
+    if (!sel || !sel.value) {
+        if (errEl) errEl.classList.remove('hidden');
+        if (sel) sel.style.borderColor = '#dc2626';
+        return false;
+    }
+    return true;
 };
 
 window.openCreateWalletModal = function() {
@@ -5910,6 +6382,9 @@ renderAllCalendars();
             if(nextBtn) nextBtn.addEventListener('click', () => {
                 // STEP 1 VALIDATION
                 if (currentStep === 1) {
+                    // Wallet check (show error but don't block)
+                    window.checkWalletSelected('vis');
+                    
                     const isVisibilityCampaign = window.currentCampaignType === 'visibility';
                     
                     // Check 1: Is a Page Selected?
@@ -5977,6 +6452,11 @@ renderAllCalendars();
                 if (currentStep < 4) {
                     window.goToStep(currentStep + 1);
                 } else {
+                    // Block submission if no wallet selected
+                    if (!window.checkWalletSelected('vis')) {
+                        showWizardError("Please select a wallet in Step 1 before submitting.");
+                        return;
+                    }
                     alert('Campaign Submitted for Approval!');
                     window.navigateTo('overview', 'nav-overview', 'Home');
                 }
@@ -9386,6 +9866,9 @@ window.updatePerfView = function(element, type) {
 
         function validateStep(step) {
             if (step === 1) {
+                // Wallet check (show error but don't block)
+                window.checkWalletSelected('takeover');
+                
                 if (!window.takeoverState.selectedDay || !window.takeoverState.takeoverType) {
                     showTakeoverError('Please select a day and takeover type');
                     return false;
@@ -9420,6 +9903,11 @@ window.updatePerfView = function(element, type) {
                 return true;
             }
             if (step === 4) {
+                // Block submission if no wallet selected
+                if (!window.checkWalletSelected('takeover')) {
+                    showTakeoverError('Please select a wallet in Step 1 before submitting.');
+                    return false;
+                }
                 // Validate campaign name
                 const campaignNameInput = document.getElementById('takeover-campaign-name');
                 const campaignNameError = document.getElementById('takeover-campaign-name-error');
@@ -10182,6 +10670,9 @@ window.updatePerfView = function(element, type) {
 
     function validatePDAStep(step) {
         if (step === 1) {
+            // Wallet check (show error but don't block)
+            window.checkWalletSelected('pda');
+            
             if (!window.pdaState.pageSelected) {
                 showPDAError('Please select the Product Display Page');
                 return false;
@@ -10245,6 +10736,11 @@ window.updatePerfView = function(element, type) {
             return true;
         }
         if (step === 4) {
+            // Block submission if no wallet selected
+            if (!window.checkWalletSelected('pda')) {
+                showPDAError('Please select a wallet in Step 1 before submitting.');
+                return false;
+            }
             const campaignName = document.getElementById('pda-campaign-name');
             const startDate = document.getElementById('pda-start-date');
             const cpmBid = document.getElementById('pda-cpm-bid');
@@ -10544,9 +11040,18 @@ window.updatePerfView = function(element, type) {
 // --- SMART SHOPPING STEPPER LOGIC ---
     let ssCurrentStep = 1;
     function ssWizardNav(direction) {
+        // Wallet check on step 1 next (show error but don't block)
+        if (direction === 1 && ssCurrentStep === 1) {
+            window.checkWalletSelected('ss');
+        }
         if (direction === 1 && ssCurrentStep < 4) ssCurrentStep++;
         else if (direction === -1 && ssCurrentStep > 1) ssCurrentStep--;
         else if (direction === 1 && ssCurrentStep === 4) {
+            // Block submission if no wallet selected
+            if (!window.checkWalletSelected('ss')) {
+                alert('Please select a wallet in Step 1 before submitting.');
+                return;
+            }
             alert('Smart Shopping Campaign Created!');
             navigateTo('performance', 'nav-camp');
             return;
@@ -10557,9 +11062,18 @@ window.updatePerfView = function(element, type) {
     // --- SEARCH ONLY STEPPER LOGIC ---
     let soCurrentStep = 1;
     function soWizardNav(direction) {
+        // Wallet check on step 1 next (show error but don't block)
+        if (direction === 1 && soCurrentStep === 1) {
+            window.checkWalletSelected('so');
+        }
         if (direction === 1 && soCurrentStep < 4) soCurrentStep++;
         else if (direction === -1 && soCurrentStep > 1) soCurrentStep--;
         else if (direction === 1 && soCurrentStep === 4) {
+            // Block submission if no wallet selected
+            if (!window.checkWalletSelected('so')) {
+                alert('Please select a wallet in Step 1 before submitting.');
+                return;
+            }
             alert('Search Only Campaign Created!');
             navigateTo('performance', 'nav-camp');
             return;
@@ -10831,6 +11345,157 @@ function clearSelectedGeneric(tbodyId, listId) {
         `;
         container.appendChild(row);
     };
+
+// --- WALLET MANAGEMENT (BRAND SIDE) ---
+window.openManualCreditModal = function() {
+    document.getElementById('manual-credit-modal').classList.remove('hidden');
+};
+window.closeManualCreditModal = function() {
+    document.getElementById('manual-credit-modal').classList.add('hidden');
+};
+window.submitManualCredit = function() {
+    const type = document.getElementById('mcr-type').value;
+    const amount = document.getElementById('mcr-amount').value;
+    const proofRef = document.getElementById('mcr-proof-ref').value;
+    if (!type || !amount || !proofRef) {
+        alert('Please fill all required fields');
+        return;
+    }
+    alert('Credit request submitted successfully! Request ID: CR-2026-004');
+    closeManualCreditModal();
+};
+window.openPGPaymentModal = function() {
+    document.getElementById('pg-payment-modal').classList.remove('hidden');
+};
+window.closePGPaymentModal = function() {
+    document.getElementById('pg-payment-modal').classList.add('hidden');
+};
+window.openTransferModal = function() {
+    document.getElementById('transfer-funds-modal').classList.remove('hidden');
+};
+window.closeTransferModal = function() {
+    document.getElementById('transfer-funds-modal').classList.add('hidden');
+};
 </script>
+
+<!-- MANUAL CREDIT REQUEST MODAL -->
+<div id="manual-credit-modal" class="fixed inset-0 bg-black/60 z-[9999] hidden flex items-center justify-center">
+    <div class="bg-white rounded-xl shadow-2xl w-[560px] max-w-[95%] flex flex-col">
+        <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-xl">
+            <h3 class="font-bold text-lg text-gray-900"><i class="ri-file-text-line text-primary mr-2"></i>Manual Credit Request</h3>
+            <button onclick="closeManualCreditModal()" class="text-gray-400 hover:text-gray-700"><i class="ri-close-line text-2xl"></i></button>
+        </div>
+        <div class="p-6 space-y-4">
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-2">Request Type <span class="text-red-500">*</span></label>
+                <select id="mcr-type" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm">
+                    <option value="">Select type...</option>
+                    <option value="RO">Release Order (RO)</option>
+                    <option value="PO">Purchase Order (PO)</option>
+                    <option value="RTGS_UTR">RTGS / UTR</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-2">Amount (₹) <span class="text-red-500">*</span></label>
+                <input type="number" id="mcr-amount" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm" placeholder="Enter amount">
+            </div>
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-2">Proof Reference <span class="text-red-500">*</span></label>
+                <input type="text" id="mcr-proof-ref" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm" placeholder="RO/PO number or UTR/RTGS ref">
+            </div>
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-2">Upload Proof Document</label>
+                <div class="border-2 border-dashed border-gray-200 rounded-lg p-6 text-center cursor-pointer hover:border-primary hover:bg-purple-50/30 transition">
+                    <i class="ri-upload-cloud-2-line text-3xl text-gray-400 mb-2"></i>
+                    <p class="text-xs text-gray-500">Click to upload or drag and drop</p>
+                    <p class="text-[10px] text-gray-400 mt-1">PDF, JPG, PNG up to 10MB</p>
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-2">Notes</label>
+                <textarea id="mcr-notes" rows="2" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm" placeholder="Optional notes for the business team..."></textarea>
+            </div>
+        </div>
+        <div class="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50 rounded-b-xl">
+            <button onclick="closeManualCreditModal()" class="px-5 py-2.5 border border-gray-200 text-gray-600 font-bold rounded-lg text-sm hover:bg-gray-100">Cancel</button>
+            <button onclick="submitManualCredit()" class="px-5 py-2.5 bg-primary text-white font-bold rounded-lg text-sm hover:bg-primary-dark">Submit Request</button>
+        </div>
+    </div>
+</div>
+
+<!-- PAYMENT GATEWAY MODAL -->
+<div id="pg-payment-modal" class="fixed inset-0 bg-black/60 z-[9999] hidden flex items-center justify-center">
+    <div class="bg-white rounded-xl shadow-2xl w-[480px] max-w-[95%] flex flex-col">
+        <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-xl">
+            <h3 class="font-bold text-lg text-gray-900"><i class="ri-bank-card-line text-primary mr-2"></i>Payment Gateway Top-up</h3>
+            <button onclick="closePGPaymentModal()" class="text-gray-400 hover:text-gray-700"><i class="ri-close-line text-2xl"></i></button>
+        </div>
+        <div class="p-6 space-y-4">
+            <div class="p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-700 text-xs flex items-start gap-2">
+                <i class="ri-information-line mt-0.5"></i>
+                <span>Per-transaction limit: <strong>₹4,72,000</strong> (including GST) on Payment Gateway top-ups.</span>
+            </div>
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-2">Amount (₹) <span class="text-red-500">*</span></label>
+                <input type="number" id="pg-amount" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm" placeholder="Enter amount (max ₹4,00,000 + GST)" max="400000">
+                <p class="text-xs text-gray-400 mt-1">GST @18% will be added. Max pre-GST amount: ₹4,00,000</p>
+            </div>
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-2">Payment Provider</label>
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="border-2 border-primary bg-purple-50 rounded-lg p-4 text-center">
+                        <div class="font-bold text-sm text-gray-900">Razorpay</div>
+                        <div class="text-[10px] text-gray-500 mt-1">UPI, Cards, Net Banking</div>
+                    </button>
+                    <button class="border-2 border-gray-200 rounded-lg p-4 text-center hover:border-primary hover:bg-purple-50 transition">
+                        <div class="font-bold text-sm text-gray-900">Juspay</div>
+                        <div class="text-[10px] text-gray-500 mt-1">UPI, Cards, Net Banking</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50 rounded-b-xl">
+            <button onclick="closePGPaymentModal()" class="px-5 py-2.5 border border-gray-200 text-gray-600 font-bold rounded-lg text-sm hover:bg-gray-100">Cancel</button>
+            <button onclick="alert('Redirecting to payment gateway...'); closePGPaymentModal();" class="px-5 py-2.5 bg-primary text-white font-bold rounded-lg text-sm hover:bg-primary-dark">Proceed to Pay</button>
+        </div>
+    </div>
+</div>
+
+<!-- TRANSFER FUNDS MODAL -->
+<div id="transfer-funds-modal" class="fixed inset-0 bg-black/60 z-[9999] hidden flex items-center justify-center">
+    <div class="bg-white rounded-xl shadow-2xl w-[480px] max-w-[95%] flex flex-col">
+        <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-xl">
+            <h3 class="font-bold text-lg text-gray-900"><i class="ri-arrow-left-right-line text-primary mr-2"></i>Transfer Funds</h3>
+            <button onclick="closeTransferModal()" class="text-gray-400 hover:text-gray-700"><i class="ri-close-line text-2xl"></i></button>
+        </div>
+        <div class="p-6 space-y-4">
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-2">From Wallet</label>
+                <select class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm">
+                    <option>Primary Wallet (₹2,74,689)</option>
+                </select>
+            </div>
+            <div class="flex justify-center"><i class="ri-arrow-down-line text-2xl text-gray-300"></i></div>
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-2">To Wallet</label>
+                <select class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm">
+                    <option value="">Select sub-wallet...</option>
+                    <option>Performance Ads (₹0)</option>
+                    <option>Awareness Ads (₹0)</option>
+                    <option>PDA (₹19,98,765)</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-2">Amount (₹)</label>
+                <input type="number" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm" placeholder="Enter transfer amount">
+            </div>
+        </div>
+        <div class="px-6 py-4 border-t border-gray-100 flex justify-end gap-3 bg-gray-50 rounded-b-xl">
+            <button onclick="closeTransferModal()" class="px-5 py-2.5 border border-gray-200 text-gray-600 font-bold rounded-lg text-sm hover:bg-gray-100">Cancel</button>
+            <button onclick="alert('Transfer completed!'); closeTransferModal();" class="px-5 py-2.5 bg-primary text-white font-bold rounded-lg text-sm hover:bg-primary-dark">Transfer</button>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

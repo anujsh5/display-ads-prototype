@@ -3953,14 +3953,14 @@
 
         <main class="cc-steps-container">
             <div class="step-content active" id="ss-step-1" style="display: block;">
-                <div id="ss-wallet-selection" class="wallet-selection-card" style="margin: 0 24px 16px 24px; padding: 16px 20px; background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border: 1px solid #e9d5ff; border-radius: 12px;">
+                <div id="ss-wallet-selection" class="wallet-selection-card" style="margin: 0 24px 16px 24px; padding: 16px 20px; background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border: 2px solid #c084fc; border-radius: 12px; box-shadow: 0 10px 24px rgba(124, 58, 237, 0.12);">
                     <div style="display: flex; align-items: center; justify-content: space-between;">
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <div style="width: 32px; height: 32px; border-radius: 8px; background: #7c3aed; display: flex; align-items: center; justify-content: center;">
                                 <i class="ri-wallet-3-line" style="color: white; font-size: 16px;"></i>
                             </div>
                             <div>
-                                <div style="font-size: 13px; font-weight: 700; color: #1f2937;">Select Wallet for this Campaign</div>
+                                <div style="font-size: 13px; font-weight: 700; color: #1f2937; display:flex; align-items:center; gap:8px;">Select Wallet for this Campaign <span style="font-size:10px; font-weight:700; color:#7c2d12; background:#ffedd5; border:1px solid #fdba74; padding:2px 8px; border-radius:999px; text-transform:uppercase;">Required</span></div>
                                 <div style="font-size: 11px; color: #6b7280;">Choose which wallet will fund this campaign</div>
                             </div>
                         </div>
@@ -3975,6 +3975,7 @@
                             </select>
                         </div>
                     </div>
+                    <div style="margin-top:8px; font-size:11px; color:#6b7280;"><i class="ri-lock-line"></i> Wallet selection is required to unlock Step 1 fields.</div>
                     <div id="ss-wallet-error" class="hidden" style="margin-top: 8px; padding: 6px 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; font-size: 11px; color: #dc2626; font-weight: 600;">
                         <i class="ri-error-warning-line"></i> Please select a wallet before proceeding. You can continue but must select before submission.
                     </div>
@@ -4050,14 +4051,16 @@
                             <h4 class="wiz-card-title">Filters</h4>
                             <div style="border:1px solid #e2e8f0; border-radius:12px; padding:18px; background:#fff;">
                                 <div class="grid grid-cols-12 gap-3 items-end mb-3">
-                                    <div class="col-span-3"><div class="text-[10px] font-bold text-gray-400 uppercase mb-1">Field</div><div class="relative"><select class="clean-input bg-white" style="-webkit-appearance:none; appearance:none;"><option>Product Name</option><option>Category</option><option>Price</option></select><i class="ri-arrow-down-s-line absolute right-0 top-3 pointer-events-none"></i></div></div>
-                                    <div class="col-span-3"><div class="text-[10px] font-bold text-gray-400 uppercase mb-1">Operator</div><div class="relative"><select class="clean-input bg-white" style="-webkit-appearance:none; appearance:none;"><option>contains</option><option>equals</option></select><i class="ri-arrow-down-s-line absolute right-0 top-3 pointer-events-none"></i></div></div>
-                                    <div class="col-span-5"><div class="text-[10px] font-bold text-gray-400 uppercase mb-1">Value</div><input type="text" class="clean-input" placeholder="Value"></div>
+                                    <div class="col-span-3"><div class="text-[10px] font-bold text-gray-400 uppercase mb-1">Field</div><div class="relative"><select id="ss-filter-field" class="clean-input bg-white" style="-webkit-appearance:none; appearance:none;"><option>Product Name</option><option>Category</option><option>Price</option></select><i class="ri-arrow-down-s-line absolute right-0 top-3 pointer-events-none"></i></div></div>
+                                    <div class="col-span-3"><div class="text-[10px] font-bold text-gray-400 uppercase mb-1">Operator</div><div class="relative"><select id="ss-filter-operator" class="clean-input bg-white" style="-webkit-appearance:none; appearance:none;"><option>contains</option><option>equals</option></select><i class="ri-arrow-down-s-line absolute right-0 top-3 pointer-events-none"></i></div></div>
+                                    <div class="col-span-5"><div class="text-[10px] font-bold text-gray-400 uppercase mb-1">Value</div><input id="ss-filter-value" type="text" class="clean-input" placeholder="Value"></div>
                                     <div class="col-span-1 flex items-center justify-end gap-1 pb-2"><button class="w-8 h-8 rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 flex items-center justify-center"><i class="ri-delete-bin-line"></i></button><button onclick="addFilterRowGeneric('ss-filter-container')" class="w-8 h-8 rounded-full text-primary hover:bg-purple-50 flex items-center justify-center"><i class="ri-add-line"></i></button></div>
                                 </div>
                                 <div id="ss-filter-container"></div>
-                                <button class="mt-2 px-4 py-2 bg-gray-200 text-gray-400 text-xs font-bold rounded-lg cursor-not-allowed" disabled>Apply Filters</button>
-                                <div class="text-center text-sm text-gray-500 mt-4">No products match the selected filters.</div>
+                                <button id="ss-apply-filters" onclick="applyProductFilters('ss')" class="mt-2 px-4 py-2 bg-gray-200 text-gray-400 text-xs font-bold rounded-lg cursor-not-allowed" disabled>Apply Filters</button>
+                                <div id="ss-filter-status" class="text-sm text-gray-700 mt-4" style="display:none;"></div>
+                                <div id="ss-empty-state" class="text-center text-sm text-gray-500 mt-4">No products match the selected filters.</div>
+                                <div id="ss-filter-results" style="display:none; margin-top:12px;"></div>
                             </div>
                         </div>
 
@@ -4427,14 +4430,14 @@
             <!-- STEP 1: BASICS -->
             <div class="step-content active" id="so-step-1" style="display: block;">
                 <!-- Wallet Selection Card -->
-                <div id="so-wallet-selection" class="wallet-selection-card" style="margin: 0 24px 16px 24px; padding: 16px 20px; background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border: 1px solid #e9d5ff; border-radius: 12px;">
+                <div id="so-wallet-selection" class="wallet-selection-card" style="margin: 0 24px 16px 24px; padding: 16px 20px; background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border: 2px solid #c084fc; border-radius: 12px; box-shadow: 0 10px 24px rgba(124, 58, 237, 0.12);">
                     <div style="display: flex; align-items: center; justify-content: space-between;">
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <div style="width: 32px; height: 32px; border-radius: 8px; background: #7c3aed; display: flex; align-items: center; justify-content: center;">
                                 <i class="ri-wallet-3-line" style="color: white; font-size: 16px;"></i>
                             </div>
                             <div>
-                                <div style="font-size: 13px; font-weight: 700; color: #1f2937;">Select Wallet for this Campaign</div>
+                                <div style="font-size: 13px; font-weight: 700; color: #1f2937; display:flex; align-items:center; gap:8px;">Select Wallet for this Campaign <span style="font-size:10px; font-weight:700; color:#7c2d12; background:#ffedd5; border:1px solid #fdba74; padding:2px 8px; border-radius:999px; text-transform:uppercase;">Required</span></div>
                                 <div style="font-size: 11px; color: #6b7280;">Choose which wallet will fund this campaign</div>
                             </div>
                         </div>
@@ -4449,6 +4452,7 @@
                             </select>
                         </div>
                     </div>
+                    <div style="margin-top:8px; font-size:11px; color:#6b7280;"><i class="ri-lock-line"></i> Wallet selection is required to unlock Step 1 fields.</div>
                     <div id="so-wallet-error" class="hidden" style="margin-top: 8px; padding: 6px 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; font-size: 11px; color: #dc2626; font-weight: 600;">
                         <i class="ri-error-warning-line"></i> Please select a wallet before proceeding. You can continue but must select before submission.
                     </div>
@@ -4534,7 +4538,7 @@
                                     <div class="col-span-3">
                                         <div class="text-[10px] font-bold text-gray-400 uppercase mb-1">Field</div>
                                         <div class="relative">
-                                            <select class="clean-input bg-white" style="-webkit-appearance:none; appearance:none;">
+                                            <select id="so-filter-field" class="clean-input bg-white" style="-webkit-appearance:none; appearance:none;">
                                                 <option>Product Name</option>
                                                 <option>Category</option>
                                                 <option>Price</option>
@@ -4545,7 +4549,7 @@
                                     <div class="col-span-3">
                                         <div class="text-[10px] font-bold text-gray-400 uppercase mb-1">Operator</div>
                                         <div class="relative">
-                                            <select class="clean-input bg-white" style="-webkit-appearance:none; appearance:none;">
+                                            <select id="so-filter-operator" class="clean-input bg-white" style="-webkit-appearance:none; appearance:none;">
                                                 <option>contains</option>
                                                 <option>equals</option>
                                             </select>
@@ -4554,7 +4558,7 @@
                                     </div>
                                     <div class="col-span-5">
                                         <div class="text-[10px] font-bold text-gray-400 uppercase mb-1">Value</div>
-                                        <input type="text" class="clean-input" placeholder="Value">
+                                        <input id="so-filter-value" type="text" class="clean-input" placeholder="Value">
                                     </div>
                                     <div class="col-span-1 flex items-center justify-end gap-1 pb-2">
                                         <button class="w-8 h-8 rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 flex items-center justify-center" title="Remove condition">
@@ -4566,8 +4570,10 @@
                                     </div>
                                 </div>
                                 <div id="so-filter-container"></div>
-                                <button class="mt-2 px-4 py-2 bg-gray-200 text-gray-400 text-xs font-bold rounded-lg cursor-not-allowed" disabled>Apply Filters</button>
-                                <div class="text-center text-sm text-gray-500 mt-4">No products match the selected filters.</div>
+                                <button id="so-apply-filters" onclick="applyProductFilters('so')" class="mt-2 px-4 py-2 bg-gray-200 text-gray-400 text-xs font-bold rounded-lg cursor-not-allowed" disabled>Apply Filters</button>
+                                <div id="so-filter-status" class="text-sm text-gray-700 mt-4" style="display:none;"></div>
+                                <div id="so-empty-state" class="text-center text-sm text-gray-500 mt-4">No products match the selected filters.</div>
+                                <div id="so-filter-results" style="display:none; margin-top:12px;"></div>
                             </div>
                         </div>
 
@@ -13674,6 +13680,72 @@ function addFilterRowGeneric(containerId) {
     `;
     container.appendChild(row);
 }
+
+const skinFilterProducts = [
+    { image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=100', name: 'Alps Goodness Tea Tree, Salicylic Acid & Apple Cider Vinegar Acne Control Night Cream for Oily Skin (50 gm)', category: 'Night Cream', brand: 'Alps Goodness', price: '₹335', salePrice: '₹239' },
+    { image: 'https://images.unsplash.com/photo-1608248597279-f99d160bfbc8?auto=format&fit=crop&q=80&w=100', name: 'Alps Goodness Avocado, Hyaluronic Acid & Vitamin E Hydrating Night Cream for Dry Skin (50 gm)', category: 'Night Cream', brand: 'Alps Goodness', price: '₹335', salePrice: '₹264' },
+    { image: 'https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=100', name: 'Alps Goodness Beetroot Powder Beauty Mask for Skin & Hair (50 gm)', category: 'Face Pack', brand: 'Alps Goodness', price: '₹110', salePrice: '₹103' },
+    { image: 'https://images.unsplash.com/photo-1580870069867-74c57ee1bb07?auto=format&fit=crop&q=80&w=100', name: 'Alps Goodness Powder - Beetroot (50 gm) Hair Mask or Face Mask for brightening skin', category: 'Face Pack', brand: 'Alps Goodness', price: '₹110', salePrice: '₹103' },
+    { image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&q=80&w=100', name: 'Alps Goodness Powder - Beetroot (50 gm) Natural Face Mask for skin nourishment', category: 'Face Pack', brand: 'Alps Goodness', price: '₹99', salePrice: '₹94' },
+    { image: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&q=80&w=100', name: 'Alps Goodness Rose Petal Beauty Mask for Skin (50 gm)', category: 'Face Pack', brand: 'Alps Goodness', price: '₹110', salePrice: '₹104' },
+    { image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=100', name: 'Alps Goodness Diamond Hydrating Facial Kit with Glycerine (34 gm) | Glowing Skin', category: 'Facial Kit', brand: 'Alps Goodness', price: '₹150', salePrice: '₹143' },
+    { image: 'https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&q=80&w=100', name: 'Alps Goodness Diamond Hydrating Facial Kit (34 gm) | Toning & Firming | Skin care', category: 'Facial Kit', brand: 'Alps Goodness', price: '₹145', salePrice: '₹136' },
+    { image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=100', name: 'Alps Goodness Gold Glow Facial Kit - Saffron (34 gm) | Skin Toning', category: 'Facial Kit', brand: 'Alps Goodness', price: '₹150', salePrice: '₹141' },
+    { image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=100', name: 'Alps Goodness Aloe Vera Soothing Gel for Skin & Face Care (100 ml)', category: 'Skin Care', brand: 'Alps Goodness', price: '₹120', salePrice: '₹109' }
+];
+
+function renderFilterResults(prefix, products) {
+    const results = document.getElementById(prefix + '-filter-results');
+    if (!results) return;
+    const rows = products.map(p => `<tr class="border-b border-gray-100"><td class="p-3"><input type="checkbox" class="accent-primary"></td><td class="p-3"><img src="${p.image}" class="w-10 h-10 rounded object-cover bg-gray-100"></td><td class="p-3 text-sm text-gray-800">${p.name}</td><td class="p-3 text-sm text-gray-700">${p.category}</td><td class="p-3 text-sm text-gray-700">${p.brand}</td><td class="p-3 text-sm text-gray-900">${p.price}</td><td class="p-3 text-sm text-gray-900">${p.salePrice}</td></tr>`).join('');
+    results.innerHTML = `<div class="border border-gray-200 rounded-lg overflow-hidden"><table class="w-full text-left border-collapse"><thead class="bg-gray-50 border-b border-gray-200 text-[11px] uppercase text-gray-500 font-bold"><tr><th class="p-3 w-10"></th><th class="p-3">Image</th><th class="p-3">Name</th><th class="p-3">Category</th><th class="p-3">Brand</th><th class="p-3">Price</th><th class="p-3">Sale Price</th></tr></thead><tbody>${rows}</tbody></table></div><div class="flex items-center justify-center gap-4 text-sm text-gray-600 mt-3"><i class="ri-arrow-left-s-line"></i><span class="w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold">1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><i class="ri-arrow-right-s-line"></i></div>`;
+}
+
+function applyProductFilters(prefix) {
+    const field = document.getElementById(prefix + '-filter-field');
+    const operator = document.getElementById(prefix + '-filter-operator');
+    const input = document.getElementById(prefix + '-filter-value');
+    const empty = document.getElementById(prefix + '-empty-state');
+    const status = document.getElementById(prefix + '-filter-status');
+    const results = document.getElementById(prefix + '-filter-results');
+    if (!input || !empty || !status || !results) return;
+
+    const query = input.value.trim().toLowerCase();
+    const shouldShowSkin = query.includes('skin') && (!field || field.value === 'Product Name') && (!operator || operator.value === 'contains');
+
+    if (shouldShowSkin) {
+        status.textContent = 'Found 10 products';
+        status.style.display = 'block';
+        empty.style.display = 'none';
+        results.style.display = 'block';
+        renderFilterResults(prefix, skinFilterProducts);
+    } else {
+        status.style.display = 'none';
+        empty.style.display = 'block';
+        results.style.display = 'none';
+        results.innerHTML = '';
+    }
+}
+
+function initProductFilterUI(prefix) {
+    const input = document.getElementById(prefix + '-filter-value');
+    const button = document.getElementById(prefix + '-apply-filters');
+    if (!input || !button) return;
+    const setState = function() {
+        const hasValue = input.value.trim().length > 0;
+        button.disabled = !hasValue;
+        button.className = hasValue
+            ? 'mt-2 px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg'
+            : 'mt-2 px-4 py-2 bg-gray-200 text-gray-400 text-xs font-bold rounded-lg cursor-not-allowed';
+    };
+    input.addEventListener('input', setState);
+    setState();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    initProductFilterUI('ss');
+    initProductFilterUI('so');
+});
 
 // 3. Open Modal with Target context
 let currentProductTargetBody = '';

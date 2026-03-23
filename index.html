@@ -3938,25 +3938,21 @@
 <!-- PAGE: SMART SHOPPING WIZARD (Fixed Arrows & Embedded Modal) -->
 <div id="page-create-smart-shopping" class="page-section hidden wizard-wrapper">
     <div class="cc-module-container">
-        
-        <!-- Header -->
         <header class="cc-header">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px; padding-bottom:12px; border-bottom:1px solid #f1f5f9;">
                 <h2 style="font-size:18px; font-weight:700; color:#111827; margin:0;">Create Smart Shopping Campaign</h2>
                 <button onclick="navigateTo('performance', 'nav-camp')" style="color:#9ca3af; font-size:24px;"><i class="ri-close-line"></i></button>
             </div>
             <div class="cc-stepper" id="ss-stepper">
-                <div class="cc-step active" data-step="1"><i class="ri-file-list-3-line step-icon"></i>&nbsp; Basic Info</div>
-                <div class="cc-step" data-step="2"><i class="ri-shopping-bag-3-line step-icon"></i>&nbsp; Product Selection</div>
-                <div class="cc-step" data-step="3"><i class="ri-funds-line step-icon"></i>&nbsp; Bidding</div>
-                <div class="cc-step" data-step="4"><i class="ri-checkbox-circle-line step-icon"></i>&nbsp; Review</div>
+                <div class="cc-step active" data-step="1"><i class="ri-file-list-3-line step-icon"></i>&nbsp; Step 1: Basic Information</div>
+                <div class="cc-step" data-step="2"><i class="ri-shopping-bag-3-line step-icon"></i>&nbsp; Step 2: Product Selection</div>
+                <div class="cc-step" data-step="3"><i class="ri-funds-line step-icon"></i>&nbsp; Step 3: Bidding</div>
+                <div class="cc-step" data-step="4"><i class="ri-checkbox-circle-line step-icon"></i>&nbsp; Step 4: Review</div>
             </div>
         </header>
-    
+
         <main class="cc-steps-container">
-            <!-- STEP 1: BASICS -->
             <div class="step-content active" id="ss-step-1" style="display: block;">
-                <!-- Wallet Selection Card -->
                 <div id="ss-wallet-selection" class="wallet-selection-card" style="margin: 0 24px 16px 24px; padding: 16px 20px; background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border: 1px solid #e9d5ff; border-radius: 12px;">
                     <div style="display: flex; align-items: center; justify-content: space-between;">
                         <div style="display: flex; align-items: center; gap: 10px;">
@@ -3983,47 +3979,57 @@
                         <i class="ri-error-warning-line"></i> Please select a wallet before proceeding. You can continue but must select before submission.
                     </div>
                 </div>
+
                 <div class="wizard-body-split">
-                    <div class="wizard-sidebar">
-                        <div class="wiz-toc-header">Step 1: Basic Info</div>
-                        <div class="wiz-toc-item active"><i class="ri-settings-3-line wiz-toc-icon"></i> Campaign Details</div>
-                        <div class="wiz-toc-item"><i class="ri-wallet-3-line wiz-toc-icon"></i> Budget & Pacing</div>
-                        <div class="wiz-toc-item"><i class="ri-calendar-line wiz-toc-icon"></i> Schedule</div>
-                    </div>
-                    <div class="wizard-content-area">
+                    <div class="wizard-content-area" id="ss-step-1-content">
                         <div class="wiz-section-card">
-                            <h4 class="wiz-card-title">Campaign Details</h4>
-                            <div class="ss-input-grid">
-                                <div class="input-group-clean"><label class="input-label">Campaign Name <span class="text-red-500">*</span></label><input type="text" class="clean-input" placeholder="e.g., Summer Sale 2026"></div>
-                                <div class="input-group-clean"><label class="input-label">Objective</label><select class="clean-input" style="background:#fff;"><option>Sales</option><option>Traffic</option></select></div>
+                            <h4 class="wiz-card-title">Campaign Name</h4>
+                            <div class="input-group-clean">
+                                <label class="input-label">Campaign Name</label>
+                                <input type="text" class="clean-input" placeholder="e.g., Summer Sale 2026">
+                                <p class="text-xs text-gray-500 mt-2">Leave blank to auto-generate name, or enter your own</p>
                             </div>
                         </div>
                         <div class="wiz-section-card">
-                            <h4 class="wiz-card-title">Budget & Pacing</h4>
-                            <div class="ss-input-grid">
-                                <div class="input-group-clean"><label class="input-label">Daily Budget (₹) <span class="text-red-500">*</span></label><input type="number" class="clean-input" placeholder="5000"></div>
-                                <div class="input-group-clean"><label class="input-label">Pacing</label><select class="clean-input" style="background:#fff;"><option>Standard</option><option>Accelerated</option></select></div>
+                            <h4 class="wiz-card-title">Daily Budget</h4>
+                            <div class="input-group-clean">
+                                <label class="input-label">Daily Budget (INR)</label>
+                                <input type="number" min="0" class="clean-input" placeholder="5000">
                             </div>
                         </div>
                         <div class="wiz-section-card">
-                            <h4 class="wiz-card-title">Schedule</h4>
-                            <div class="ss-input-grid">
-                                <div class="input-group-clean"><label class="input-label">Start Date</label><div style="position:relative;"><input type="text" class="clean-input" value="13 Jan 2026"><i class="ri-calendar-line" style="position:absolute; right:0; top:12px; color:#94a3b8;"></i></div></div>
-                                <div class="input-group-clean"><label class="input-label">End Date</label><div style="position:relative;"><input type="text" class="clean-input" placeholder="Select Date"><i class="ri-calendar-line" style="position:absolute; right:0; top:12px; color:#94a3b8;"></i></div></div>
+                            <h4 class="wiz-card-title">Budget Pacing Type</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <label class="border border-primary rounded-lg p-4 bg-purple-50 cursor-pointer">
+                                    <div class="flex items-center gap-2 mb-2"><input type="radio" name="ss-pacing-type" checked><span class="font-bold text-gray-900">Accelerated</span></div>
+                                    <p class="text-xs text-gray-600">Budget is consumed as per demand of the platform</p>
+                                </label>
+                                <label class="border border-gray-200 rounded-lg p-4 bg-white cursor-pointer">
+                                    <div class="flex items-center gap-2 mb-2"><input type="radio" name="ss-pacing-type"><span class="font-bold text-gray-900">Partitioned</span></div>
+                                    <p class="text-xs text-gray-600">Budget is paced throughout the day into multiple segments</p>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="wiz-section-card">
+                            <h4 class="wiz-card-title">Start Date &amp; Time (Optional)</h4>
+                            <div class="input-group-clean">
+                                <input type="datetime-local" class="clean-input">
+                                <p class="text-xs text-gray-500 mt-2">Leave empty to start immediately. Cannot be before current time.</p>
+                            </div>
+                        </div>
+                        <div class="wiz-section-card">
+                            <h4 class="wiz-card-title">End Date &amp; Time (Optional)</h4>
+                            <div class="input-group-clean">
+                                <input type="datetime-local" class="clean-input">
+                                <p class="text-xs text-gray-500 mt-2">Leave empty for ongoing campaign</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-    
-            <!-- STEP 2: PRODUCTS -->
+
             <div class="step-content" id="ss-step-2" style="display: none;">
                 <div class="wizard-body-split">
-                    <div class="wizard-sidebar">
-                        <div class="wiz-toc-header">Step 2: Product Selection</div>
-                        <div class="wiz-toc-item active"><i class="ri-filter-3-line wiz-toc-icon"></i> Selection Method</div>
-                        <div class="wiz-toc-item"><i class="ri-list-check wiz-toc-icon"></i> Selected Items</div>
-                    </div>
                     <div class="wizard-content-area">
                         <div class="wiz-section-card">
                             <h4 class="wiz-card-title">Selection Method</h4>
@@ -4040,43 +4046,32 @@
                             </div>
                         </div>
 
-                        <!-- Filter View -->
                         <div id="ss-view-filters" class="wiz-section-card animate-fade-in" style="display: block;">
-    <h4 class="wiz-card-title">Filters</h4>
-    <div class="grid grid-cols-12 gap-3 mb-2" style="font-size:11px; font-weight:700; color:#94a3b8; text-transform:uppercase;">
-        <div class="col-span-3">Field</div><div class="col-span-3">Operator</div><div class="col-span-5">Value</div>
-    </div>
+                            <h4 class="wiz-card-title">Filters</h4>
+                            <div style="border:1px solid #e2e8f0; border-radius:12px; padding:18px; background:#fff;">
+                                <div class="grid grid-cols-12 gap-3 items-end mb-3">
+                                    <div class="col-span-3"><div class="text-[10px] font-bold text-gray-400 uppercase mb-1">Field</div><div class="relative"><select class="clean-input bg-white" style="-webkit-appearance:none; appearance:none;"><option>Product Name</option><option>Category</option><option>Price</option></select><i class="ri-arrow-down-s-line absolute right-0 top-3 pointer-events-none"></i></div></div>
+                                    <div class="col-span-3"><div class="text-[10px] font-bold text-gray-400 uppercase mb-1">Operator</div><div class="relative"><select class="clean-input bg-white" style="-webkit-appearance:none; appearance:none;"><option>contains</option><option>equals</option></select><i class="ri-arrow-down-s-line absolute right-0 top-3 pointer-events-none"></i></div></div>
+                                    <div class="col-span-5"><div class="text-[10px] font-bold text-gray-400 uppercase mb-1">Value</div><input type="text" class="clean-input" placeholder="Value"></div>
+                                    <div class="col-span-1 flex items-center justify-end gap-1 pb-2"><button class="w-8 h-8 rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 flex items-center justify-center"><i class="ri-delete-bin-line"></i></button><button onclick="addFilterRowGeneric('ss-filter-container')" class="w-8 h-8 rounded-full text-primary hover:bg-purple-50 flex items-center justify-center"><i class="ri-add-line"></i></button></div>
+                                </div>
+                                <div id="ss-filter-container"></div>
+                                <button class="mt-2 px-4 py-2 bg-gray-200 text-gray-400 text-xs font-bold rounded-lg cursor-not-allowed" disabled>Apply Filters</button>
+                                <div class="text-center text-sm text-gray-500 mt-4">No products match the selected filters.</div>
+                            </div>
+                        </div>
 
-    <div id="ss-filter-container">
-        <div class="grid grid-cols-12 gap-3 items-center mb-3">
-            <div class="col-span-3 relative"><select class="clean-input bg-white" style="-webkit-appearance: none; appearance: none;"><option>Product Name</option></select><i class="ri-arrow-down-s-line absolute right-0 top-3 pointer-events-none"></i></div>
-            <div class="col-span-3 relative"><select class="clean-input bg-white" style="-webkit-appearance: none; appearance: none;"><option>contains</option></select><i class="ri-arrow-down-s-line absolute right-0 top-3 pointer-events-none"></i></div>
-            <div class="col-span-5"><input type="text" class="clean-input" placeholder="e.g. Shampoo"></div>
-            <div class="col-span-1"><button onclick="addFilterRowGeneric('ss-filter-container')" class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary-dark transition"><i class="ri-add-line"></i></button></div>
-        </div>
-    </div>
-
-    <button onclick="addFilterRowGeneric('ss-filter-container')" class="text-xs font-bold text-primary hover:underline mt-2">+ Add another condition</button>
-</div>
-
-                        <!-- Individual View -->
                         <div id="ss-view-individual" class="wiz-section-card animate-fade-in" style="display: none;">
                             <h4 class="wiz-card-title">Manual Selection</h4>
                             <p id="ss-action-label" class="text-sm text-slate-500 mb-4">Select products to INCLUDE in this campaign</p>
-                            
                             <div class="flex gap-4 mb-6">
-                                <button onclick="document.getElementById('ss-product-modal').classList.remove('hidden')" class="flex items-center gap-2 bg-[#9c00ad] text-white px-5 py-2.5 rounded-lg text-sm font-bold shadow-md hover:bg-[#7e008c] transition">
-                                    <i class="ri-add-line text-lg"></i> Choose Individually
-                                </button>
-                                <button class="flex items-center gap-2 bg-[#9c00ad] text-white px-5 py-2.5 rounded-lg text-sm font-bold shadow-md hover:bg-[#7e008c] transition">
-                                    <i class="ri-upload-cloud-2-line text-lg"></i> Upload Bulk Products
-                                </button>
+                                <button onclick="document.getElementById('ss-product-modal').classList.remove('hidden')" class="flex items-center gap-2 bg-[#9c00ad] text-white px-5 py-2.5 rounded-lg text-sm font-bold shadow-md hover:bg-[#7e008c] transition"><i class="ri-add-line"></i> Choose Individually</button>
+                                <button onclick="openSSBulkModal()" class="flex items-center gap-2 bg-[#fdf1ff] text-[#9c00ad] px-5 py-2.5 rounded-lg text-sm font-bold border border-[#e9d5ff] shadow-sm hover:bg-[#f8e8fb] transition"><i class="ri-upload-cloud-2-line"></i> Upload Bulk Products</button>
                             </div>
-
                             <div id="ss-selected-list" style="display:none; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
-                                <div style="background:#f1f5f9; padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
-                                    <h4 class="font-bold text-gray-800 text-sm m-0" style="border:none; padding:0; margin:0;">Selected (<span id="ss-selected-count">0</span>)</h4>
-                                    <button onclick="document.getElementById('ss-selected-tbody').innerHTML=''; document.getElementById('ss-selected-list').style.display='none';" class="text-xs font-bold text-red-500 bg-red-50 border border-red-100 px-3 py-1 rounded hover:bg-red-100 transition">Clear All</button>
+                                <div style="background:#f8fafc; padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
+                                    <h4 class="font-bold text-gray-800 text-sm m-0" style="border:none;">Selected (<span id="ss-selected-count">0</span>)</h4>
+                                    <button onclick="document.getElementById('ss-selected-tbody').innerHTML=''; document.getElementById('ss-selected-list').style.display='none'; document.getElementById('ss-selected-count').innerText='0';" class="text-xs font-bold text-red-500 bg-red-50 border border-red-100 px-3 py-1 rounded hover:bg-red-100 transition">Clear All</button>
                                 </div>
                                 <table class="w-full text-left"><tbody id="ss-selected-tbody"></tbody></table>
                             </div>
@@ -4085,31 +4080,25 @@
                 </div>
             </div>
 
-            <!-- STEP 3: BIDDING -->
             <div class="step-content" id="ss-step-3" style="display: none;">
                 <div class="wizard-body-split">
-                    <div class="wizard-sidebar">
-                        <div class="wiz-toc-header">Step 3: Bidding</div>
-                        <div class="wiz-toc-item active"><i class="ri-funds-line wiz-toc-icon"></i> Bidding Type</div>
-                        <div class="wiz-toc-item"><i class="ri-target-line wiz-toc-icon"></i> ROAS Target</div>
-                    </div>
                     <div class="wizard-content-area">
-                        <div class="wiz-section-card">
+                        <div class="wiz-section-card" id="ss-bidding-strategy-card">
                             <h4 class="wiz-card-title">Bidding Strategy</h4>
                             <div class="grid grid-cols-2 gap-6">
-                                <div class="border border-gray-200 bg-white rounded-lg p-5 cursor-default opacity-60">
+                                <div id="ss-manual-card" class="border border-gray-200 bg-white rounded-lg p-5 cursor-pointer transition" onclick="setSSBiddingMode('manual')">
                                     <div class="flex items-center gap-2 mb-2"><div class="w-3 h-3 rounded-full bg-gray-300"></div><h5 class="font-bold text-gray-900">Manual Bidding</h5></div>
                                     <p class="text-xs text-gray-600 mb-4">You take control of your Ads by placing bids on a Cost per Click basis.</p>
-                                    <button class="px-3 py-1 bg-white border border-gray-300 text-gray-500 text-[10px] font-bold rounded" disabled>Choose</button>
+                                    <button id="ss-manual-btn" class="px-3 py-1 bg-white border border-gray-300 text-gray-500 text-[10px] font-bold rounded">Choose</button>
                                 </div>
-                                <div class="border-2 border-primary bg-purple-50 rounded-lg p-5 relative shadow-sm">
+                                <div id="ss-smart-card" class="border-2 border-primary bg-purple-50 rounded-lg p-5 relative shadow-sm cursor-pointer transition" onclick="setSSBiddingMode('smart')">
                                     <div class="flex items-center gap-2 mb-2"><div class="w-3 h-3 rounded-full bg-primary"></div><h5 class="font-bold text-gray-900">Smart Bidding (ROAS)</h5></div>
                                     <p class="text-xs text-gray-600 mb-4">Optimizes bids for maximum performance based on your ROAS target.</p>
-                                    <button class="px-3 py-1 bg-primary text-white text-[10px] font-bold rounded shadow-sm">Selected</button>
+                                    <button id="ss-smart-btn" class="px-3 py-1 bg-primary text-white text-[10px] font-bold rounded shadow-sm">Selected</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="wiz-section-card">
+                        <div class="wiz-section-card" id="ss-roas-card">
                             <h4 class="wiz-card-title">Set Targets</h4>
                             <label class="input-label">Target ROAS (Return on Ad Spend)</label>
                             <div class="flex items-center gap-3 mb-4">
@@ -4120,93 +4109,299 @@
                                 <i class="ri-information-fill text-lg"></i> Limited spend expected with high ROAS target.
                             </div>
                         </div>
+                        <div class="wiz-section-card" id="ss-categories-card" style="display:none;">
+                            <h4 class="wiz-card-title">Available Categories</h4>
+                            <p class="text-sm text-slate-500 mb-4">Select categories and set your bid amounts</p>
+                            <div class="relative mb-4">
+                                <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                <input type="text" class="w-full border border-gray-300 rounded-lg pl-9 pr-3 py-2.5 text-sm focus:border-primary focus:outline-none" placeholder="Search categories...">
+                            </div>
+                            <div class="border border-gray-200 rounded-lg overflow-hidden mb-6">
+                                <table class="w-full text-left border-collapse">
+                                    <thead class="bg-gray-50 border-b border-gray-200 text-[11px] uppercase text-gray-500 font-bold"><tr><th class="p-3 w-10"><input id="ss-select-all-categories" type="checkbox" class="accent-primary" onchange="toggleSSAllCategories(this)"></th><th class="p-3">Category</th><th class="p-3">Base Bid (₹)</th><th class="p-3">Your Bid (₹)</th></tr></thead>
+                                    <tbody class="text-sm text-gray-700 divide-y divide-gray-100">
+                                        <tr class="ss-category-row" data-base-bid="10.71"><td class="p-3"><input type="checkbox" class="accent-primary ss-category-checkbox" onchange="toggleSSCategoryRow(this)"></td><td class="p-3">Bath and Body &gt; Bath &amp; Shower &gt; Body Wash &amp; Shower Gel</td><td class="p-3">10.71</td><td class="p-3 ss-your-bid-cell">-</td></tr>
+                                        <tr class="ss-category-row" data-base-bid="11.31"><td class="p-3"><input type="checkbox" class="accent-primary ss-category-checkbox" onchange="toggleSSCategoryRow(this)"></td><td class="p-3">Bath and Body &gt; Body Care &gt; Body Lotion &amp; Moisturizer</td><td class="p-3">11.31</td><td class="p-3 ss-your-bid-cell">-</td></tr>
+                                        <tr class="ss-category-row" data-base-bid="26.34"><td class="p-3"><input type="checkbox" class="accent-primary ss-category-checkbox" onchange="toggleSSCategoryRow(this)"></td><td class="p-3">Hair Care &gt; Hair Care &amp; Styling Tool &gt; Hair Brush &amp; Comb</td><td class="p-3">26.34</td><td class="p-3 ss-your-bid-cell">-</td></tr>
+                                        <tr class="ss-category-row" data-base-bid="9.49"><td class="p-3"><input type="checkbox" class="accent-primary ss-category-checkbox" onchange="toggleSSCategoryRow(this)"></td><td class="p-3">Hair Care &gt; Hair Nourishment &gt; Hair Serum</td><td class="p-3">9.49</td><td class="p-3 ss-your-bid-cell">-</td></tr>
+                                        <tr class="ss-category-row" data-base-bid="11.31"><td class="p-3"><input type="checkbox" class="accent-primary ss-category-checkbox" onchange="toggleSSCategoryRow(this)"></td><td class="p-3">Hair Care &gt; Shampoo &amp; Conditioner &gt; Conditioner</td><td class="p-3">11.31</td><td class="p-3 ss-your-bid-cell">-</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <h4 class="wiz-card-title" style="font-size:20px; margin-bottom:8px;">Bulk Categories Upload</h4>
+                            <p class="text-sm text-gray-600 mb-1">Enter categories in the format: categoryName,bid (one per line)</p>
+                            <p class="text-xs text-gray-500 mb-3">Example: Electronics,15.50</p>
+                            <button class="bg-[#9c00ad] text-white px-4 py-2 rounded-lg text-sm font-bold shadow-sm flex items-center gap-2 mb-3 hover:bg-[#7e008c] transition"><i class="ri-upload-cloud-2-line"></i> Upload CSV</button>
+                            <textarea id="ss-bulk-categories" class="clean-input" style="min-height:100px; padding:16px;" placeholder="Bulk Categories"></textarea>
+                            <button id="ss-add-bulk-categories-btn" class="mt-3 px-4 py-2 rounded-lg text-sm font-bold bg-gray-200 text-gray-400 cursor-not-allowed" disabled>Add Bulk Categories</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- STEP 4: REVIEW -->
             <div class="step-content" id="ss-step-4" style="display: none;">
                 <div class="wizard-body-split">
-                    <div class="wizard-sidebar">
-                        <div class="wiz-toc-header">Step 4: Review</div>
-                        <div class="wiz-toc-item active"><i class="ri-file-list-line wiz-toc-icon"></i> Overview</div>
-                    </div>
-                    
                     <div class="wizard-content-area">
                         <div class="wiz-section-card">
-                            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #f1f5f9; padding-bottom:12px; margin-bottom:20px;">
-                                <h4 class="wiz-card-title" style="border:none; padding:0; margin:0;">Basic Information</h4>
-                                <span style="background:#fffbeb; color:#92400e; border:1px solid #fcd34d; padding:4px 10px; border-radius:4px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">
-                                    <i class="ri-checkbox-circle-line" style="vertical-align:middle; margin-right:4px;"></i> Review Mode
-                                </span>
-                            </div>
-                            
+                            <h4 class="wiz-card-title">Basic Information</h4>
                             <div class="grid grid-cols-2 gap-6">
-                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Campaign Name</div><div class="font-bold text-gray-900">Summer Sale 2026</div></div>
-                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Type</div><div class="font-bold text-primary">SMART SHOPPING</div></div>
-                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Start Date</div><div class="font-medium text-gray-700">13 Jan 2026</div></div>
-                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Ad Format</div><div class="font-medium text-gray-700">Product Listing</div></div>
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Campaign Name</div><div class="font-bold text-gray-900"></div></div>
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Campaign Type</div><div class="font-bold text-gray-900">PERFORMANCE</div></div>
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Sub Type</div><div class="font-medium text-gray-700">SMART_SHOPPING</div></div>
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Ad Type</div><div class="font-medium text-gray-700">product</div></div>
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Start Date</div><div class="font-medium text-gray-700">Mar 23, 2026</div></div>
                             </div>
                         </div>
                         <div class="wiz-section-card">
-                            <h4 class="wiz-card-title">Budget & Strategy</h4>
+                            <h4 class="wiz-card-title">Budget & Bidding</h4>
                             <div class="grid grid-cols-2 gap-6">
-                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Daily Budget</div><div class="font-bold text-lg text-gray-900">₹ 5,000</div></div>
-                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Strategy</div><div class="font-bold text-gray-900">Target ROAS (4:1)</div></div>
-                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Duration</div><div class="font-medium text-gray-700">30 Days</div></div>
-                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Est. Spend</div><div class="font-medium text-gray-700">₹ 1,50,000</div></div>
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Daily Budget</div><div class="font-bold text-lg text-gray-900">₹0</div></div>
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Pacing Strategy</div><div class="font-bold text-gray-900">accelerated</div></div>
+                                <div><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">Duration</div><div class="font-medium text-gray-700">30 days</div></div>
                             </div>
                         </div>
                         <div class="wiz-section-card">
-                            <h4 class="wiz-card-title">Targeting</h4>
-                            <div>24 Products Selected (Manual Selection)</div>
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="wiz-card-title" style="border:none; padding:0; margin:0;">Camp Expectations</h4>
+                                <div class="inline-flex border border-gray-200 rounded-lg overflow-hidden text-[11px] font-bold">
+                                    <button class="px-3 py-1 bg-gray-100 text-gray-900">7D</button>
+                                    <button class="px-3 py-1 bg-white text-gray-500">30D</button>
+                                </div>
+                            </div>
+                            <div class="bg-blue-50 border border-blue-100 rounded-lg p-4 flex items-center gap-3 text-blue-700 text-sm">
+                                <i class="ri-information-fill text-lg"></i> Please enter a daily budget to see estimates.
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
-        
-        <!-- FOOTER -->
+
         <footer class="cc-footer" style="padding: 20px 32px; border-top: 1px solid #e5e7eb; display:flex; justify-content:space-between; background:#fff;">
             <button class="cc-button" id="ss-back-btn" onclick="ssWizardNav(-1)" style="background-color: #fff; border:1px solid #cbd5e1; color:#334155; display:none;">Back</button>
             <button class="cc-button" id="ss-next-btn" onclick="ssWizardNav(1)" style="background-color: var(--cc-primary-color); color: #fff; margin-left:auto;">Next</button>
         </footer>
     </div>
 
-    <!-- EMBEDDED MODAL FOR SMART SHOPPING -->
     <div id="ss-product-modal" class="fixed inset-0 bg-black/60 z-[9999] hidden flex items-center justify-center">
-        <div class="bg-white rounded-xl shadow-2xl w-[900px] max-w-[95%] h-[80vh] flex flex-col transform transition-all scale-100">
+        <div class="bg-white rounded-xl shadow-2xl w-[960px] max-w-[96%] h-[86vh] flex flex-col transform transition-all scale-100">
             <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-xl">
-                <h3 class="font-bold text-lg text-gray-900">Select Products (Smart Shopping)</h3>
-                <button onclick="document.getElementById('ss-product-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-700"><i class="ri-close-line text-2xl"></i></button>
+                <h3 class="font-bold text-2xl text-gray-900">Select Products</h3>
+                <button onclick="closeSSProductModal()" class="text-gray-400 hover:text-gray-700"><i class="ri-close-line text-2xl"></i></button>
             </div>
-            <div class="flex-1 overflow-y-auto p-0">
+            <div class="px-6 py-4 border-b border-gray-100">
+                <div class="flex flex-wrap gap-3">
+                    <div class="relative min-w-[120px]"><select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white appearance-none"><option>Category</option></select><i class="ri-arrow-down-s-line absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"></i></div>
+                    <input type="text" class="border border-gray-300 rounded-lg px-3 py-2 text-sm min-w-[120px]" placeholder="Price">
+                    <input type="text" class="border border-gray-300 rounded-lg px-3 py-2 text-sm min-w-[120px]" placeholder="Sale Price">
+                </div>
+                <div class="mt-3 w-28"><div class="text-[11px] text-gray-500 mb-1">Limit</div><div class="relative"><select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white appearance-none"><option>10</option><option>20</option><option>50</option></select><i class="ri-arrow-down-s-line absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"></i></div></div>
+            </div>
+            <div class="flex-1 overflow-y-auto px-2 py-1">
                 <table class="w-full text-left border-collapse">
-                    <thead class="bg-white sticky top-0 z-10 shadow-sm text-[10px] text-gray-500 uppercase font-bold"><tr><th class="p-4 w-10"></th><th class="p-4">Image</th><th class="p-4">Name</th><th class="p-4">Category</th><th class="p-4">Price</th></tr></thead>
-                    <tbody class="text-xs text-gray-700 divide-y divide-gray-100">
-                        <tr class="hover:bg-purple-50 cursor-pointer" onclick="addSSRow(this)"><td class="p-4"><input type="checkbox" class="accent-primary pointer-events-none"></td><td class="p-4"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=100" class="w-8 h-8 rounded object-cover bg-gray-100"></td><td class="p-4 font-medium">Alps Goodness Tea Tree Night Cream</td><td class="p-4 text-gray-500">Night Cream</td><td class="p-4 font-bold text-gray-900">₹249</td></tr>
-                        <tr class="hover:bg-purple-50 cursor-pointer" onclick="addSSRow(this)"><td class="p-4"><input type="checkbox" class="accent-primary pointer-events-none"></td><td class="p-4"><img src="https://images.unsplash.com/photo-1608248597279-f99d160bfbc8?auto=format&fit=crop&q=80&w=100" class="w-8 h-8 rounded object-cover bg-gray-100"></td><td class="p-4 font-medium">Alps Goodness Avocado Cream</td><td class="p-4 text-gray-500">Face Cream</td><td class="p-4 font-bold text-gray-900">₹261</td></tr>
+                    <thead class="bg-white sticky top-0 z-10 text-[10px] text-gray-500 uppercase font-bold border-b border-gray-200"><tr><th class="p-3 w-10"></th><th class="p-3">Image</th><th class="p-3">Name</th><th class="p-3">Category</th><th class="p-3">Availability</th><th class="p-3">Price</th><th class="p-3">Sale Price</th></tr></thead>
+                    <tbody class="text-xs text-gray-700 divide-y divide-gray-100" id="ss-product-modal-tbody">
+                        <tr class="hover:bg-purple-50 cursor-pointer" onclick="addSSRow(this)"><td class="p-3"><input type="checkbox" class="accent-primary pointer-events-none"></td><td class="p-3"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=100" class="w-10 h-10 rounded object-cover bg-gray-100"></td><td class="p-3 font-medium">Alps Goodness Tea Tree, Salicylic Acid &amp; Apple Cider Vinegar Acne Control Night Cream</td><td class="p-3">Night Cream</td><td class="p-3">In Stock</td><td class="p-3">₹335</td><td class="p-3">₹236</td></tr>
+                        <tr class="hover:bg-purple-50 cursor-pointer" onclick="addSSRow(this)"><td class="p-3"><input type="checkbox" class="accent-primary pointer-events-none"></td><td class="p-3"><img src="https://images.unsplash.com/photo-1608248597279-f99d160bfbc8?auto=format&fit=crop&q=80&w=100" class="w-10 h-10 rounded object-cover bg-gray-100"></td><td class="p-3 font-medium">Alps Goodness Avocado, Hyaluronic Acid &amp; Vitamin E Hydrating Night Cream</td><td class="p-3">Night Cream</td><td class="p-3">In Stock</td><td class="p-3">₹335</td><td class="p-3">₹261</td></tr>
                     </tbody>
                 </table>
             </div>
+            <div class="px-6 py-3 border-t border-gray-100 flex items-center justify-center gap-4 text-sm text-gray-600"><i class="ri-arrow-left-s-line"></i><span class="w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold">1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>...</span><span>18</span><i class="ri-arrow-right-s-line"></i></div>
             <div class="px-6 py-4 border-t border-gray-100 flex justify-end items-center bg-gray-50 rounded-b-xl gap-4">
-                <button onclick="document.getElementById('ss-product-modal').classList.add('hidden')" class="text-sm font-bold text-gray-500 hover:text-gray-800">Cancel</button>
-                <button onclick="finishSSSelection()" class="bg-primary text-white px-6 py-2.5 rounded-lg text-sm font-bold shadow-lg hover:bg-primary-dark transition">Add Selected</button>
+                <button onclick="closeSSProductModal()" class="text-sm font-bold text-gray-500 hover:text-gray-800">Cancel</button>
+                <button onclick="finishSSSelection()" class="bg-primary text-white px-6 py-2.5 rounded-lg text-sm font-bold shadow-lg hover:bg-primary-dark transition">Add</button>
             </div>
         </div>
     </div>
+
+    <div id="ss-bulk-modal" class="fixed inset-0 bg-black/60 z-[9999] hidden flex items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl w-[960px] max-w-[96%] h-[70vh] flex flex-col transform transition-all scale-100">
+            <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 rounded-t-xl flex items-center justify-between"><h3 class="font-bold text-3xl text-gray-900">Upload Bulk Products</h3><button onclick="closeSSBulkModal()" class="text-gray-400 hover:text-gray-700"><i class="ri-close-line text-2xl"></i></button></div>
+            <div class="px-6 py-4 text-sm text-gray-500">Upload a CSV file or enter product IDs manually (one per line)</div>
+            <div class="px-6 pb-4"><button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold shadow-sm flex items-center gap-2"><i class="ri-file-upload-line"></i> Upload CSV</button></div>
+            <div class="px-6 flex-1 flex flex-col"><textarea id="ss-bulk-text" class="w-full border border-gray-300 rounded-lg p-4 text-sm outline-none focus:border-primary" style="min-height: 210px;" placeholder="Product IDs"></textarea><div class="text-xs text-gray-500 mt-3">Available product IDs: 394895, 395948, 366470, 342790</div></div>
+            <div class="px-6 py-4 border-t border-gray-100 flex justify-end items-center bg-gray-50 rounded-b-xl gap-4"><button onclick="closeSSBulkModal()" class="text-sm font-bold text-primary hover:underline">Cancel</button><button id="ss-bulk-add-btn" onclick="addSSBulkProducts()" class="px-4 py-2 rounded-lg text-sm font-bold bg-gray-200 text-gray-400 cursor-not-allowed" disabled>Add Products</button></div>
+        </div>
+    </div>
+
     <script>
-        function addSSRow(r) { const c=r.querySelector('input'); c.checked=!c.checked; r.style.backgroundColor=c.checked?'#fdf1ff':'white'; }
-        function finishSSSelection() {
-            const tr=document.createElement('tr'); tr.className="hover:bg-gray-50 border-b border-gray-100";
-            tr.innerHTML=`<td class="p-3"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=100" class="w-8 h-8 rounded"></td><td class="p-3 font-medium">Alps Goodness Tea Tree Night Cream</td><td class="p-3">Night Cream</td><td class="p-3">Alps Goodness</td><td class="p-3 line-through text-gray-400">₹335</td><td class="p-3 font-bold">₹249</td><td class="p-3 text-green-600 font-bold">In Stock</td><td class="p-3 text-center"><i class="ri-delete-bin-line text-gray-400 cursor-pointer" onclick="this.closest('tr').remove();"></i></td>`;
-            // FIX: Changed 'ss-tbody' to 'ss-selected-tbody'
-            const target = document.getElementById('ss-selected-tbody');
-            if(target) target.appendChild(tr); 
-            document.getElementById('ss-selected-list').style.display='block'; 
-            document.getElementById('ss-selected-count').innerText='1'; 
-            document.getElementById('ss-product-modal').classList.add('hidden');
+        function setSSBiddingMode(mode) {
+            const manualCard = document.getElementById('ss-manual-card');
+            const smartCard = document.getElementById('ss-smart-card');
+            const manualBtn = document.getElementById('ss-manual-btn');
+            const smartBtn = document.getElementById('ss-smart-btn');
+            const roasCard = document.getElementById('ss-roas-card');
+            const categoriesCard = document.getElementById('ss-categories-card');
+
+            if (!manualCard || !smartCard || !manualBtn || !smartBtn || !roasCard || !categoriesCard) return;
+
+            if (mode === 'manual') {
+                manualCard.className = 'border-2 border-primary bg-purple-50 rounded-lg p-5 cursor-pointer transition shadow-sm';
+                smartCard.className = 'border border-gray-200 bg-white rounded-lg p-5 cursor-pointer transition';
+                manualBtn.className = 'px-3 py-1 bg-primary text-white text-[10px] font-bold rounded shadow-sm';
+                smartBtn.className = 'px-3 py-1 bg-white border border-gray-300 text-gray-500 text-[10px] font-bold rounded';
+                manualBtn.textContent = 'Selected';
+                smartBtn.textContent = 'Choose';
+                roasCard.style.display = 'none';
+                categoriesCard.style.display = 'block';
+            } else {
+                smartCard.className = 'border-2 border-primary bg-purple-50 rounded-lg p-5 relative shadow-sm cursor-pointer transition';
+                manualCard.className = 'border border-gray-200 bg-white rounded-lg p-5 cursor-pointer transition';
+                smartBtn.className = 'px-3 py-1 bg-primary text-white text-[10px] font-bold rounded shadow-sm';
+                manualBtn.className = 'px-3 py-1 bg-white border border-gray-300 text-gray-500 text-[10px] font-bold rounded';
+                smartBtn.textContent = 'Selected';
+                manualBtn.textContent = 'Choose';
+                roasCard.style.display = 'block';
+                categoriesCard.style.display = 'none';
+            }
         }
+
+        function validateSSBidInput(input) {
+            const row = input.closest('tr');
+            if (!row) return;
+            const baseBid = parseFloat(row.dataset.baseBid || '0');
+            const error = row.querySelector('.ss-bid-error');
+            const value = parseFloat(input.value || '0');
+            if (value < baseBid) {
+                if (error) {
+                    error.textContent = 'Bid cannot be below the base bid';
+                    error.style.display = 'block';
+                }
+                input.classList.add('border-red-400');
+            } else {
+                if (error) error.style.display = 'none';
+                input.classList.remove('border-red-400');
+            }
+        }
+
+        function toggleSSCategoryRow(checkbox) {
+            const row = checkbox.closest('tr');
+            if (!row) return;
+            const baseBid = parseFloat(row.dataset.baseBid || '0');
+            const cell = row.querySelector('.ss-your-bid-cell');
+            if (!cell) return;
+
+            if (checkbox.checked) {
+                const startValue = baseBid.toFixed(2);
+                cell.innerHTML = `<div class="flex flex-col gap-1"><input type="number" step="0.01" min="${startValue}" value="${startValue}" class="w-28 border border-gray-300 rounded px-2 py-1 text-sm focus:border-primary focus:outline-none" oninput="validateSSBidInput(this)"><div class="ss-bid-error text-[11px] text-red-500" style="display:none;"></div></div>`;
+            } else {
+                cell.innerHTML = '-';
+            }
+
+            const all = document.querySelectorAll('.ss-category-checkbox');
+            const checked = document.querySelectorAll('.ss-category-checkbox:checked');
+            const selectAll = document.getElementById('ss-select-all-categories');
+            if (selectAll) selectAll.checked = all.length > 0 && all.length === checked.length;
+        }
+
+        function toggleSSAllCategories(master) {
+            const rows = document.querySelectorAll('.ss-category-checkbox');
+            rows.forEach(cb => {
+                cb.checked = master.checked;
+                toggleSSCategoryRow(cb);
+            });
+        }
+
+        function closeSSProductModal() { document.getElementById('ss-product-modal').classList.add('hidden'); }
+        function addSSRow(r) {
+            const c = r.querySelector('input');
+            c.checked = !c.checked;
+            r.style.backgroundColor = c.checked ? '#fdf1ff' : 'white';
+        }
+        function finishSSSelection() {
+            const target = document.getElementById('ss-selected-tbody');
+            const sourceRows = document.querySelectorAll('#ss-product-modal-tbody tr');
+            if (!target) return;
+
+            let added = 0;
+            sourceRows.forEach(row => {
+                const cb = row.querySelector('input[type="checkbox"]');
+                if (!cb || !cb.checked) return;
+                const cells = row.querySelectorAll('td');
+                const image = cells[1] ? cells[1].innerHTML : '';
+                const name = cells[2] ? cells[2].innerText : 'Selected Product';
+                const category = cells[3] ? cells[3].innerText : '-';
+                const salePrice = cells[6] ? cells[6].innerText : '-';
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-gray-50 border-b border-gray-100';
+                tr.innerHTML = `<td class="p-3 flex items-center gap-3">${image}<span class="font-medium text-gray-900">${name}</span></td><td class="p-3 text-gray-500">${category}</td><td class="p-3 font-bold text-gray-900">${salePrice}</td><td class="p-3 text-green-600 font-bold text-[10px]">In Stock</td><td class="p-3 text-center"><button onclick="this.closest('tr').remove(); updateSSSelectedCount();" class="text-gray-400 hover:text-red-500"><i class="ri-delete-bin-line"></i></button></td>`;
+                target.appendChild(tr);
+                cb.checked = false;
+                row.style.backgroundColor = 'white';
+                added++;
+            });
+
+            if (added > 0) {
+                document.getElementById('ss-selected-list').style.display = 'block';
+                updateSSSelectedCount();
+                closeSSProductModal();
+            }
+        }
+
+        function updateSSSelectedCount() {
+            const target = document.getElementById('ss-selected-tbody');
+            const count = document.getElementById('ss-selected-count');
+            const list = document.getElementById('ss-selected-list');
+            if (!target || !count || !list) return;
+            count.innerText = String(target.children.length);
+            if (target.children.length === 0) list.style.display = 'none';
+        }
+
+        function openSSBulkModal() {
+            document.getElementById('ss-bulk-modal').classList.remove('hidden');
+            updateSSBulkAddState();
+        }
+        function closeSSBulkModal() { document.getElementById('ss-bulk-modal').classList.add('hidden'); }
+        function updateSSBulkAddState() {
+            const input = document.getElementById('ss-bulk-text');
+            const btn = document.getElementById('ss-bulk-add-btn');
+            if (!input || !btn) return;
+            const hasValue = input.value.trim().length > 0;
+            btn.disabled = !hasValue;
+            btn.className = hasValue
+                ? 'px-4 py-2 rounded-lg text-sm font-bold bg-primary text-white'
+                : 'px-4 py-2 rounded-lg text-sm font-bold bg-gray-200 text-gray-400 cursor-not-allowed';
+        }
+        function addSSBulkProducts() {
+            const input = document.getElementById('ss-bulk-text');
+            const target = document.getElementById('ss-selected-tbody');
+            if (!input || !target) return;
+            const ids = input.value.split(/\r?\n/).map(v => v.trim()).filter(Boolean);
+            if (ids.length === 0) return;
+            ids.forEach(id => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-gray-50 border-b border-gray-100';
+                tr.innerHTML = `<td class="p-3 font-medium text-gray-900">Product ID: ${id}</td><td class="p-3 text-gray-500">-</td><td class="p-3 font-bold text-gray-900">-</td><td class="p-3 text-green-600 font-bold text-[10px]">Pending</td><td class="p-3 text-center"><button onclick="this.closest('tr').remove(); updateSSSelectedCount();" class="text-gray-400 hover:text-red-500"><i class="ri-delete-bin-line"></i></button></td>`;
+                target.appendChild(tr);
+            });
+            document.getElementById('ss-selected-list').style.display = 'block';
+            updateSSSelectedCount();
+            input.value = '';
+            updateSSBulkAddState();
+            closeSSBulkModal();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setSSBiddingMode('smart');
+
+            const bulkText = document.getElementById('ss-bulk-categories');
+            const bulkBtn = document.getElementById('ss-add-bulk-categories-btn');
+            if (bulkText && bulkBtn) {
+                const updateCategoriesState = function() {
+                    const hasValue = bulkText.value.trim().length > 0;
+                    bulkBtn.disabled = !hasValue;
+                    bulkBtn.className = hasValue
+                        ? 'mt-3 px-4 py-2 rounded-lg text-sm font-bold bg-primary text-white'
+                        : 'mt-3 px-4 py-2 rounded-lg text-sm font-bold bg-gray-200 text-gray-400 cursor-not-allowed';
+                };
+                bulkText.addEventListener('input', updateCategoriesState);
+                updateCategoriesState();
+            }
+
+            const ssBulkText = document.getElementById('ss-bulk-text');
+            if (ssBulkText) ssBulkText.addEventListener('input', updateSSBulkAddState);
+        });
     </script>
 </div>
 
@@ -4221,10 +4416,10 @@
                 <button onclick="navigateTo('performance', 'nav-camp')" style="color:#9ca3af; font-size:24px;"><i class="ri-close-line"></i></button>
             </div>
             <div class="cc-stepper" id="so-stepper">
-                <div class="cc-step active" data-step="1"><i class="ri-file-list-3-line step-icon"></i>&nbsp; Basic Info</div>
-                <div class="cc-step" data-step="2"><i class="ri-shopping-bag-3-line step-icon"></i>&nbsp; Product Selection</div>
-                <div class="cc-step" data-step="3"><i class="ri-price-tag-3-line step-icon"></i>&nbsp; Keywords</div>
-                <div class="cc-step" data-step="4"><i class="ri-checkbox-circle-line step-icon"></i>&nbsp; Review</div>
+                <div class="cc-step active" data-step="1"><i class="ri-file-list-3-line step-icon"></i>&nbsp; Step 1: Basic Information</div>
+                <div class="cc-step" data-step="2"><i class="ri-shopping-bag-3-line step-icon"></i>&nbsp; Step 2: Product Selection</div>
+                <div class="cc-step" data-step="3"><i class="ri-price-tag-3-line step-icon"></i>&nbsp; Step 3: Bidding</div>
+                <div class="cc-step" data-step="4"><i class="ri-checkbox-circle-line step-icon"></i>&nbsp; Step 4: Review</div>
             </div>
         </header>
     
@@ -4259,32 +4454,53 @@
                     </div>
                 </div>
                 <div class="wizard-body-split">
-                    <div class="wizard-sidebar">
-                        <div class="wiz-toc-header">Step 1: Basic Info</div>
-                        <div class="wiz-toc-item active"><i class="ri-settings-3-line wiz-toc-icon"></i> Campaign Details</div>
-                        <div class="wiz-toc-item"><i class="ri-wallet-3-line wiz-toc-icon"></i> Budget & Pacing</div>
-                        <div class="wiz-toc-item"><i class="ri-calendar-line wiz-toc-icon"></i> Schedule</div>
-                    </div>
-                    <div class="wizard-content-area">
+                    <div class="wizard-content-area" id="so-step-1-content">
                         <div class="wiz-section-card">
-                            <h4 class="wiz-card-title">Campaign Details</h4>
-                            <div class="ss-input-grid">
-                                <div class="input-group-clean"><label class="input-label">Campaign Name <span class="text-red-500">*</span></label><input type="text" class="clean-input" placeholder="e.g., Brand Keywords 2026"></div>
-                                <div class="input-group-clean"><label class="input-label">Objective</label><select class="clean-input" style="background:#fff;"><option>Sales</option><option>Awareness</option></select></div>
+                            <h4 class="wiz-card-title">Campaign Name</h4>
+                            <div class="input-group-clean">
+                                <label class="input-label">Campaign Name</label>
+                                <input type="text" class="clean-input" placeholder="e.g., Brand Keywords 2026">
+                                <p class="text-xs text-gray-500 mt-2">Leave blank to auto-generate name, or enter your own</p>
                             </div>
                         </div>
                         <div class="wiz-section-card">
-                            <h4 class="wiz-card-title">Budget & Pacing</h4>
-                            <div class="ss-input-grid">
-                                <div class="input-group-clean"><label class="input-label">Daily Budget (₹) <span class="text-red-500">*</span></label><input type="number" class="clean-input" placeholder="5000"></div>
-                                <div class="input-group-clean"><label class="input-label">Pacing</label><select class="clean-input" style="background:#fff;"><option>Standard</option><option>Accelerated</option></select></div>
+                            <h4 class="wiz-card-title">Daily Budget</h4>
+                            <div class="input-group-clean">
+                                <label class="input-label">Daily Budget (INR)</label>
+                                <input type="number" min="0" class="clean-input" placeholder="5000">
                             </div>
                         </div>
                         <div class="wiz-section-card">
-                            <h4 class="wiz-card-title">Schedule</h4>
-                            <div class="ss-input-grid">
-                                <div class="input-group-clean"><label class="input-label">Start Date</label><div style="position:relative;"><input type="text" class="clean-input" value="13 Jan 2026"><i class="ri-calendar-line" style="position:absolute; right:0; top:12px; color:#94a3b8;"></i></div></div>
-                                <div class="input-group-clean"><label class="input-label">End Date</label><div style="position:relative;"><input type="text" class="clean-input" placeholder="Select Date"><i class="ri-calendar-line" style="position:absolute; right:0; top:12px; color:#94a3b8;"></i></div></div>
+                            <h4 class="wiz-card-title">Budget Pacing Type</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <label class="border border-primary rounded-lg p-4 bg-purple-50 cursor-pointer">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <input type="radio" name="so-pacing-type" checked>
+                                        <span class="font-bold text-gray-900">Accelerated</span>
+                                    </div>
+                                    <p class="text-xs text-gray-600">Budget is consumed as per demand of the platform</p>
+                                </label>
+                                <label class="border border-gray-200 rounded-lg p-4 bg-white cursor-pointer">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <input type="radio" name="so-pacing-type">
+                                        <span class="font-bold text-gray-900">Partitioned</span>
+                                    </div>
+                                    <p class="text-xs text-gray-600">Budget is paced throughout the day into multiple segments</p>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="wiz-section-card">
+                            <h4 class="wiz-card-title">Start Date &amp; Time (Optional)</h4>
+                            <div class="input-group-clean">
+                                <input type="datetime-local" class="clean-input">
+                                <p class="text-xs text-gray-500 mt-2">Leave empty to start immediately. Cannot be before current time.</p>
+                            </div>
+                        </div>
+                        <div class="wiz-section-card">
+                            <h4 class="wiz-card-title">End Date &amp; Time (Optional)</h4>
+                            <div class="input-group-clean">
+                                <input type="datetime-local" class="clean-input">
+                                <p class="text-xs text-gray-500 mt-2">Leave empty for ongoing campaign</p>
                             </div>
                         </div>
                     </div>
@@ -4294,11 +4510,6 @@
             <!-- STEP 2: PRODUCTS -->
             <div class="step-content" id="so-step-2" style="display: none;">
                 <div class="wizard-body-split">
-                    <div class="wizard-sidebar">
-                        <div class="wiz-toc-header">Step 2: Product Selection</div>
-                        <div class="wiz-toc-item active"><i class="ri-filter-3-line wiz-toc-icon"></i> Selection Method</div>
-                        <div class="wiz-toc-item"><i class="ri-list-check wiz-toc-icon"></i> Selected Items</div>
-                    </div>
                     <div class="wizard-content-area">
                         <div class="wiz-section-card">
                             <h4 class="wiz-card-title">Selection Method</h4>
@@ -4318,34 +4529,60 @@
                         <!-- Filter View -->
                         <div id="so-view-filters" class="wiz-section-card animate-fade-in" style="display: block;">
                             <h4 class="wiz-card-title">Filters</h4>
-                            <div class="grid grid-cols-12 gap-3 mb-2" style="font-size:11px; font-weight:700; color:#94a3b8; text-transform:uppercase;">
-                                <div class="col-span-3">Field</div><div class="col-span-3">Operator</div><div class="col-span-5">Value</div>
-                            </div>
-
-                            <div id="so-filter-container">
-                                <div class="grid grid-cols-12 gap-3 items-center mb-3">
-                                    <div class="col-span-3 relative"><select class="clean-input bg-white" style="-webkit-appearance: none; appearance: none;"><option>Product Name</option></select><i class="ri-arrow-down-s-line absolute right-0 top-3 pointer-events-none"></i></div>
-                                    <div class="col-span-3 relative"><select class="clean-input bg-white" style="-webkit-appearance: none; appearance: none;"><option>contains</option></select><i class="ri-arrow-down-s-line absolute right-0 top-3 pointer-events-none"></i></div>
-                                    <div class="col-span-5"><input type="text" class="clean-input" placeholder="e.g. Shampoo"></div>
-                                    <div class="col-span-1"><button onclick="addFilterRowGeneric('so-filter-container')" class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary-dark transition"><i class="ri-add-line"></i></button></div>
+                            <div style="border:1px solid #e2e8f0; border-radius:12px; padding:18px; background:#fff;">
+                                <div class="grid grid-cols-12 gap-3 items-end mb-3" id="so-filter-row-1">
+                                    <div class="col-span-3">
+                                        <div class="text-[10px] font-bold text-gray-400 uppercase mb-1">Field</div>
+                                        <div class="relative">
+                                            <select class="clean-input bg-white" style="-webkit-appearance:none; appearance:none;">
+                                                <option>Product Name</option>
+                                                <option>Category</option>
+                                                <option>Price</option>
+                                            </select>
+                                            <i class="ri-arrow-down-s-line absolute right-0 top-3 pointer-events-none"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-3">
+                                        <div class="text-[10px] font-bold text-gray-400 uppercase mb-1">Operator</div>
+                                        <div class="relative">
+                                            <select class="clean-input bg-white" style="-webkit-appearance:none; appearance:none;">
+                                                <option>contains</option>
+                                                <option>equals</option>
+                                            </select>
+                                            <i class="ri-arrow-down-s-line absolute right-0 top-3 pointer-events-none"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-5">
+                                        <div class="text-[10px] font-bold text-gray-400 uppercase mb-1">Value</div>
+                                        <input type="text" class="clean-input" placeholder="Value">
+                                    </div>
+                                    <div class="col-span-1 flex items-center justify-end gap-1 pb-2">
+                                        <button class="w-8 h-8 rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 flex items-center justify-center" title="Remove condition">
+                                            <i class="ri-delete-bin-line"></i>
+                                        </button>
+                                        <button onclick="addFilterRowGeneric('so-filter-container')" class="w-8 h-8 rounded-full text-primary hover:bg-purple-50 flex items-center justify-center" title="Add condition">
+                                            <i class="ri-add-line"></i>
+                                        </button>
+                                    </div>
                                 </div>
+                                <div id="so-filter-container"></div>
+                                <button class="mt-2 px-4 py-2 bg-gray-200 text-gray-400 text-xs font-bold rounded-lg cursor-not-allowed" disabled>Apply Filters</button>
+                                <div class="text-center text-sm text-gray-500 mt-4">No products match the selected filters.</div>
                             </div>
-
-                            <button onclick="addFilterRowGeneric('so-filter-container')" class="text-xs font-bold text-primary hover:underline mt-2">+ Add another condition</button>
                         </div>
 
                         <!-- Individual View -->
-                        <div id="so-view-individual" class="wiz-section-card hidden animate-fade-in" style="display: none;">
+                        <div id="so-view-individual" class="wiz-section-card animate-fade-in" style="display: none;">
                             <h4 class="wiz-card-title">Manual Selection</h4>
                             <p id="so-action-label" class="text-sm text-slate-500 mb-4">Select products to INCLUDE in this campaign</p>
                             <div class="flex gap-4 mb-6">
                                 <button onclick="document.getElementById('so-product-modal').classList.remove('hidden')" class="flex items-center gap-2 bg-[#9c00ad] text-white px-5 py-2.5 rounded-lg text-sm font-bold shadow-md hover:bg-[#7e008c] transition"><i class="ri-add-line"></i> Choose Individually</button>
-                                <button class="flex items-center gap-2 bg-[#9c00ad] text-white px-5 py-2.5 rounded-lg text-sm font-bold shadow-md hover:bg-[#7e008c] transition"><i class="ri-upload-cloud-2-line"></i> Upload Bulk Products</button>
+                                <button onclick="openSOBulkModal()" class="flex items-center gap-2 bg-[#fdf1ff] text-[#9c00ad] px-5 py-2.5 rounded-lg text-sm font-bold border border-[#e9d5ff] shadow-sm hover:bg-[#f8e8fb] transition"><i class="ri-upload-cloud-2-line"></i> Upload Bulk Products</button>
                             </div>
                             <div id="so-selected-list" style="display:none; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
                                 <div style="background:#f8fafc; padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
                                     <h4 class="font-bold text-gray-800 text-sm m-0" style="border:none;">Selected (<span id="so-selected-count">0</span>)</h4>
-                                    <button onclick="document.getElementById('so-tbody').innerHTML=''; document.getElementById('so-selected-list').style.display='none';" class="text-xs font-bold text-red-500 bg-red-50 border border-red-100 px-3 py-1 rounded hover:bg-red-100 transition">Clear All</button>
+                                    <button onclick="document.getElementById('so-selected-tbody').innerHTML=''; document.getElementById('so-selected-list').style.display='none'; document.getElementById('so-selected-count').innerText='0';" class="text-xs font-bold text-red-500 bg-red-50 border border-red-100 px-3 py-1 rounded hover:bg-red-100 transition">Clear All</button>
                                 </div>
                                 <table class="w-full text-left"><tbody id="so-selected-tbody"></tbody></table>
                             </div>
@@ -4357,11 +4594,6 @@
             <!-- STEP 3: KEYWORDS -->
             <div class="step-content" id="so-step-3" style="display: none;">
                 <div class="wizard-body-split">
-                    <div class="wizard-sidebar">
-                        <div class="wiz-toc-header">Step 3: Bidding</div>
-                        <div class="wiz-toc-item active"><i class="ri-price-tag-3-line wiz-toc-icon"></i> Individual Keywords</div>
-                        <div class="wiz-toc-item"><i class="ri-upload-2-line wiz-toc-icon"></i> Bulk Upload</div>
-                    </div>
                     <div class="wizard-content-area">
                         <div class="wiz-section-card">
                             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
@@ -4387,11 +4619,6 @@
             <!-- STEP 4: REVIEW -->
             <div class="step-content" id="so-step-4" style="display: none;">
                 <div class="wizard-body-split">
-                    <div class="wizard-sidebar">
-                        <div class="wiz-toc-header">Step 4: Review</div>
-                        <div class="wiz-toc-item active"><i class="ri-file-list-line wiz-toc-icon"></i> Overview</div>
-                    </div>
-                    
                     <div class="wizard-content-area">
                         <div class="wiz-section-card">
                             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #f1f5f9; padding-bottom:12px; margin-bottom:20px;">
@@ -4435,38 +4662,175 @@
     
     <!-- EMBEDDED MODAL FOR SEARCH ONLY -->
     <div id="so-product-modal" class="fixed inset-0 bg-black/60 z-[9999] hidden flex items-center justify-center">
-        <div class="bg-white rounded-xl shadow-2xl w-[900px] max-w-[95%] h-[80vh] flex flex-col transform transition-all scale-100">
+        <div class="bg-white rounded-xl shadow-2xl w-[960px] max-w-[96%] h-[86vh] flex flex-col transform transition-all scale-100">
             <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-xl">
-                <h3 class="font-bold text-lg text-gray-900">Select Products (Search Only)</h3>
-                <button onclick="document.getElementById('so-product-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-700"><i class="ri-close-line text-2xl"></i></button>
+                <h3 class="font-bold text-2xl text-gray-900">Select Products</h3>
+                <button onclick="closeSOProductModal()" class="text-gray-400 hover:text-gray-700"><i class="ri-close-line text-2xl"></i></button>
             </div>
-            <div class="flex-1 overflow-y-auto p-0">
+            <div class="px-6 py-4 border-b border-gray-100">
+                <div class="flex flex-wrap gap-3">
+                    <div class="relative min-w-[120px]">
+                        <select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white appearance-none"><option>Category</option></select>
+                        <i class="ri-arrow-down-s-line absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"></i>
+                    </div>
+                    <input type="text" class="border border-gray-300 rounded-lg px-3 py-2 text-sm min-w-[120px]" placeholder="Price">
+                    <input type="text" class="border border-gray-300 rounded-lg px-3 py-2 text-sm min-w-[120px]" placeholder="Sale Price">
+                </div>
+                <div class="mt-3 w-28">
+                    <div class="text-[11px] text-gray-500 mb-1">Limit</div>
+                    <div class="relative">
+                        <select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white appearance-none"><option>10</option><option>20</option><option>50</option></select>
+                        <i class="ri-arrow-down-s-line absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-1 overflow-y-auto px-2 py-1">
                 <table class="w-full text-left border-collapse">
-                    <thead class="bg-white sticky top-0 z-10 shadow-sm text-[10px] text-gray-500 uppercase font-bold"><tr><th class="p-4 w-10"></th><th class="p-4">Image</th><th class="p-4">Name</th><th class="p-4">Category</th><th class="p-4">Price</th></tr></thead>
-                    <tbody class="text-xs text-gray-700 divide-y divide-gray-100">
-                        <tr class="hover:bg-purple-50 cursor-pointer" onclick="addSORow(this)"><td class="p-4"><input type="checkbox" class="accent-primary pointer-events-none"></td><td class="p-4"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=100" class="w-8 h-8 rounded object-cover bg-gray-100"></td><td class="p-4 font-medium">Alps Goodness Tea Tree Night Cream</td><td class="p-4 text-gray-500">Night Cream</td><td class="p-4 font-bold text-gray-900">₹249</td></tr>
-                        <tr class="hover:bg-purple-50 cursor-pointer" onclick="addSORow(this)"><td class="p-4"><input type="checkbox" class="accent-primary pointer-events-none"></td><td class="p-4"><img src="https://images.unsplash.com/photo-1608248597279-f99d160bfbc8?auto=format&fit=crop&q=80&w=100" class="w-8 h-8 rounded object-cover bg-gray-100"></td><td class="p-4 font-medium">Alps Goodness Avocado Cream</td><td class="p-4 text-gray-500">Face Cream</td><td class="p-4 font-bold text-gray-900">₹261</td></tr>
+                    <thead class="bg-white sticky top-0 z-10 text-[10px] text-gray-500 uppercase font-bold border-b border-gray-200">
+                        <tr>
+                            <th class="p-3 w-10"></th>
+                            <th class="p-3">Image</th>
+                            <th class="p-3">Name</th>
+                            <th class="p-3">Category</th>
+                            <th class="p-3">Availability</th>
+                            <th class="p-3">Price</th>
+                            <th class="p-3">Sale Price</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-xs text-gray-700 divide-y divide-gray-100" id="so-product-modal-tbody">
+                        <tr class="hover:bg-purple-50 cursor-pointer" onclick="addSORow(this)"><td class="p-3"><input type="checkbox" class="accent-primary pointer-events-none"></td><td class="p-3"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=100" class="w-10 h-10 rounded object-cover bg-gray-100"></td><td class="p-3 font-medium">Alps Goodness Tea Tree, Salicylic Acid &amp; Apple Cider Vinegar Acne Control Night Cream</td><td class="p-3">Night Cream</td><td class="p-3">In Stock</td><td class="p-3">₹335</td><td class="p-3">₹236</td></tr>
+                        <tr class="hover:bg-purple-50 cursor-pointer" onclick="addSORow(this)"><td class="p-3"><input type="checkbox" class="accent-primary pointer-events-none"></td><td class="p-3"><img src="https://images.unsplash.com/photo-1608248597279-f99d160bfbc8?auto=format&fit=crop&q=80&w=100" class="w-10 h-10 rounded object-cover bg-gray-100"></td><td class="p-3 font-medium">Alps Goodness Avocado, Hyaluronic Acid &amp; Vitamin E Hydrating Night Cream</td><td class="p-3">Night Cream</td><td class="p-3">In Stock</td><td class="p-3">₹335</td><td class="p-3">₹261</td></tr>
+                        <tr class="hover:bg-purple-50 cursor-pointer" onclick="addSORow(this)"><td class="p-3"><input type="checkbox" class="accent-primary pointer-events-none"></td><td class="p-3"><img src="https://images.unsplash.com/photo-1580870069867-74c57ee1bb07?auto=format&fit=crop&q=80&w=100" class="w-10 h-10 rounded object-cover bg-gray-100"></td><td class="p-3 font-medium">Alps Goodness Henna Based Hair Color Powder - Black (50 gm)</td><td class="p-3">Hair Colour</td><td class="p-3">In Stock</td><td class="p-3">₹105</td><td class="p-3">₹98</td></tr>
+                        <tr class="hover:bg-purple-50 cursor-pointer" onclick="addSORow(this)"><td class="p-3"><input type="checkbox" class="accent-primary pointer-events-none"></td><td class="p-3"><img src="https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=100" class="w-10 h-10 rounded object-cover bg-gray-100"></td><td class="p-3 font-medium">Alps Goodness Powder - Indigo (50 gm)</td><td class="p-3">Hair Colour</td><td class="p-3">In Stock</td><td class="p-3">₹99</td><td class="p-3">₹92</td></tr>
+                        <tr class="hover:bg-purple-50 cursor-pointer" onclick="addSORow(this)"><td class="p-3"><input type="checkbox" class="accent-primary pointer-events-none"></td><td class="p-3"><img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&q=80&w=100" class="w-10 h-10 rounded object-cover bg-gray-100"></td><td class="p-3 font-medium">Alps Goodness Henna Powder (250 gm)</td><td class="p-3">Hair Colour</td><td class="p-3">In Stock</td><td class="p-3">₹240</td><td class="p-3">₹198</td></tr>
                     </tbody>
                 </table>
             </div>
+            <div class="px-6 py-3 border-t border-gray-100 flex items-center justify-center gap-4 text-sm text-gray-600">
+                <i class="ri-arrow-left-s-line"></i><span class="w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold">1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>...</span><span>18</span><i class="ri-arrow-right-s-line"></i>
+            </div>
             <div class="px-6 py-4 border-t border-gray-100 flex justify-end items-center bg-gray-50 rounded-b-xl gap-4">
-                <button onclick="document.getElementById('so-product-modal').classList.add('hidden')" class="text-sm font-bold text-gray-500 hover:text-gray-800">Cancel</button>
-                <button onclick="finishSOSelection()" class="bg-primary text-white px-6 py-2.5 rounded-lg text-sm font-bold shadow-lg hover:bg-primary-dark transition">Add Selected</button>
+                <button onclick="closeSOProductModal()" class="text-sm font-bold text-gray-500 hover:text-gray-800">Cancel</button>
+                <button id="so-product-add-btn" onclick="finishSOSelection()" class="bg-primary text-white px-6 py-2.5 rounded-lg text-sm font-bold shadow-lg hover:bg-primary-dark transition">Add</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="so-bulk-modal" class="fixed inset-0 bg-black/60 z-[9999] hidden flex items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl w-[960px] max-w-[96%] h-[70vh] flex flex-col transform transition-all scale-100">
+            <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 rounded-t-xl flex items-center justify-between">
+                <h3 class="font-bold text-3xl text-gray-900">Upload Bulk Products</h3>
+                <button onclick="closeSOBulkModal()" class="text-gray-400 hover:text-gray-700"><i class="ri-close-line text-2xl"></i></button>
+            </div>
+            <div class="px-6 py-4 text-sm text-gray-500">Upload a CSV file or enter product IDs manually (one per line)</div>
+            <div class="px-6 pb-4">
+                <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold shadow-sm flex items-center gap-2"><i class="ri-file-upload-line"></i> Upload CSV</button>
+            </div>
+            <div class="px-6 flex-1 flex flex-col">
+                <textarea id="so-bulk-text" class="w-full border border-gray-300 rounded-lg p-4 text-sm outline-none focus:border-primary" style="min-height: 210px;" placeholder="Product IDs"></textarea>
+                <div class="text-xs text-gray-500 mt-3">Available product IDs: 394895, 395948, 366470, 342790</div>
+            </div>
+            <div class="px-6 py-4 border-t border-gray-100 flex justify-end items-center bg-gray-50 rounded-b-xl gap-4">
+                <button onclick="closeSOBulkModal()" class="text-sm font-bold text-primary hover:underline">Cancel</button>
+                <button id="so-bulk-add-btn" onclick="addSOBulkProducts()" class="px-4 py-2 rounded-lg text-sm font-bold bg-gray-200 text-gray-400 cursor-not-allowed" disabled>Add Products</button>
             </div>
         </div>
     </div>
     <script>
-        function addSORow(r) { const c=r.querySelector('input'); c.checked=!c.checked; r.style.backgroundColor=c.checked?'#fdf1ff':'white'; }
-        function finishSOSelection() {
-            const tr=document.createElement('tr'); tr.className="hover:bg-gray-50 border-b border-gray-100";
-            tr.innerHTML=`<td class="p-3"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=100" class="w-8 h-8 rounded"></td><td class="p-3 font-medium">Alps Goodness Tea Tree Night Cream</td><td class="p-3">Night Cream</td><td class="p-3">Alps Goodness</td><td class="p-3 line-through text-gray-400">₹335</td><td class="p-3 font-bold">₹249</td><td class="p-3 text-green-600 font-bold">In Stock</td><td class="p-3 text-center"><i class="ri-delete-bin-line text-gray-400 cursor-pointer" onclick="this.closest('tr').remove();"></i></td>`;
-            // FIX: Changed 'so-tbody' to 'so-selected-tbody' and 'so-count' to 'so-selected-count'
-            const target = document.getElementById('so-selected-tbody');
-            if(target) target.appendChild(tr); 
-            document.getElementById('so-selected-list').style.display='block'; 
-            document.getElementById('so-selected-count').innerText='1'; 
-            document.getElementById('so-product-modal').classList.add('hidden');
+        function closeSOProductModal() { document.getElementById('so-product-modal').classList.add('hidden'); }
+        function addSORow(r) {
+            const c = r.querySelector('input');
+            c.checked = !c.checked;
+            r.style.backgroundColor = c.checked ? '#fdf1ff' : 'white';
         }
+        function finishSOSelection() {
+            const target = document.getElementById('so-selected-tbody');
+            const sourceRows = document.querySelectorAll('#so-product-modal-tbody tr');
+            if (!target) return;
+
+            let added = 0;
+            sourceRows.forEach(row => {
+                const cb = row.querySelector('input[type="checkbox"]');
+                if (!cb || !cb.checked) return;
+                const cells = row.querySelectorAll('td');
+                const image = cells[1] ? cells[1].innerHTML : '';
+                const name = cells[2] ? cells[2].innerText : 'Selected Product';
+                const category = cells[3] ? cells[3].innerText : '-';
+                const salePrice = cells[6] ? cells[6].innerText : '-';
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-gray-50 border-b border-gray-100';
+                tr.innerHTML = `<td class="p-3 flex items-center gap-3">${image}<span class="font-medium text-gray-900">${name}</span></td><td class="p-3 text-gray-500">${category}</td><td class="p-3 font-bold text-gray-900">${salePrice}</td><td class="p-3 text-green-600 font-bold text-[10px]">In Stock</td><td class="p-3 text-center"><button onclick="this.closest('tr').remove(); updateSOSelectedCount();" class="text-gray-400 hover:text-red-500"><i class="ri-delete-bin-line"></i></button></td>`;
+                target.appendChild(tr);
+                cb.checked = false;
+                row.style.backgroundColor = 'white';
+                added++;
+            });
+
+            if (added > 0) {
+                document.getElementById('so-selected-list').style.display = 'block';
+                updateSOSelectedCount();
+                closeSOProductModal();
+            }
+        }
+
+        function updateSOSelectedCount() {
+            const target = document.getElementById('so-selected-tbody');
+            const count = document.getElementById('so-selected-count');
+            const list = document.getElementById('so-selected-list');
+            if (!target || !count || !list) return;
+            count.innerText = String(target.children.length);
+            if (target.children.length === 0) list.style.display = 'none';
+        }
+
+        function openSOBulkModal() {
+            document.getElementById('so-bulk-modal').classList.remove('hidden');
+            updateSOBulkAddState();
+        }
+
+        function closeSOBulkModal() {
+            document.getElementById('so-bulk-modal').classList.add('hidden');
+        }
+
+        function updateSOBulkAddState() {
+            const input = document.getElementById('so-bulk-text');
+            const btn = document.getElementById('so-bulk-add-btn');
+            if (!input || !btn) return;
+            const hasValue = input.value.trim().length > 0;
+            btn.disabled = !hasValue;
+            if (hasValue) {
+                btn.className = 'px-4 py-2 rounded-lg text-sm font-bold bg-primary text-white';
+            } else {
+                btn.className = 'px-4 py-2 rounded-lg text-sm font-bold bg-gray-200 text-gray-400 cursor-not-allowed';
+            }
+        }
+
+        function addSOBulkProducts() {
+            const input = document.getElementById('so-bulk-text');
+            const target = document.getElementById('so-selected-tbody');
+            if (!input || !target) return;
+
+            const ids = input.value.split(/\r?\n/).map(v => v.trim()).filter(Boolean);
+            if (ids.length === 0) return;
+
+            ids.forEach(id => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-gray-50 border-b border-gray-100';
+                tr.innerHTML = `<td class="p-3 font-medium text-gray-900">Product ID: ${id}</td><td class="p-3 text-gray-500">-</td><td class="p-3 font-bold text-gray-900">-</td><td class="p-3 text-green-600 font-bold text-[10px]">Pending</td><td class="p-3 text-center"><button onclick="this.closest('tr').remove(); updateSOSelectedCount();" class="text-gray-400 hover:text-red-500"><i class="ri-delete-bin-line"></i></button></td>`;
+                target.appendChild(tr);
+            });
+
+            document.getElementById('so-selected-list').style.display = 'block';
+            updateSOSelectedCount();
+            input.value = '';
+            updateSOBulkAddState();
+            closeSOBulkModal();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const bulkText = document.getElementById('so-bulk-text');
+            if (bulkText) bulkText.addEventListener('input', updateSOBulkAddState);
+        });
     </script>
 </div>
 
@@ -7504,6 +7868,18 @@ document.addEventListener('click', function(e) {
 // --- CAMPAIGN WALLET SELECTION LOGIC ---
 window.campaignWallets = {}; // stores selected wallet per campaign prefix e.g. { vis: 'default', takeover: 'awareness' }
 
+window.setCampaignStep1Lock = function(prefix, isLocked) {
+    const containerId = prefix === 'ss' ? 'ss-step-1-content' : (prefix === 'so' ? 'so-step-1-content' : null);
+    if (!containerId) return;
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    container.style.transition = 'opacity 0.2s ease, filter 0.2s ease';
+    container.style.opacity = isLocked ? '0.45' : '1';
+    container.style.pointerEvents = isLocked ? 'none' : 'auto';
+    container.style.filter = isLocked ? 'grayscale(0.15)' : 'none';
+};
+
 window.onWalletSelected = function(prefix) {
     const sel = document.getElementById(prefix + '-wallet-select');
     const errEl = document.getElementById(prefix + '-wallet-error');
@@ -7511,9 +7887,11 @@ window.onWalletSelected = function(prefix) {
         window.campaignWallets[prefix] = sel.value;
         if (errEl) errEl.classList.add('hidden');
         sel.style.borderColor = '#7c3aed';
+        window.setCampaignStep1Lock(prefix, false);
     } else {
         delete window.campaignWallets[prefix];
         if (sel) sel.style.borderColor = '#d1d5db';
+        window.setCampaignStep1Lock(prefix, true);
     }
 };
 
@@ -7552,6 +7930,11 @@ window.closeCreateWalletModal = function() {
         document.addEventListener('DOMContentLoaded', () => {
 renderAllCalendars();
             console.log("Initializing Command Center...");
+
+            const ssWallet = document.getElementById('ss-wallet-select');
+            const soWallet = document.getElementById('so-wallet-select');
+            window.setCampaignStep1Lock('ss', !(ssWallet && ssWallet.value));
+            window.setCampaignStep1Lock('so', !(soWallet && soWallet.value));
 
             // ==========================================
             // A. GLOBAL DASHBOARD INITIALIZATION
@@ -13260,10 +13643,14 @@ function toggleProductView(value, filterId, indivId, labelId) {
 
     if (value === 'filters') {
         filters.style.display = 'block';
+        filters.classList.remove('hidden');
         indiv.style.display = 'none';
+        indiv.classList.add('hidden');
     } else {
         filters.style.display = 'none';
+        filters.classList.add('hidden');
         indiv.style.display = 'block';
+        indiv.classList.remove('hidden');
         
         if (value === 'exclude') {
             label.innerHTML = 'Select products to <span class="text-red-500 font-bold">EXCLUDE</span> from this campaign';

@@ -3,1637 +3,818 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ads Platform — Wallet Mockup v2</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<title>Finance Queue</title>
 <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  @font-face { font-family: 'Manrope'; src: url('Fonts/Manrope-ExtraLight.ttf') format('truetype'); font-weight: 200; font-style: normal; }
-  @font-face { font-family: 'Manrope'; src: url('Fonts/Manrope-Light.ttf')      format('truetype'); font-weight: 300; font-style: normal; }
-  @font-face { font-family: 'Manrope'; src: url('Fonts/Manrope-Regular.ttf')    format('truetype'); font-weight: 400; font-style: normal; }
-  @font-face { font-family: 'Manrope'; src: url('Fonts/Manrope-Medium.ttf')     format('truetype'); font-weight: 500; font-style: normal; }
-  @font-face { font-family: 'Manrope'; src: url('Fonts/Manrope-SemiBold.ttf')   format('truetype'); font-weight: 600; font-style: normal; }
-  @font-face { font-family: 'Manrope'; src: url('Fonts/Manrope-Bold.ttf')       format('truetype'); font-weight: 700; font-style: normal; }
-  @font-face { font-family: 'Manrope'; src: url('Fonts/Manrope-ExtraBold.ttf')  format('truetype'); font-weight: 800; font-style: normal; }
-
-  :root {
-    --purple-primary: #9c00ad;
-    --purple-secondary: #FDF1FF;
-    --purple-tertiary: #FDF9FD;
-    --green-primary: #206E4D;
-    --green-secondary: #F7FFFC;
-    --red-primary: #B11D15;
-    --red-secondary: #F5DEDD;
-    --grey-80: #000000;
-    --grey-70: #06000F;
-    --grey-60: #1F1C1C;
-    --grey-50: #5F5B65;
-    --grey-40: #938F99;
-    --grey-30: #C6C4CA;
-    --grey-20: #F7F7F7;
+  :root{
+    --purple:#9C00AD; --purple-lt:#FDF1FF; --purple-xlt:#FDF9FD;
+    --green:#206E4D; --green-lt:#F1FAF6;
+    --red:#B11D15; --red-lt:#FDECEA;
+    --amber:#B45309; --amber-lt:#FEF6E7;
+    --g90:#0B0413; --g70:#1F1C1C; --g50:#5F5B65; --g40:#8B8794; --g30:#C6C4CA; --g20:#E9E7EC; --g10:#F4F3F6; --page:#F7F7F9;
   }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+  body{background:var(--page);color:var(--g70);-webkit-font-smoothing:antialiased;font-size:13px}
+  button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input,select{font:inherit;color:inherit}
+  a{text-decoration:none;color:inherit}
 
-  html, body { font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: var(--grey-70); background: var(--grey-20); -webkit-font-smoothing: antialiased; }
-  * { font-family: 'Manrope', sans-serif; }
+  /* ---- sidebar ---- */
+  .side{position:fixed;left:0;top:0;bottom:0;width:240px;background:var(--purple);color:#fff;display:flex;flex-direction:column;z-index:40}
+  .side-top{display:flex;align-items:center;gap:10px;padding:15px 16px;border-bottom:1px solid rgba(255,255,255,.13)}
+  .side-top .logo{width:32px;height:32px;border-radius:8px;background:#fff;color:var(--purple);font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .side-top .nm{font-size:13.5px;font-weight:800;letter-spacing:-.2px}
+  .side-nav{flex:1;overflow-y:auto;padding:10px 8px 14px}
+  .nav-grp{margin-top:9px}
+  .nav-grp:first-child{margin-top:2px}
+  .nav-lbl{padding:8px 12px 5px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:rgba(255,255,255,.52)}
+  /* :link/:visited included deliberately — a global `a:link` rule in the host app
+     outranks a bare `.nav-item` on specificity and would render these dark blue */
+  a.nav-item, a.nav-item:link, a.nav-item:visited{display:block;padding:8px 16px;border-radius:6px;font-size:12.5px;font-weight:500;color:rgba(255,255,255,.84);text-decoration:none;transition:background .14s,color .14s}
+  a.nav-item:hover{background:rgba(255,255,255,.11);color:#fff}
+  a.nav-item.on, a.nav-item.on:link, a.nav-item.on:visited{background:rgba(255,255,255,.19);color:#fff;font-weight:700;border-left:3px solid #fff;padding-left:13px}
+  .side-foot{display:flex;align-items:center;gap:10px;padding:12px 14px;border-top:1px solid rgba(255,255,255,.13)}
+  .side-foot .av{width:32px;height:32px;border-radius:50%;background:#fff;color:var(--purple);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .side-foot .u{font-size:12px;font-weight:700;line-height:1.3}
+  .side-foot .rl{font-size:10px;color:rgba(255,255,255,.72)}
+  .side-nav::-webkit-scrollbar{width:6px}
+  .side-nav::-webkit-scrollbar-track{background:transparent}
+  .side-nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.22);border-radius:3px}
 
-  .text-primary { color: var(--purple-primary); }
-  .bg-primary { background-color: var(--purple-primary); }
-  .bg-primary-50 { background-color: var(--purple-secondary); }
-  .bg-primary-25 { background-color: var(--purple-tertiary); }
-  .border-primary { border-color: var(--purple-primary); }
-  .hover\:bg-primary-dark:hover { background-color: #7a008a; }
-  .text-success { color: var(--green-primary); }
-  .bg-success { background-color: var(--green-primary); }
-  .bg-success-50 { background-color: var(--green-secondary); }
-  .border-success { border-color: var(--green-primary); }
-  .text-danger { color: var(--red-primary); }
-  .bg-danger { background-color: var(--red-primary); }
-  .bg-danger-50 { background-color: var(--red-secondary); }
-  .border-danger { border-color: var(--red-primary); }
-  .text-g70 { color: var(--grey-70); } .text-g60 { color: var(--grey-60); } .text-g50 { color: var(--grey-50); } .text-g40 { color: var(--grey-40); } .text-g30 { color: var(--grey-30); }
-  .bg-g20 { background-color: var(--grey-20); } .bg-g30 { background-color: var(--grey-30); } .border-g30 { border-color: var(--grey-30); } .border-g20 { border-color: var(--grey-20); }
+  .shell{margin-left:240px}
 
-  .shadow-card { box-shadow: 0 1px 3px rgba(31, 28, 28, 0.06), 0 1px 2px rgba(31, 28, 28, 0.04); }
-  .shadow-popup { box-shadow: 0 10px 25px rgba(31, 28, 28, 0.12), 0 4px 6px rgba(31, 28, 28, 0.06); }
+  /* ---- top bar ---- */
+  .topbar{background:#fff;border-bottom:1px solid var(--g20);display:flex;align-items:center;justify-content:space-between;padding:12px 28px;position:sticky;top:0;z-index:30}
+  .crumb{font-size:12px;color:var(--g50);font-weight:500}
+  .crumb b{color:var(--g70);font-weight:700}
+  .topright{display:flex;align-items:center;gap:12px}
 
-  /* Sidebar nav */
-  .nav-item { transition: all 0.15s ease; }
-  .nav-item:hover { background: rgba(255,255,255,0.10); }
-  .nav-item.active { background: rgba(255,255,255,0.18); color: white; border-left: 3px solid white; padding-left: 13px; font-weight: 700; }
+  .wallet-box{display:flex;align-items:stretch;border:1px solid var(--g30);border-radius:8px;overflow:hidden;background:#fff}
+  .wallet-amt{padding:6px 12px;border-right:1px solid var(--g20)}
+  .wallet-amt .lbl{font-size:9px;color:var(--g40);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+  .wallet-amt .val{font-size:13px;font-weight:800;color:var(--g70);margin-top:1px}
+  .wallet-manage{display:flex;align-items:center;gap:6px;padding:6px 12px;font-size:13px;font-weight:600;color:var(--purple)}
+  .wallet-manage:hover{background:var(--purple-xlt)}
 
-  /* Page sections */
-  .page-section { display: none; }
-  .page-section.active { display: block; }
+  .ctl{display:flex;align-items:center;gap:8px;border:1px solid var(--g30);border-radius:8px;background:#fff;padding:7px 12px;font-size:13px;font-weight:600;color:var(--g70)}
+  .ctl:hover{border-color:var(--purple)}
+  .ctl i:first-child{color:var(--g50)}
+  .ctl i:last-child{color:var(--g50);font-size:16px}
+  .avatar-sm{width:20px;height:20px;border-radius:50%;background:var(--purple-lt);color:var(--purple);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;border:1px solid var(--purple)}
 
-  /* Drawer */
-  .drawer { transform: translateX(100%); transition: transform 0.25s ease-out; }
-  .drawer.open { transform: translateX(0); }
+  .menu{position:absolute;right:0;top:calc(100% + 6px);background:#fff;border:1px solid var(--g20);border-radius:10px;box-shadow:0 12px 28px rgba(11,4,19,.14);padding:6px;width:210px;z-index:50}
+  .menu-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:var(--g40);font-weight:800;padding:7px 10px 4px}
+  .menu button{display:block;width:100%;text-align:left;padding:8px 10px;border-radius:6px;font-size:12.5px;color:var(--g70)}
+  .menu button:hover{background:var(--purple-xlt);color:var(--purple)}
+  .menu button.sel{font-weight:800;color:var(--purple);background:var(--purple-xlt)}
+  .menu hr{border:none;border-top:1px solid var(--g20);margin:5px 0}
 
-  /* Tooltip — pure CSS hover */
-  .tip { position: relative; display: inline-flex; }
-  .tip .tip-body {
-    visibility: hidden; opacity: 0;
-    position: absolute; z-index: 60;
-    bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
-    background: var(--grey-70); color: white;
-    padding: 8px 10px; border-radius: 6px;
-    font-size: 11px; line-height: 1.4; font-weight: 500;
-    width: 240px; text-align: left;
-    transition: opacity 0.15s ease;
-    pointer-events: none;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.18);
-  }
-  .tip .tip-body::after {
-    content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
-    border: 5px solid transparent; border-top-color: var(--grey-70);
-  }
-  .tip:hover .tip-body { visibility: visible; opacity: 1; }
-  .tip .tip-body.right { left: auto; right: 0; transform: none; }
-  .tip .tip-body.right::after { left: auto; right: 8px; transform: none; }
+  /* ---- page ---- */
+  .page{padding:26px 28px 40px}
+  h1{font-size:26px;font-weight:800;color:var(--g90);letter-spacing:-.4px}
 
-  /* Status pills colours */
-  .pill { display: inline-block; padding: 2px 8px; border-radius: 9999px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
-  .pill-submitted { background: var(--purple-secondary); color: var(--purple-primary); }
-  .pill-review    { background: var(--purple-secondary); color: var(--purple-primary); }
-  .pill-approved  { background: var(--green-secondary); color: var(--green-primary); }
-  .pill-scheduled { background: #FEF3C7; color: #92400E; }
-  .pill-credited  { background: var(--green-primary); color: white; }
-  .pill-rejected  { background: var(--red-secondary); color: var(--red-primary); }
-  .pill-onhold    { background: #FFF7E6; color: #B45309; }
+  /* KPI */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:22px 0}
+  .kpi{background:#fff;border:1px solid var(--g20);border-radius:10px;padding:16px 18px}
+  .kpi .lbl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--g40);display:flex;align-items:center;gap:5px}
+  .kpi .num{font-size:26px;font-weight:800;line-height:1.15;margin:6px 0 3px}
+  .kpi .sub{font-size:11px;color:var(--g50)}
 
-  /* Buttons */
-  .btn-primary { background: var(--purple-primary); color: white; font-weight: 700; padding: 0.5rem 1.1rem; border-radius: 0.5rem; font-size: 0.75rem; transition: background 0.15s; cursor: pointer; }
-  .btn-primary:hover { background: #7a008a; }
-  .btn-secondary { background: white; color: var(--grey-70); font-weight: 700; padding: 0.5rem 1rem; border: 1px solid var(--grey-30); border-radius: 0.5rem; font-size: 0.75rem; transition: all 0.15s; cursor: pointer; }
-  .btn-secondary:hover { border-color: var(--purple-primary); color: var(--purple-primary); }
-  .btn-danger { background: var(--red-primary); color: white; font-weight: 700; padding: 0.5rem 1.1rem; border-radius: 0.5rem; font-size: 0.75rem; cursor: pointer; }
-  .btn-success { background: var(--green-primary); color: white; font-weight: 700; padding: 0.5rem 1.1rem; border-radius: 0.5rem; font-size: 0.75rem; cursor: pointer; }
-  .btn-sm-action { padding: 0.25rem 0.55rem; font-size: 10px; font-weight: 700; border-radius: 4px; cursor: pointer; }
+  /* search */
+  .search{position:relative;max-width:470px;margin-bottom:22px}
+  .search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--g40);font-size:15px}
+  .search input{width:100%;padding:10px 12px 10px 38px;border:1px solid var(--g30);border-radius:8px;background:#fff;font-size:13px}
+  .search input::placeholder{color:var(--g40)}
+  .search input:focus{outline:none;border-color:var(--purple);box-shadow:0 0 0 3px var(--purple-lt)}
 
-  /* Stepper */
-  .step-pill { transition: all 0.2s ease; }
+  /* section */
+  .sec{background:#fff;border:1px solid var(--g20);border-radius:10px;margin-bottom:20px;overflow:hidden}
+  .sec.primary{border-color:var(--purple)}
+  .sec-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:16px 20px;border-bottom:1px solid var(--g20)}
+  .sec-title{display:flex;align-items:center;gap:9px}
+  .sec-title h2{font-size:15px;font-weight:800;color:var(--g90)}
+  .sec-sub{font-size:11.5px;color:var(--g50);margin-top:3px}
+  .cnt{min-width:22px;height:20px;padding:0 7px;border-radius:99px;font-size:11px;font-weight:800;display:inline-flex;align-items:center;justify-content:center}
+  .cnt.p{background:var(--purple);color:#fff}
+  .cnt.a{background:var(--amber-lt);color:var(--amber)}
+  .cnt.g{background:var(--g10);color:var(--g50)}
+  .sec-tools{display:flex;flex-direction:column;align-items:flex-end;gap:9px;flex-shrink:0}
+  .caret{color:var(--g40);font-size:18px;transition:transform .18s}
+  .caret.dn{transform:rotate(-90deg)}
 
-  /* Step 2 panels */
-  .step2-panel { display: none; }
-  .step2-panel.active { display: block; }
+  /* buttons */
+  .btn-dl{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--g30);border-radius:8px;background:#fff;padding:7px 13px;font-size:12px;font-weight:700;color:var(--g70)}
+  .btn-dl:hover{border-color:var(--purple);color:var(--purple)}
+  /* disabled download: pointer-events off on the button so the wrapper span
+     receives the hover — a disabled button fires no mouse events at all,
+     which would swallow the tooltip explaining why it's disabled */
+  .btn-dl.off{opacity:.42;pointer-events:none}
+  .dl-off-wrap{display:inline-flex;cursor:not-allowed}
+  .btn-p{background:var(--purple);color:#fff;font-weight:700;padding:9px 18px;border-radius:8px;font-size:12.5px}
+  .btn-p:hover{background:#83008f}
+  .btn-s{background:#fff;border:1px solid var(--g30);color:var(--g70);font-weight:700;padding:9px 16px;border-radius:8px;font-size:12.5px}
+  .btn-s:hover{border-color:var(--purple);color:var(--purple)}
+  .btn-red{background:var(--red);color:#fff;font-weight:700;padding:9px 18px;border-radius:8px;font-size:12.5px}
+  .btn-green{background:var(--green);color:#fff;font-weight:700;padding:9px 18px;border-radius:8px;font-size:12.5px}
+  .sel-fmt{border:1px solid var(--g30);border-radius:8px;background:#fff;padding:7px 9px;font-size:12px;font-weight:700}
 
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 8px; height: 8px; }
-  ::-webkit-scrollbar-track { background: var(--grey-20); }
-  ::-webkit-scrollbar-thumb { background: var(--grey-30); border-radius: 4px; }
+  /* chips */
+  .chips{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+  .chips .cl{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--g40);margin-right:2px}
+  .chip{border:1px solid var(--g30);background:#fff;border-radius:99px;padding:5px 12px;font-size:11.5px;font-weight:600;color:var(--g50);white-space:nowrap}
+  .chip:hover{border-color:var(--purple);color:var(--purple)}
+  .chip.on{background:var(--purple);border-color:var(--purple);color:#fff}
 
-  /* Toast */
-  .toast { animation: slideUp 0.25s ease-out; }
-  @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes pulseDot { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
-  .pulse-dot { animation: pulseDot 2s infinite; }
+  /* table — matched to prod */
+  .tw{overflow-x:auto}
+  table{width:100%;border-collapse:collapse}
+  thead th{background:var(--g10);color:var(--g40);font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;text-align:left;padding:11px 16px;white-space:nowrap;border-bottom:1px solid var(--g20)}
+  tbody td{padding:14px 16px;font-size:12.5px;border-bottom:1px solid var(--g10);vertical-align:middle;white-space:nowrap}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:var(--purple-xlt)}
+  .num-r{text-align:right;font-weight:700}
+  .mono{font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;font-size:11px}
+  .reqid{font-family:'SFMono-Regular',Consolas,Menlo,monospace;font-size:11px;color:var(--g70)}
+  .brand{font-weight:700}
+  .wlink{color:var(--purple);font-weight:600}
+  .payref{font-size:11.5px;color:var(--g50)}
+  .method{display:inline-block;background:var(--g10);color:var(--g50);border-radius:5px;padding:3px 8px;font-size:10.5px;font-weight:700}
+  .muted{color:var(--g50)}
 
-  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--purple-primary); box-shadow: 0 0 0 2px var(--purple-secondary); }
-  .input-locked { background: var(--grey-20); color: var(--grey-50); cursor: not-allowed; }
+  /* pills — matched to prod */
+  .pill{display:inline-block;border-radius:99px;padding:3px 9px;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.45px;white-space:nowrap}
+  .p-cim{background:var(--purple-lt);color:var(--purple)}
+  .p-cim-next{background:var(--amber-lt);color:var(--amber)}
+  .p-submitted{background:#EAE8EF;color:#4A4655}
+  .p-review{background:#E6EAFB;color:#3F3D9E}
+  .p-hold{background:var(--amber-lt);color:var(--amber)}
+  .p-approved{background:var(--green-lt);color:var(--green)}
+  .p-scheduled{background:var(--amber-lt);color:var(--amber)}
+  .p-credited{background:var(--green);color:#fff}
+  .p-rejected{background:var(--red-lt);color:var(--red)}
+
+  /* flags — plain text in prod, not pills */
+  .flag{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.45px;white-space:nowrap}
+  .f-clear{color:var(--green)}
+  .f-bad{color:var(--red)}
+  .f-warn{color:var(--amber)}
+  .dot{animation:blink 2s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.5}}
+
+  /* actions */
+  .view{color:var(--purple);font-weight:700;font-size:12px}
+  .view:hover{text-decoration:underline}
+  .acts{display:flex;gap:6px;align-items:center}
+  .a-ok{background:var(--green);color:#fff;border-radius:6px;padding:5px 11px;font-size:11px;font-weight:700}
+  .a-no{background:#fff;border:1px solid var(--red);color:var(--red);border-radius:6px;padding:5px 11px;font-size:11px;font-weight:700}
+  .a-hold{background:#fff;border:1px solid var(--g30);color:var(--g50);border-radius:6px;padding:5px 11px;font-size:11px;font-weight:700}
+  .a-hold:hover{border-color:var(--amber);color:var(--amber)}
+
+  /* pagination — matched to prod */
+  .pag{display:flex;align-items:center;justify-content:flex-end;gap:22px;padding:13px 20px;border-top:1px solid var(--g20);font-size:12px;color:var(--g50)}
+  .pag .rpp{display:flex;align-items:center;gap:8px}
+  .pag select{border:1px solid var(--g30);border-radius:6px;padding:4px 6px;font-size:12px;background:#fff}
+  .pag .arrows{display:flex;gap:4px}
+  .pag .arrows button{width:26px;height:26px;border:1px solid var(--g30);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--g50)}
+  .pag .arrows button:hover{border-color:var(--purple);color:var(--purple)}
+
+  /* empty */
+  .empty{padding:40px 20px;text-align:center}
+  .empty i{font-size:34px;color:var(--g30)}
+  .empty .t{font-size:13.5px;font-weight:700;color:var(--g70);margin-top:9px}
+  .empty .s{font-size:11.5px;color:var(--g50);margin-top:3px}
+  .empty-line{padding:14px 20px;font-size:11.5px;color:var(--g50)}
+
+  /* scope note */
+  .note{display:flex;gap:10px;background:#fff;border:1px solid var(--g20);border-radius:10px;padding:14px 18px;font-size:11.5px;color:var(--g50);line-height:1.55}
+  .note i{color:var(--g40);font-size:15px;flex-shrink:0;margin-top:1px}
+  .note b{color:var(--g70)}
+
+  /* info icon */
+  .qi{color:var(--g30);font-size:13px;cursor:help;vertical-align:middle}
+  .qi:hover{color:var(--purple)}
+  .has-tip{cursor:help}
+
+  /* tooltip — fixed to body, escapes table overflow clipping */
+  #tt{position:fixed;z-index:9999;background:var(--g90);color:#fff;padding:9px 11px;border-radius:7px;font-size:11.5px;line-height:1.45;font-weight:500;max-width:270px;box-shadow:0 8px 22px rgba(11,4,19,.26);opacity:0;pointer-events:none;transition:opacity .13s;display:none}
+  #tt.on{opacity:1}
+  #tt:after{content:'';position:absolute;top:100%;left:var(--ax,50%);transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--g90)}
+  #tt.below:after{top:auto;bottom:100%;border-top-color:transparent;border-bottom-color:var(--g90)}
+
+  /* drawer */
+  .ovl{position:fixed;inset:0;background:rgba(11,4,19,.34);z-index:60;display:none}
+  .drawer{position:fixed;top:0;right:0;bottom:0;width:580px;background:#fff;z-index:70;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .24s ease-out;box-shadow:-8px 0 30px rgba(11,4,19,.16)}
+  .drawer.open{transform:translateX(0)}
+  .dh{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--g20)}
+  .dh .lbl{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--g40)}
+  .dh .id{font-family:Menlo,monospace;font-size:13.5px;font-weight:700;color:var(--purple);margin-top:2px}
+  .db{flex:1;overflow-y:auto;padding:20px 22px;display:flex;flex-direction:column;gap:16px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;background:var(--g10);border-radius:9px;padding:16px}
+  .fl .k{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--g40);display:flex;align-items:center;gap:5px}
+  .fl .v{font-size:12.5px;font-weight:700;color:var(--g70);margin-top:3px}
+  .fl.w{grid-column:1/-1}
+  .card{border:1px solid var(--g20);border-radius:9px;padding:15px}
+  .card .ct{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--g40);margin-bottom:9px}
+  .proof{display:flex;align-items:center;justify-content:space-between;background:var(--g10);border-radius:7px;padding:9px 12px;font-size:12px}
+  .out{border-radius:9px;padding:15px;font-size:12px}
+  .out .ot{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:9px}
+  .out .r{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .out .r > div{display:flex;gap:5px}
+  .out .r .w{grid-column:1/-1}
+  .out .r span{color:var(--g50)}
+  .out .foot{margin-top:10px;padding-top:9px;border-top:1px solid rgba(0,0,0,.09);font-size:11px}
+  .o-green{background:var(--green-lt);border:1px solid var(--green)}.o-green .ot{color:var(--green)}
+  .o-red{background:var(--red-lt);border:1px solid var(--red)}.o-red .ot{color:var(--red)}.o-red .foot{color:var(--red)}
+  .o-amber{background:var(--amber-lt);border:1px solid #E9A23B}.o-amber .ot{color:var(--amber)}.o-amber .foot{color:var(--amber)}
+  .df{border-top:1px solid var(--g20);padding:16px 22px;display:flex;justify-content:flex-end;gap:9px}
+
+  /* modal */
+  .modal{position:fixed;inset:0;background:rgba(11,4,19,.42);z-index:80;display:none;align-items:center;justify-content:center}
+  .modal.on{display:flex}
+  .mbox{background:#fff;border-radius:12px;width:480px;padding:22px;box-shadow:0 20px 50px rgba(11,4,19,.28)}
+  .mbox h3{font-size:16px;font-weight:800;color:var(--g90);margin-bottom:5px}
+  .mbox p{font-size:11.5px;color:var(--g50);line-height:1.5;margin-bottom:16px}
+  .mbox label{display:block;font-size:10.5px;font-weight:800;color:var(--g50);margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+  .mbox textarea{width:100%;border:1px solid var(--g30);border-radius:8px;padding:10px;font-size:12.5px;resize:vertical}
+  .mbox textarea:focus{outline:none;border-color:var(--purple);box-shadow:0 0 0 3px var(--purple-lt)}
+  .mbox .hint{display:flex;gap:6px;margin-top:9px;font-size:10.5px;color:var(--g50)}
+  .mbox .acts{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}
+
+  /* toast */
+  #toast{position:fixed;bottom:26px;right:26px;z-index:90;display:none}
+  #toast div{background:var(--g90);color:#fff;font-size:12px;font-weight:600;padding:11px 16px;border-radius:9px;box-shadow:0 10px 26px rgba(11,4,19,.3);animation:up .22s ease-out}
+  @keyframes up{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+  .hide{display:none!important}
 </style>
 </head>
-<body class="bg-g20 text-g70">
+<body>
 
-<!-- ============================================================
-     APP SHELL
-     ============================================================ -->
-<div class="flex min-h-screen">
+<aside class="side">
+  <div class="side-top">
+    <div class="logo">P</div>
+    <div class="nm">Purplle Ads</div>
+  </div>
 
-  <!-- Sidebar (primary purple) -->
-  <aside class="w-60 text-white flex flex-col fixed left-0 top-0 bottom-0 z-30" style="background: var(--purple-primary);">
-    <div class="px-4 py-4 border-b border-white/10 flex items-center gap-2">
-      <div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center font-extrabold text-primary text-sm">P</div>
-      <div>
-        <div class="text-sm font-extrabold">Purplle Ads</div>
-        <div class="text-[10px] text-white/60 font-medium">Wallet · v2 mock</div>
-      </div>
+  <nav class="side-nav">
+    <div class="nav-grp">
+      <div class="nav-lbl">Campaigns</div>
+      <a href="#" class="nav-item">Awareness</a>
+      <a href="#" class="nav-item">Performance</a>
+      <a href="#" class="nav-item">Bundles</a>
+      <a href="#" class="nav-item">Product Display Ads</a>
     </div>
-
-    <nav class="flex-1 overflow-y-auto py-3 px-2 text-[12px]">
-      <div class="mt-1">
-        <div class="px-3 py-2 text-[9px] uppercase tracking-wider text-white/50 font-bold">Campaigns</div>
-        <a href="#" onclick="navigateTo('stub-awareness', this, 'Campaigns / Awareness')"      class="nav-item block px-4 py-2 text-white/80 rounded">Awareness</a>
-        <a href="#" onclick="navigateTo('stub-performance', this, 'Campaigns / Performance')"  class="nav-item block px-4 py-2 text-white/80 rounded">Performance</a>
-        <a href="#" onclick="navigateTo('stub-bundles', this, 'Campaigns / Bundles')"          class="nav-item block px-4 py-2 text-white/80 rounded">Bundles</a>
-        <a href="#" onclick="navigateTo('stub-pda', this, 'Campaigns / Product Display Ads')"  class="nav-item block px-4 py-2 text-white/80 rounded">Product Display Ads</a>
-      </div>
-      <div class="mt-3">
-        <div class="px-3 py-2 text-[9px] uppercase tracking-wider text-white/50 font-bold">Balance &amp; Manage</div>
-        <a href="#" onclick="navigateTo('overview', this, 'Balance &amp; Manage / Overview')"             class="nav-item active block px-4 py-2 text-white/80 rounded" id="nav-overview">Overview</a>
-        <a href="#" onclick="navigateTo('business-queue', this, 'Balance &amp; Manage / Business Queue')" class="nav-item block px-4 py-2 text-white/80 rounded">Business Queue</a>
-        <a href="#" onclick="navigateTo('finance-queue', this, 'Balance &amp; Manage / Finance Queue')"   class="nav-item block px-4 py-2 text-white/80 rounded">Finance Queue</a>
-        <a href="#" onclick="navigateTo('adjustments', this, 'Balance &amp; Manage / Adjustments')"       class="nav-item block px-4 py-2 text-white/80 rounded">Adjustments</a>
-      </div>
-      <div class="mt-3">
-        <div class="px-3 py-2 text-[9px] uppercase tracking-wider text-white/50 font-bold">Reporting</div>
-        <a href="#" onclick="navigateTo('stub-history', this, 'Reporting / History')"      class="nav-item block px-4 py-2 text-white/80 rounded">History</a>
-        <a href="#" onclick="navigateTo('stub-creatives', this, 'Reporting / Creatives')"  class="nav-item block px-4 py-2 text-white/80 rounded">Creatives</a>
-        <a href="#" onclick="navigateTo('stub-reports', this, 'Reporting / Reports')"      class="nav-item block px-4 py-2 text-white/80 rounded">Reports</a>
-      </div>
-      <div class="mt-3">
-        <div class="px-3 py-2 text-[9px] uppercase tracking-wider text-white/50 font-bold">Control Centre</div>
-        <a href="#" onclick="navigateTo('cc-onboarding', this, 'Control Centre / Brand Onboarding')"   class="nav-item block px-4 py-2 text-white/80 rounded">Brand Onboarding</a>
-        <a href="#" onclick="navigateTo('cc-users', this, 'Control Centre / Users')"                   class="nav-item block px-4 py-2 text-white/80 rounded">Users</a>
-        <a href="#" onclick="navigateTo('cc-personas', this, 'Control Centre / Personas')"             class="nav-item block px-4 py-2 text-white/80 rounded">Personas &amp; Permissions</a>
-        <a href="#" onclick="navigateTo('cc-segments', this, 'Control Centre / Segments')"             class="nav-item block px-4 py-2 text-white/80 rounded">Audience Segments</a>
-        <a href="#" onclick="navigateTo('cc-audit', this, 'Control Centre / Audit')"                   class="nav-item block px-4 py-2 text-white/80 rounded">Audit Log</a>
-        <a href="#" onclick="navigateTo('cc-yield', this, 'Control Centre / Yield')"                   class="nav-item block px-4 py-2 text-white/80 rounded">Yield Controls</a>
-        <a href="#" onclick="navigateTo('cc-banner', this, 'Control Centre / Announcement Banner')"    class="nav-item block px-4 py-2 text-white/80 rounded">Announcement Banner</a>
-      </div>
-    </nav>
-
-    <div class="px-3 py-3 border-t border-white/10 flex items-center gap-2">
-      <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center font-extrabold text-primary text-xs">L</div>
-      <div class="flex-1">
-        <div class="text-xs font-bold">Lakme</div>
-        <div class="text-[10px] text-white/70">anuj.s@purplle.com</div>
-      </div>
+    <div class="nav-grp">
+      <div class="nav-lbl">Balance &amp; Manage</div>
+      <a href="#" class="nav-item">Overview</a>
+      <a href="#" class="nav-item">Business Queue</a>
+      <a href="#" class="nav-item on">Finance Queue</a>
+      <a href="#" class="nav-item">Adjustments</a>
     </div>
-  </aside>
-
-  <main class="flex-1 ml-60">
-
-    <!-- Topbar with Available Cash chip -->
-    <header class="bg-white border-b border-g20 sticky top-0 z-20 flex items-center justify-between px-6 py-3">
-      <div class="flex items-center gap-3">
-        <div class="text-g50 text-xs font-medium" id="breadcrumb">Balance &amp; Manage / <span class="text-primary font-bold">Overview</span></div>
-      </div>
-      <div class="flex items-center gap-3">
-        <div class="tip">
-          <div class="bg-primary-50 border border-primary rounded-full px-3 py-1 flex items-center gap-2 cursor-help">
-            <i class="ri-wallet-3-fill text-primary"></i>
-            <div class="text-[10px] font-bold uppercase tracking-wider text-g50">Available Cash</div>
-            <div class="text-sm font-extrabold text-primary">₹ 11,92,378</div>
-            <i class="ri-information-line text-primary text-[12px]"></i>
-          </div>
-          <div class="tip-body right">Available Cash Balance — cash-funded across Primary, Performance, Display, and custom sub-wallets. Excludes Promo Credits.</div>
-        </div>
-        <button class="relative text-g50 hover:text-primary transition"><i class="ri-notification-3-line text-lg"></i><span class="absolute -top-1 -right-1 w-2 h-2 bg-danger rounded-full"></span></button>
-        <button class="text-g50 hover:text-primary transition"><i class="ri-question-line text-lg"></i></button>
-        <div class="w-8 h-8 rounded-full bg-primary-50 border border-primary flex items-center justify-center font-bold text-primary text-xs">AS</div>
-      </div>
-    </header>
-
-    <div class="p-6">
-
-      <!-- ============================================================
-           PAGE: OVERVIEW
-           ============================================================ -->
-      <section id="page-overview" class="page-section active">
-        <div class="flex justify-between items-start mb-5">
-          <div>
-            <h1 class="text-2xl font-extrabold text-g70">Lakme · Wallet</h1>
-            <p class="text-xs text-g50 mt-1">Brand &gt; Primary (Performance, Display, Custom sub-wallets) &gt; Promo Credits (fallback only)</p>
-          </div>
-          <div class="flex gap-2">
-            <button onclick="openCreateSubwallet()" class="btn-secondary flex items-center gap-1.5"><i class="ri-add-circle-line"></i> Create Sub-wallet</button>
-            <button onclick="openMoveFunds()" class="btn-secondary flex items-center gap-1.5"><i class="ri-exchange-line"></i> Move Funds</button>
-            <button onclick="openRechargeWizard()" class="btn-primary flex items-center gap-1.5"><i class="ri-add-line"></i> Recharge Wallet</button>
-          </div>
-        </div>
-
-        <!-- KPI strip -->
-        <div class="grid grid-cols-12 gap-3 mb-5">
-          <div class="col-span-3 bg-white border border-g20 rounded-xl p-4 shadow-card">
-            <div class="flex items-center justify-between">
-              <div class="text-[10px] uppercase tracking-wider font-bold text-g40">Total Wallet Balance</div>
-              <span class="tip"><i class="ri-information-line text-g40 cursor-help"></i><span class="tip-body right">Includes Primary, Performance, Display, all custom sub-wallets, and Promo Credits. Promo Credits are fallback-only and not freely transferable.</span></span>
-            </div>
-            <div class="text-2xl font-extrabold text-g70 mt-1">₹ 12,42,378</div>
-            <div class="text-[10px] text-g50 font-medium mt-0.5">incl. ₹ 50,000 Promo Credits</div>
-          </div>
-          <div class="col-span-3 bg-white border border-primary rounded-xl p-4 shadow-card" style="background: var(--purple-tertiary);">
-            <div class="flex items-center justify-between">
-              <div class="text-[10px] uppercase tracking-wider font-bold text-g40">Available Cash Balance</div>
-              <span class="tip"><i class="ri-information-line text-g40 cursor-help"></i><span class="tip-body right">Includes only cash-funded balances across Primary, Performance, Display, and custom sub-wallets. Excludes Promo Credits.</span></span>
-            </div>
-            <div class="text-2xl font-extrabold text-primary mt-1">₹ 11,92,378</div>
-            <div class="text-[10px] text-success font-bold mt-0.5"><i class="ri-arrow-up-line"></i> ₹ 3,40,000 this month</div>
-          </div>
-          <div class="col-span-3 bg-white border border-g20 rounded-xl p-4 shadow-card">
-            <div class="flex items-center justify-between">
-              <div class="text-[10px] uppercase tracking-wider font-bold text-g40">Pending Approvals</div>
-              <span class="tip"><i class="ri-information-line text-g40 cursor-help"></i><span class="tip-body right">Credit requests, IBH movements, or adjustments waiting for Business or Finance action.</span></span>
-            </div>
-            <div class="text-2xl font-extrabold text-g70 mt-1">3</div>
-            <div class="text-[10px] text-g50 font-medium mt-0.5">2 recharges · 1 adjustment</div>
-          </div>
-          <div class="col-span-3 bg-white border border-g20 rounded-xl p-4 shadow-card">
-            <div class="flex items-center justify-between">
-              <div class="text-[10px] uppercase tracking-wider font-bold text-g40">Scheduled Next Month</div>
-              <span class="tip"><i class="ri-information-line text-g40 cursor-help"></i><span class="tip-body right">Approved credit requests marked for Next Month. These will credit automatically on day 1 of the next calendar month.</span></span>
-            </div>
-            <div class="text-2xl font-extrabold text-g70 mt-1">₹ 6,00,000</div>
-            <div class="text-[10px] text-g50 font-medium mt-0.5">credits 00:00 IST · 1 Jun</div>
-          </div>
-        </div>
-
-        <!-- Wallet cards -->
-        <div class="grid grid-cols-12 gap-4 mb-5">
-          <div class="col-span-3 bg-white border border-g20 rounded-xl p-5 shadow-card">
-            <div class="flex items-center justify-between mb-3">
-              <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg bg-primary-50 flex items-center justify-center"><i class="ri-wallet-3-fill text-primary"></i></div>
-                <div>
-                  <div class="font-bold text-g70 text-sm">Primary</div>
-                  <div class="text-[9px] text-g40">Parent wallet</div>
-                </div>
-              </div>
-              <span class="tip"><i class="ri-information-line text-g40 cursor-help"></i><span class="tip-body right">Default wallet. Parent for all custom sub-wallets. Campaigns can spend directly from Primary.</span></span>
-            </div>
-            <div class="text-2xl font-extrabold text-g70">₹ 8,84,689</div>
-            <div class="text-[10px] text-g50 mt-1">Last recharge: ₹ 3,40,000 · 1 May</div>
-            <button onclick="openSubWalletsDrawer()" class="mt-3 w-full text-[11px] font-bold text-primary border border-primary bg-primary-25 rounded-lg py-2 hover:bg-primary-50 transition flex items-center justify-center gap-1"><i class="ri-eye-line"></i> View sub-wallets (5)</button>
-          </div>
-
-          <div class="col-span-3 bg-white border border-g20 rounded-xl p-5 shadow-card">
-            <div class="flex items-center justify-between mb-3">
-              <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg bg-success-50 flex items-center justify-center"><i class="ri-line-chart-fill text-success"></i></div>
-                <div>
-                  <div class="font-bold text-g70 text-sm">Performance</div>
-                  <div class="text-[9px] text-g40">System sub-wallet</div>
-                </div>
-              </div>
-              <span class="tip"><i class="ri-information-line text-g40 cursor-help"></i><span class="tip-body right">System-created sub-wallet for campaign spend. Funds can be credited directly or moved from Primary.</span></span>
-            </div>
-            <div class="text-2xl font-extrabold text-g70">₹ 2,12,000</div>
-            <div class="text-[10px] text-g50 mt-1">Auto-provisioned · transferable</div>
-            <button onclick="openMoveFunds()" class="mt-3 w-full text-[11px] font-bold text-g50 border border-g30 rounded-lg py-2 hover:border-primary hover:text-primary transition flex items-center justify-center gap-1"><i class="ri-exchange-line"></i> Move Funds</button>
-          </div>
-
-          <div class="col-span-3 bg-white border border-g20 rounded-xl p-5 shadow-card">
-            <div class="flex items-center justify-between mb-3">
-              <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg bg-primary-50 flex items-center justify-center"><i class="ri-image-fill text-primary"></i></div>
-                <div>
-                  <div class="font-bold text-g70 text-sm">Display</div>
-                  <div class="text-[9px] text-g40">System sub-wallet</div>
-                </div>
-              </div>
-              <span class="tip"><i class="ri-information-line text-g40 cursor-help"></i><span class="tip-body right">System-created sub-wallet for campaign spend. Funds can be credited directly or moved from Primary.</span></span>
-            </div>
-            <div class="text-2xl font-extrabold text-g70">₹ 95,689</div>
-            <div class="text-[10px] text-g50 mt-1">Auto-provisioned · transferable</div>
-            <button onclick="openMoveFunds()" class="mt-3 w-full text-[11px] font-bold text-g50 border border-g30 rounded-lg py-2 hover:border-primary hover:text-primary transition flex items-center justify-center gap-1"><i class="ri-exchange-line"></i> Move Funds</button>
-          </div>
-
-          <div class="col-span-3 bg-white border border-g20 rounded-xl p-5 shadow-card">
-            <div class="flex items-center justify-between mb-3">
-              <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:#FFF7E6;"><i class="ri-gift-fill" style="color:#B45309;"></i></div>
-                <div>
-                  <div class="font-bold text-g70 text-sm">Promo Credits</div>
-                  <div class="text-[9px] text-g40">Fallback only</div>
-                </div>
-              </div>
-              <span class="tip"><i class="ri-information-line text-g40 cursor-help"></i><span class="tip-body right">Org-funded fallback wallet. Cannot be topped up by brand, cannot be transferred, and cannot be assigned directly to campaigns.</span></span>
-            </div>
-            <div class="text-2xl font-extrabold text-g70">₹ 50,000</div>
-            <div class="text-[10px] text-g50 mt-1">Ring-fenced · expires 31 May</div>
-            <div class="mt-3 w-full text-[11px] font-medium text-g40 border border-g20 bg-g20 rounded-lg py-2 text-center">Not transferable</div>
-          </div>
-        </div>
-
-        <!-- Brand/User Request Tracker -->
-        <div class="bg-white border border-g20 rounded-xl shadow-card overflow-hidden mb-5">
-          <div class="flex justify-between items-center px-5 py-3 border-b border-g20">
-            <div>
-              <h3 class="font-bold text-g70 text-sm">My Credit Requests</h3>
-              <p class="text-[11px] text-g50">Canonical Request ID · CR-YYYY-MM-XXXXXXX · use this ID across queues, ledger and audit log</p>
-            </div>
-            <button class="text-[11px] text-primary font-bold hover:underline flex items-center gap-1"><i class="ri-download-line"></i> Download CSV</button>
-          </div>
-          <table class="w-full text-left text-xs">
-            <thead class="bg-g20 text-g40 uppercase text-[10px] font-bold">
-              <tr>
-                <th class="px-5 py-2">Request ID</th>
-                <th class="px-5 py-2">Payment Method</th>
-                <th class="px-5 py-2">Credit To Wallet</th>
-                <th class="px-5 py-2 text-right">Amount</th>
-                <th class="px-5 py-2">Credit Month</th>
-                <th class="px-5 py-2">Status</th>
-                <th class="px-5 py-2">Submitted At</th>
-                <th class="px-5 py-2">Actions</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-g20" id="brandTrackerBody"></tbody>
-          </table>
-          <!-- Pagination -->
-          <div class="flex items-center justify-between px-5 py-3 border-t border-g20 text-xs">
-            <div class="text-g50">Showing 1–7 of 23</div>
-            <div class="flex items-center gap-1">
-              <button class="px-2 py-1 border border-g30 rounded text-g50 hover:text-primary">Previous</button>
-              <button class="px-2 py-1 border border-primary bg-primary text-white rounded font-bold">1</button>
-              <button class="px-2 py-1 border border-g30 rounded text-g50 hover:text-primary">2</button>
-              <button class="px-2 py-1 border border-g30 rounded text-g50 hover:text-primary">3</button>
-              <span class="px-1 text-g40">…</span>
-              <button class="px-2 py-1 border border-g30 rounded text-g50 hover:text-primary">Next</button>
-            </div>
-            <div class="flex items-center gap-2 text-g50">
-              Rows per page:
-              <select class="border border-g30 rounded px-1.5 py-1 text-xs"><option>10</option><option>25</option><option>50</option></select>
-            </div>
-          </div>
-        </div>
-
-        <!-- Recent Transactions -->
-        <div class="bg-white border border-g20 rounded-xl shadow-card overflow-hidden">
-          <div class="flex justify-between items-center px-5 py-3 border-b border-g20">
-            <div>
-              <h3 class="font-bold text-g70 text-sm">Recent Transactions</h3>
-              <p class="text-[11px] text-g50">Ledger-derived · all wallets</p>
-            </div>
-            <button class="text-[11px] text-primary font-bold hover:underline flex items-center gap-1"><i class="ri-download-line"></i> Download CSV</button>
-          </div>
-          <table class="w-full text-left text-xs">
-            <thead class="bg-g20 text-g40 uppercase text-[10px] font-bold">
-              <tr>
-                <th class="px-5 py-2">Time</th>
-                <th class="px-5 py-2">Method</th>
-                <th class="px-5 py-2">Wallet</th>
-                <th class="px-5 py-2 text-right">Amount</th>
-                <th class="px-5 py-2">Reference</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-g20">
-              <tr><td class="px-5 py-2 text-g50">27 May 2026, 11:42 AM</td><td class="px-5 py-2"><span class="px-2 py-0.5 bg-success-50 text-success rounded-full text-[10px] font-bold">NEFT</span></td><td class="px-5 py-2 font-semibold">Performance</td><td class="px-5 py-2 text-right font-bold text-success">+ ₹ 1,50,000</td><td class="px-5 py-2 font-mono text-[10px] text-g50">CR-2026-05-0002049</td></tr>
-              <tr><td class="px-5 py-2 text-g50">26 May 2026, 02:22 PM</td><td class="px-5 py-2"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold" style="background:#FFF7E6; color:#92400E;">MV</span></td><td class="px-5 py-2 font-semibold">Display</td><td class="px-5 py-2 text-right font-bold text-g50">on hold</td><td class="px-5 py-2 font-mono text-[10px] text-g50">CR-2026-05-0002055</td></tr>
-              <tr><td class="px-5 py-2 text-g50">25 May 2026, 09:10 AM</td><td class="px-5 py-2"><span class="px-2 py-0.5 bg-primary-50 text-primary rounded-full text-[10px] font-bold">IBH In</span></td><td class="px-5 py-2 font-semibold">Primary</td><td class="px-5 py-2 text-right font-bold text-success">+ ₹ 80,000</td><td class="px-5 py-2 font-mono text-[10px] text-g50">From Pond's · IBH-2026-05-04</td></tr>
-              <tr><td class="px-5 py-2 text-g50">25 May 2026, 09:09 AM</td><td class="px-5 py-2"><span class="px-2 py-0.5 bg-primary-50 text-primary rounded-full text-[10px] font-bold">IBH Out</span></td><td class="px-5 py-2 font-semibold">Primary</td><td class="px-5 py-2 text-right font-bold text-danger">− ₹ 30,000</td><td class="px-5 py-2 font-mono text-[10px] text-g50">To Mamaearth · IBH-2026-05-03</td></tr>
-              <tr><td class="px-5 py-2 text-g50">24 May 2026, 06:05 PM</td><td class="px-5 py-2"><span class="px-2 py-0.5 bg-danger-50 text-danger rounded-full text-[10px] font-bold">Spend</span></td><td class="px-5 py-2 font-semibold">Display</td><td class="px-5 py-2 text-right font-bold text-danger">− ₹ 22,500</td><td class="px-5 py-2 font-mono text-[10px] text-g50">cmp_lakme_summer</td></tr>
-              <tr><td class="px-5 py-2 text-g50">24 May 2026, 10:12 AM</td><td class="px-5 py-2"><span class="px-2 py-0.5 bg-success-50 text-success rounded-full text-[10px] font-bold">Move Funds · In</span></td><td class="px-5 py-2 font-semibold">Performance</td><td class="px-5 py-2 text-right font-bold text-success">+ ₹ 50,000</td><td class="px-5 py-2 font-mono text-[10px] text-g50">MV-2231</td></tr>
-              <tr><td class="px-5 py-2 text-g50">23 May 2026, 04:30 PM</td><td class="px-5 py-2"><span class="px-2 py-0.5 bg-success-50 text-success rounded-full text-[10px] font-bold">PayU</span></td><td class="px-5 py-2 font-semibold">Primary</td><td class="px-5 py-2 text-right font-bold text-success">+ ₹ 3,40,000</td><td class="px-5 py-2 font-mono text-[10px] text-g50">CR-2026-05-0002053</td></tr>
-              <tr><td class="px-5 py-2 text-g50">22 May 2026, 11:00 AM</td><td class="px-5 py-2"><span class="px-2 py-0.5 bg-success-50 text-success rounded-full text-[10px] font-bold">PO</span></td><td class="px-5 py-2 font-semibold">Display</td><td class="px-5 py-2 text-right font-bold text-success">+ ₹ 1,80,000</td><td class="px-5 py-2 font-mono text-[10px] text-g50">CR-2026-05-0002051</td></tr>
-              <tr><td class="px-5 py-2 text-g50">18 May 2026, 02:45 PM</td><td class="px-5 py-2"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold" style="background:#FFF7E6; color:#B45309;">Promo Credit</span></td><td class="px-5 py-2 font-semibold">Promo</td><td class="px-5 py-2 text-right font-bold text-success">+ ₹ 50,000</td><td class="px-5 py-2 font-mono text-[10px] text-g50">PRM-2026-05-A · org-funded</td></tr>
-              <tr><td class="px-5 py-2 text-g50">11 May 2026, 09:15 AM</td><td class="px-5 py-2"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold" style="background:#FEF3C7; color:#92400E;">Promo Fallback</span></td><td class="px-5 py-2 font-semibold">Display → Promo</td><td class="px-5 py-2 text-right font-bold" style="color:#92400E;">− ₹ 312</td><td class="px-5 py-2 font-mono text-[10px] text-g50">PFD-9018</td></tr>
-            </tbody>
-          </table>
-          <!-- Pagination -->
-          <div class="flex items-center justify-between px-5 py-3 border-t border-g20 text-xs">
-            <div class="text-g50">Showing 1–10 of 86</div>
-            <div class="flex items-center gap-1">
-              <button class="px-2 py-1 border border-g30 rounded text-g50 hover:text-primary">Previous</button>
-              <button class="px-2 py-1 border border-primary bg-primary text-white rounded font-bold">1</button>
-              <button class="px-2 py-1 border border-g30 rounded text-g50 hover:text-primary">2</button>
-              <button class="px-2 py-1 border border-g30 rounded text-g50 hover:text-primary">3</button>
-              <span class="px-1 text-g40">…</span>
-              <button class="px-2 py-1 border border-g30 rounded text-g50 hover:text-primary">9</button>
-              <button class="px-2 py-1 border border-g30 rounded text-g50 hover:text-primary">Next</button>
-            </div>
-            <div class="flex items-center gap-2 text-g50">
-              Rows per page:
-              <select class="border border-g30 rounded px-1.5 py-1 text-xs"><option>10</option><option>25</option><option>50</option></select>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============================================================
-           PAGE: BUSINESS QUEUE
-           ============================================================ -->
-      <section id="page-business-queue" class="page-section">
-        <div class="flex justify-between items-start mb-5">
-          <div>
-            <h1 class="text-2xl font-extrabold text-g70">Business Queue</h1>
-            <p class="text-xs text-g50 mt-1">V1 either-or approval · once Business OR Finance approves, request becomes read-only in both queues</p>
-          </div>
-          <div class="flex gap-2 items-center">
-            <button onclick="openGrantPromoCredits()" class="btn-secondary flex items-center gap-1.5"><i class="ri-gift-line"></i> Grant Promo Credits</button>
-            <span class="px-2 py-1 bg-primary-50 text-primary rounded-full text-[10px] font-bold uppercase tracking-wider">V1 single approver</span>
-          </div>
-        </div>
-
-        <!-- KPI strip -->
-        <div class="grid grid-cols-12 gap-3 mb-4">
-          <div class="col-span-3 bg-white border border-g20 rounded-lg p-3 shadow-card"><div class="text-[10px] text-g40 font-bold uppercase">Pending Review</div><div class="text-xl font-extrabold text-g70 mt-1">17</div><div class="text-[10px] text-g50">↑ 3 since 9 AM</div></div>
-          <div class="col-span-3 bg-white border border-g20 rounded-lg p-3 shadow-card"><div class="text-[10px] text-g40 font-bold uppercase">> ₹1L (needs approval)</div><div class="text-xl font-extrabold text-danger mt-1">8</div><div class="text-[10px] text-g50">single Biz/Finance signs off</div></div>
-          <div class="col-span-3 bg-white border border-g20 rounded-lg p-3 shadow-card"><div class="text-[10px] text-g40 font-bold uppercase">PayU Auto-Confirmed</div><div class="text-xl font-extrabold text-success mt-1">38</div><div class="text-[10px] text-g50">today · ≤ ₹4.5L cap</div></div>
-          <div class="col-span-3 bg-white border border-g20 rounded-lg p-3 shadow-card"><div class="text-[10px] text-g40 font-bold uppercase">Rejected (24h)</div><div class="text-xl font-extrabold text-g70 mt-1">4</div><div class="text-[10px] text-g50">notification emailed</div></div>
-        </div>
-
-        <!-- Search + Filters -->
-        <div class="mb-4 flex justify-between gap-2 items-center">
-          <div class="relative flex-1 max-w-md">
-            <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-g40"></i>
-            <input type="text" placeholder="Search by Request ID, Brand, Payment Reference" class="w-full pl-9 pr-3 py-2 border border-g30 rounded-lg text-xs">
-          </div>
-          <div class="flex gap-2 flex-wrap">
-            <button class="px-3 py-1.5 bg-primary text-white rounded-full text-xs font-bold">All</button>
-            <button class="px-3 py-1.5 bg-white border border-g30 text-g70 rounded-full text-xs font-semibold hover:border-primary hover:text-primary">Submitted</button>
-            <button class="px-3 py-1.5 bg-white border border-g30 text-g70 rounded-full text-xs font-semibold hover:border-primary hover:text-primary">Under Review</button>
-            <button class="px-3 py-1.5 bg-white border border-g30 text-g70 rounded-full text-xs font-semibold hover:border-primary hover:text-primary">Scheduled</button>
-            <button class="px-3 py-1.5 bg-white border border-g30 text-g70 rounded-full text-xs font-semibold hover:border-primary hover:text-primary">On Hold</button>
-          </div>
-        </div>
-
-        <!-- Queue table -->
-        <div class="bg-white border border-g20 rounded-xl shadow-card overflow-hidden">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-g20 text-g40 uppercase text-[10px] font-bold border-b border-g20">
-              <tr>
-                <th class="px-4 py-3">Request ID</th>
-                <th class="px-4 py-3">Brand</th>
-                <th class="px-4 py-3">Credit To Wallet</th>
-                <th class="px-4 py-3 text-right">Amount</th>
-                <th class="px-4 py-3">Payment Method</th>
-                <th class="px-4 py-3">Payment Reference</th>
-                <th class="px-4 py-3">Credit Month</th>
-                <th class="px-4 py-3">Status</th>
-                <th class="px-4 py-3">Submitted At</th>
-                <th class="px-4 py-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-g20" id="bizQueueBody"></tbody>
-          </table>
-
-          <!-- Pagination -->
-          <div class="flex items-center justify-between px-4 py-3 border-t border-g20 text-xs">
-            <div class="text-g50">Showing 1–10 of 127</div>
-            <div class="flex items-center gap-1">
-              <button class="px-2 py-1 border border-g30 rounded text-g50 hover:text-primary">Previous</button>
-              <button class="px-2 py-1 border border-primary bg-primary text-white rounded font-bold">1</button>
-              <button class="px-2 py-1 border border-g30 rounded text-g50 hover:text-primary">2</button>
-              <button class="px-2 py-1 border border-g30 rounded text-g50 hover:text-primary">3</button>
-              <span class="px-1 text-g40">…</span>
-              <button class="px-2 py-1 border border-g30 rounded text-g50 hover:text-primary">13</button>
-              <button class="px-2 py-1 border border-g30 rounded text-g50 hover:text-primary">Next</button>
-            </div>
-            <div class="flex items-center gap-2 text-g50">
-              Rows per page:
-              <select class="border border-g30 rounded px-1.5 py-1 text-xs"><option>10</option><option>25</option><option>50</option></select>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============================================================
-           PAGE: FINANCE QUEUE
-           ============================================================ -->
-      <section id="page-finance-queue" class="page-section">
-        <div class="flex justify-between items-start mb-5">
-          <div>
-            <h1 class="text-2xl font-extrabold text-g70">Finance Queue</h1>
-            <p class="text-xs text-g50 mt-1">Module 3 hard gate · Module 26 daily recon · either-or approval shared with Business</p>
-          </div>
-          <span class="px-2 py-1 bg-primary-50 text-primary rounded-full text-[10px] font-bold uppercase tracking-wider">Hard Gate · per-payment-type</span>
-        </div>
-
-        <!-- KPI strip -->
-        <div class="grid grid-cols-12 gap-3 mb-4">
-          <div class="col-span-3 bg-white border border-g20 rounded-lg p-3 shadow-card"><div class="text-[10px] text-g40 font-bold uppercase">Awaiting Bank Confirm</div><div class="text-xl font-extrabold mt-1" style="color:#B45309;">7</div><div class="text-[10px] text-g50">NEFT / RTGS / UTR</div></div>
-          <div class="col-span-3 bg-white border border-g20 rounded-lg p-3 shadow-card"><div class="text-[10px] text-g40 font-bold uppercase">Approved Today</div><div class="text-xl font-extrabold text-success mt-1">14</div><div class="text-[10px] text-g50">all Finance-confirmed</div></div>
-          <div class="col-span-3 bg-white border border-g20 rounded-lg p-3 shadow-card"><div class="text-[10px] text-g40 font-bold uppercase">MV PI Pending</div><div class="text-xl font-extrabold mt-1" style="color:#9A3412;">2</div><div class="text-[10px] text-g50">Marketing Visibility</div></div>
-          <div class="col-span-3 bg-white border border-g20 rounded-lg p-3 shadow-card"><div class="text-[10px] text-g40 font-bold uppercase">SLA Overdue</div><div class="text-xl font-extrabold text-danger mt-1">1</div><div class="text-[10px] text-g50">&gt; 4 hours waiting</div></div>
-        </div>
-
-        <!-- Search -->
-        <div class="mb-4 flex justify-between gap-2 items-center">
-          <div class="relative flex-1 max-w-md">
-            <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-g40"></i>
-            <input type="text" placeholder="Search by Request ID, Brand, Payment Reference" class="w-full pl-9 pr-3 py-2 border border-g30 rounded-lg text-xs">
-          </div>
-        </div>
-
-        <div class="bg-white border border-g20 rounded-xl shadow-card overflow-hidden">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-g20 text-g40 uppercase text-[10px] font-bold border-b border-g20">
-              <tr>
-                <th class="px-4 py-3">Request ID</th>
-                <th class="px-4 py-3">Brand</th>
-                <th class="px-4 py-3">Credit To Wallet</th>
-                <th class="px-4 py-3 text-right">Amount</th>
-                <th class="px-4 py-3">Payment Reference</th>
-                <th class="px-4 py-3">Payment Method</th>
-                <th class="px-4 py-3">Credit Month</th>
-                <th class="px-4 py-3">Status</th>
-                <th class="px-4 py-3">Flag</th>
-                <th class="px-4 py-3">Submitted At</th>
-                <th class="px-4 py-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-g20" id="finQueueBody"></tbody>
-          </table>
-
-          <!-- Pagination -->
-          <div class="flex items-center justify-between px-4 py-3 border-t border-g20 text-xs">
-            <div class="text-g50">Showing 1–10 of 93</div>
-            <div class="flex items-center gap-1">
-              <button class="px-2 py-1 border border-g30 rounded text-g50 hover:text-primary">Previous</button>
-              <button class="px-2 py-1 border border-primary bg-primary text-white rounded font-bold">1</button>
-              <button class="px-2 py-1 border border-g30 rounded text-g50 hover:text-primary">2</button>
-              <button class="px-2 py-1 border border-g30 rounded text-g50 hover:text-primary">3</button>
-              <span class="px-1 text-g40">…</span>
-              <button class="px-2 py-1 border border-g30 rounded text-g50 hover:text-primary">10</button>
-              <button class="px-2 py-1 border border-g30 rounded text-g50 hover:text-primary">Next</button>
-            </div>
-            <div class="flex items-center gap-2 text-g50">
-              Rows per page:
-              <select class="border border-g30 rounded px-1.5 py-1 text-xs"><option>10</option><option>25</option><option>50</option></select>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============================================================
-           PAGE: ADJUSTMENTS (with IBH admin-initiated)
-           ============================================================ -->
-      <section id="page-adjustments" class="page-section">
-        <div class="flex justify-between items-start mb-5">
-          <div>
-            <h1 class="text-2xl font-extrabold text-g70">Adjustments</h1>
-            <p class="text-xs text-g50 mt-1">Override actions · Inter Brand House admin-initiated · ₹1L single approver above threshold</p>
-          </div>
-          <span class="px-3 py-1 bg-danger-50 text-danger border border-danger rounded-full text-[10px] font-bold uppercase tracking-wider">Restricted · Admin</span>
-        </div>
-
-        <!-- Action picker -->
-        <div class="grid grid-cols-6 gap-3 mb-5">
-          <button onclick="pickOverride('refund', this)" class="override-tile bg-white border border-g20 hover:border-primary rounded-xl p-4 text-left transition shadow-card">
-            <i class="ri-refund-2-line text-2xl" style="color: var(--green-primary);"></i>
-            <div class="font-bold text-sm text-g70 mt-2">Refund</div>
-            <p class="text-[10px] text-g50 mt-1">Credit back · overcharge</p>
-          </button>
-          <button onclick="pickOverride('deduction', this)" class="override-tile bg-white border border-g20 hover:border-primary rounded-xl p-4 text-left transition shadow-card">
-            <div class="flex items-start justify-between">
-              <i class="ri-subtract-line text-2xl text-danger"></i>
-              <span class="tip"><i class="ri-information-line text-g40 cursor-help text-xs"></i><span class="tip-body right">Use when a specific amount needs to be debited from a wallet due to correction, over-credit, or reconciliation issue.</span></span>
-            </div>
-            <div class="font-bold text-sm text-g70 mt-2">Deduction</div>
-            <p class="text-[10px] text-g50 mt-1">Debit a specific amount</p>
-          </button>
-          <button onclick="pickOverride('reset', this)" class="override-tile bg-white border border-g20 hover:border-primary rounded-xl p-4 text-left transition shadow-card">
-            <div class="flex items-start justify-between">
-              <i class="ri-restart-line text-2xl" style="color:#EA580C;"></i>
-              <span class="tip"><i class="ri-information-line text-g40 cursor-help text-xs"></i><span class="tip-body right">Use only when the wallet balance must be cleared to zero. This debits the full available wallet balance and requires a reason.</span></span>
-            </div>
-            <div class="font-bold text-sm text-g70 mt-2">Wallet Reset</div>
-            <p class="text-[10px] text-g50 mt-1">Set balance to zero</p>
-          </button>
-          <button onclick="pickOverride('force', this)" class="override-tile bg-white border border-g20 hover:border-primary rounded-xl p-4 text-left transition shadow-card">
-            <i class="ri-lightning-line text-2xl text-primary"></i>
-            <div class="font-bold text-sm text-g70 mt-2">Force Credit</div>
-            <p class="text-[10px] text-g50 mt-1">Outage / MV fallback</p>
-          </button>
-          <button onclick="pickOverride('lapse', this)" class="override-tile bg-white border border-g20 hover:border-primary rounded-xl p-4 text-left transition shadow-card">
-            <i class="ri-gift-line text-2xl" style="color:#B45309;"></i>
-            <div class="font-bold text-sm text-g70 mt-2">Promo Lapse</div>
-            <p class="text-[10px] text-g50 mt-1">Clear unconsumed Promo</p>
-          </button>
-          <button onclick="pickOverride('ibh', this)" class="override-tile bg-white border-2 border-primary rounded-xl p-4 text-left transition shadow-card" style="background: var(--purple-tertiary);">
-            <i class="ri-arrow-left-right-line text-2xl text-primary"></i>
-            <div class="font-bold text-sm text-g70 mt-2">Inter Brand House</div>
-            <p class="text-[10px] text-g50 mt-1">Admin-initiated · Primary → Primary</p>
-          </button>
-        </div>
-
-        <div class="grid grid-cols-12 gap-4">
-          <!-- Form -->
-          <div class="col-span-12 lg:col-span-7 bg-white border border-g20 rounded-xl p-5 shadow-card">
-            <div class="flex justify-between items-center mb-4">
-              <h3 class="font-bold text-g70">Create Adjustment</h3>
-              <span id="overrideTypeBadge" class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 bg-primary-50 text-primary rounded">Refund</span>
-            </div>
-
-            <!-- Standard fields -->
-            <div id="overrideStandardFields" class="grid grid-cols-12 gap-3">
-              <div class="col-span-6">
-                <label class="block text-[11px] font-bold text-g50 mb-1">Wallet</label>
-                <select class="w-full border border-g30 rounded-lg px-3 py-2 text-xs"><option>Primary</option><option>Performance</option><option>Display</option><option>Promo (lapse only)</option></select>
-              </div>
-              <div class="col-span-6">
-                <label class="block text-[11px] font-bold text-g50 mb-1">Amount (₹)</label>
-                <input type="number" placeholder="e.g. 50000" class="w-full border border-g30 rounded-lg px-3 py-2 text-xs">
-              </div>
-              <div class="col-span-12">
-                <label class="block text-[11px] font-bold text-g50 mb-1">Reason (mandatory)</label>
-                <input type="text" placeholder="e.g. Customer billing dispute INC-2026-05-22" class="w-full border border-g30 rounded-lg px-3 py-2 text-xs">
-              </div>
-              <div class="col-span-12">
-                <div class="text-[11px] px-3 py-2 rounded bg-success-50 text-success border border-success">≤ ₹1L: executes immediately on initiator action.</div>
-              </div>
-            </div>
-
-            <!-- IBH fields (admin-initiated, Primary->Primary) -->
-            <div id="overrideIBHFields" class="hidden grid grid-cols-12 gap-3">
-              <div class="col-span-12 mb-1">
-                <div class="bg-primary-25 border border-primary rounded-lg p-3 flex items-start gap-2">
-                  <i class="ri-information-line text-primary mt-0.5"></i>
-                  <div class="text-[11px] text-g70">
-                    <strong>Inter Brand House — Admin-initiated.</strong> Business-admin initiates the transfer after offline request from Brand Manager. Moves money between two brands in the same Brand House. Writes a debit on the source brand and a credit on the destination brand in one action. Both wallets are locked to <strong>Primary</strong>.
-                  </div>
-                </div>
-              </div>
-              <div class="col-span-6">
-                <label class="block text-[11px] font-bold text-g50 mb-1">From Brand ID *</label>
-                <input type="text" placeholder="e.g. BRD-LAKME-001" class="w-full border border-g30 rounded-lg px-3 py-2 text-xs font-mono">
-              </div>
-              <div class="col-span-6">
-                <label class="block text-[11px] font-bold text-g50 mb-1">From Wallet</label>
-                <input type="text" value="Primary (locked)" class="input-locked w-full border border-g30 rounded-lg px-3 py-2 text-xs font-mono" readonly>
-              </div>
-              <div class="col-span-6">
-                <label class="block text-[11px] font-bold text-g50 mb-1">To Brand ID *</label>
-                <input type="text" placeholder="e.g. BRD-PONDS-002" class="w-full border border-g30 rounded-lg px-3 py-2 text-xs font-mono">
-                <p class="text-[10px] text-g40 mt-1">Must be a sibling brand in the same Brand House</p>
-              </div>
-              <div class="col-span-6">
-                <label class="block text-[11px] font-bold text-g50 mb-1">To Wallet</label>
-                <input type="text" value="Primary (locked)" class="input-locked w-full border border-g30 rounded-lg px-3 py-2 text-xs font-mono" readonly>
-              </div>
-              <div class="col-span-6">
-                <label class="block text-[11px] font-bold text-g50 mb-1">Amount (₹) *</label>
-                <input type="number" placeholder="e.g. 80000" class="w-full border border-g30 rounded-lg px-3 py-2 text-xs">
-              </div>
-              <div class="col-span-6">
-                <label class="block text-[11px] font-bold text-g50 mb-1">Requester Email *</label>
-                <input type="email" placeholder="brand.manager@purplle.com" class="w-full border border-g30 rounded-lg px-3 py-2 text-xs">
-              </div>
-              <div class="col-span-6">
-                <label class="block text-[11px] font-bold text-g50 mb-1">KAM Email *</label>
-                <input type="email" placeholder="kam.lakme@purplle.com" class="w-full border border-g30 rounded-lg px-3 py-2 text-xs">
-              </div>
-              <div class="col-span-6">
-                <label class="block text-[11px] font-bold text-g50 mb-1">Reason *</label>
-                <input type="text" placeholder="e.g. Q1 budget rebalance" class="w-full border border-g30 rounded-lg px-3 py-2 text-xs">
-              </div>
-              <div class="col-span-12">
-                <div class="text-[11px] px-3 py-2 rounded bg-primary-50 text-primary border border-primary"><i class="ri-information-line mr-1"></i> Business-admin initiated IBH movement executes immediately after submission. Reason is mandatory. Both debit and credit entries are written to the ledger. No minimum balance buffer — campaign safety is handled by Promo fallback and auto-pause on zero balance.</div>
-              </div>
-            </div>
-
-            <div class="flex justify-end gap-2 mt-5">
-              <button class="btn-secondary">Reset</button>
-              <button onclick="submitAdjustment()" class="btn-primary">Submit Adjustment</button>
-            </div>
-          </div>
-
-          <!-- Pending approvals -->
-          <div class="col-span-12 lg:col-span-5 bg-white border border-g20 rounded-xl p-5 shadow-card">
-            <div class="flex justify-between items-center mb-3">
-              <h3 class="font-bold text-g70">Pending Approval (&gt; ₹1L)</h3>
-              <span class="px-1.5 py-0.5 bg-primary-50 text-primary rounded text-[10px] font-bold">2</span>
-            </div>
-            <div class="space-y-2 text-xs">
-              <div class="border border-g20 rounded-lg p-3">
-                <div class="flex justify-between items-start">
-                  <div>
-                    <span class="font-bold text-g70">Refund</span>
-                    <div class="text-[10px] text-g50 mt-0.5">Init: a.sharma@purplle.com · ₹ 2,40,000</div>
-                    <div class="text-[10px] text-g50">Reason: Duplicate recharge correction</div>
-                  </div>
-                  <button class="btn-sm-action bg-success text-white">Approve</button>
-                </div>
-              </div>
-              <div class="border border-g20 rounded-lg p-3">
-                <div class="flex justify-between items-start">
-                  <div>
-                    <span class="font-bold text-g70">Force Credit</span>
-                    <div class="text-[10px] text-g50 mt-0.5">Init: m.rao@purplle.com · ₹ 1,20,000</div>
-                    <div class="text-[10px] text-g50">Reason: Portal outage INC-2026-05-21</div>
-                  </div>
-                  <button class="btn-sm-action bg-success text-white">Approve</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- IBH activity -->
-        <div class="mt-5 bg-white border border-g20 rounded-xl shadow-card overflow-hidden">
-          <div class="px-5 py-3 border-b border-g20 flex justify-between items-center">
-            <div>
-              <h3 class="font-bold text-g70 text-sm">Inter Brand House — Recent Activity</h3>
-              <p class="text-[11px] text-g50">Admin-executed · paired ledger entries · Primary → Primary</p>
-            </div>
-            <button class="text-[11px] text-primary font-bold hover:underline flex items-center gap-1"><i class="ri-download-line"></i> Download CSV</button>
-          </div>
-          <table class="w-full text-left text-xs">
-            <thead class="bg-g20 text-g40 uppercase text-[10px] font-bold">
-              <tr>
-                <th class="px-5 py-2">Executed At</th>
-                <th class="px-5 py-2">From Brand</th>
-                <th class="px-5 py-2">To Brand</th>
-                <th class="px-5 py-2 text-right">Amount</th>
-                <th class="px-5 py-2">Initiated By</th>
-                <th class="px-5 py-2">Reason</th>
-                <th class="px-5 py-2">Status</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-g20">
-              <tr><td class="px-5 py-2 text-g50">27 May 2026, 08:30 AM</td><td class="px-5 py-2 font-mono text-[10px]">BRD-PONDS-002</td><td class="px-5 py-2 font-mono text-[10px]">BRD-LAKME-001</td><td class="px-5 py-2 text-right font-bold">₹ 80,000</td><td class="px-5 py-2 text-g50">m.rao@purplle.com</td><td class="px-5 py-2 text-g50">Q1 rebalance</td><td class="px-5 py-2"><span class="pill pill-credited">EXECUTED</span></td></tr>
-              <tr><td class="px-5 py-2 text-g50">25 May 2026, 09:09 AM</td><td class="px-5 py-2 font-mono text-[10px]">BRD-LAKME-001</td><td class="px-5 py-2 font-mono text-[10px]">BRD-MAMAEARTH-009</td><td class="px-5 py-2 text-right font-bold">₹ 30,000</td><td class="px-5 py-2 text-g50">m.rao@purplle.com</td><td class="px-5 py-2 text-g50">Joint launch funding</td><td class="px-5 py-2"><span class="pill pill-credited">EXECUTED</span></td></tr>
-              <tr><td class="px-5 py-2 text-g50">19 May 2026, 01:42 PM</td><td class="px-5 py-2 font-mono text-[10px]">BRD-PONDS-002</td><td class="px-5 py-2 font-mono text-[10px]">BRD-LAKME-001</td><td class="px-5 py-2 text-right font-bold">₹ 1,20,000</td><td class="px-5 py-2 text-g50">m.rao@purplle.com</td><td class="px-5 py-2 text-g50">Skin push reallocation</td><td class="px-5 py-2"><span class="pill pill-credited">EXECUTED</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- ============================================================
-           PAGE: RECHARGE WIZARD
-           ============================================================ -->
-      <section id="page-recharge" class="page-section">
-        <div class="max-w-4xl mx-auto">
-          <button onclick="navigateTo('overview', document.getElementById('nav-overview'), 'Balance &amp; Manage / Overview')" class="text-xs text-g50 hover:text-primary mb-3 flex items-center gap-1"><i class="ri-arrow-left-s-line"></i> Back to Wallet</button>
-          <h1 class="text-2xl font-extrabold text-g70">Recharge Wallet</h1>
-          <p class="text-xs text-g50 mt-1">Module 2 manual entry · 3-step submission · canonical Request ID assigned on submit</p>
-
-          <!-- Stepper -->
-          <div class="flex items-center gap-2 mt-5 mb-4 text-xs">
-            <span id="step-pill-1" class="step-pill w-7 h-7 rounded-full text-white flex items-center justify-center font-extrabold" style="background: var(--purple-primary);">1</span>
-            <span id="step-label-1" class="font-bold text-g70">Fill details</span>
-            <span class="flex-1 h-px bg-g20"></span>
-            <span id="step-pill-2" class="step-pill w-7 h-7 rounded-full text-white flex items-center justify-center font-extrabold" style="background: var(--grey-30);">2</span>
-            <span id="step-label-2" class="text-g50">Payment / Proof</span>
-            <span class="flex-1 h-px bg-g20"></span>
-            <span id="step-pill-3" class="step-pill w-7 h-7 rounded-full text-white flex items-center justify-center font-extrabold" style="background: var(--grey-30);">3</span>
-            <span id="step-label-3" class="text-g50">Review &amp; Submit</span>
-          </div>
-
-          <!-- STEP 1 -->
-          <div id="recharge-step-1" class="bg-white border border-g20 rounded-xl shadow-card p-6">
-            <h3 class="font-bold text-g70 mb-4">Step 1 · Fill details</h3>
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="block text-[11px] font-bold text-g50 mb-1">Credit To Wallet *</label>
-                <select id="rw-wallet" class="w-full border border-g30 rounded-lg px-3 py-2 text-sm">
-                  <option value="primary">Primary</option>
-                  <option value="performance">Performance · System sub-wallet</option>
-                  <option value="display">Display · System sub-wallet</option>
-                  <option value="sw1">Sub-Wallet · Lakme Skin</option>
-                  <option value="sw2">Sub-Wallet · Lakme Makeup</option>
-                </select>
-                <p class="text-[10px] text-g50 mt-1">Amount will be credited directly to the selected wallet after approval. No intermediate Primary transfer is created.</p>
-              </div>
-              <div>
-                <label class="block text-[11px] font-bold text-g50 mb-1">Payment Method *</label>
-                <select id="rw-method" onchange="onMethodChange()" class="w-full border border-g30 rounded-lg px-3 py-2 text-sm">
-                  <option value="payu">PayU (gateway, auto-confirm ≤ ₹4.5L)</option>
-                  <option value="bank">NEFT / RTGS / Bank Transfer</option>
-                  <option value="po">PO (Post-Paid)</option>
-                  <option value="ro">RO (Post-Paid)</option>
-                  <option value="mv">Marketing Visibility (PI required)</option>
-                </select>
-                <p class="text-[10px] text-g40 mt-1">Inter Brand House lives under Adjustments — admin-initiated only.</p>
-              </div>
-              <div>
-                <label class="block text-[11px] font-bold text-g50 mb-1">Net Amount (₹) *</label>
-                <input id="rw-amount" type="number" placeholder="e.g. 5,00,000" class="w-full border border-g30 rounded-lg px-3 py-2 text-sm">
-                <p class="text-[10px] text-g40 mt-1">Send net only — system applies TDS gross-up</p>
-              </div>
-              <div>
-                <label class="block text-[11px] font-bold text-g50 mb-1" id="rw-cim-label">Credit in Month *</label>
-                <div id="rw-cim-wrap" class="border border-primary rounded-lg p-3" style="background: var(--purple-tertiary);">
-                  <div class="grid grid-cols-2 gap-2">
-                    <label class="flex items-start gap-2 border border-primary bg-white rounded-lg px-2.5 py-1.5 cursor-pointer">
-                      <input type="radio" name="rwCIM" value="current" checked class="mt-0.5 accent-primary">
-                      <div>
-                        <div class="text-xs font-bold text-g70">This Month</div>
-                        <div class="text-[9px] text-g50">Credits at next batch</div>
-                      </div>
-                    </label>
-                    <label class="flex items-start gap-2 border border-primary bg-white rounded-lg px-2.5 py-1.5 cursor-pointer">
-                      <input type="radio" name="rwCIM" value="next" class="mt-0.5 accent-primary">
-                      <div>
-                        <div class="text-xs font-bold text-g70">Next Month</div>
-                        <div class="text-[9px] text-g50">SCHEDULED · day-1 cron</div>
-                      </div>
-                    </label>
-                  </div>
-                </div>
-                <p id="rw-cim-hint" class="text-[10px] text-g50 italic mt-1">Required for Bank / PO / RO / MV. PayU defaults to Current.</p>
-              </div>
-            </div>
-            <div class="flex justify-end gap-3 pt-5">
-              <button onclick="navigateTo('overview', document.getElementById('nav-overview'), 'Balance &amp; Manage / Overview')" class="btn-secondary">Cancel</button>
-              <button onclick="goStep(2)" class="btn-primary">Next → Step 2</button>
-            </div>
-          </div>
-
-          <!-- STEP 2 -->
-          <div id="recharge-step-2" class="hidden bg-white border border-g20 rounded-xl shadow-card p-6">
-            <h3 class="font-bold text-g70 mb-4">Step 2 · <span id="step2Title">Payment / Proof</span></h3>
-
-            <div id="step2-payu" class="step2-panel">
-              <div class="bg-success-50 border border-success rounded-lg p-4 flex items-start gap-3">
-                <i class="ri-bank-card-fill text-2xl text-success"></i>
-                <div>
-                  <div class="font-bold text-g70">PayU Payment Gateway</div>
-                  <p class="text-xs text-g50 mt-1">You will be redirected to PayU to complete payment. Transactions ≤ ₹4.5L auto-confirm via webhook and credit instantly.</p>
-                </div>
-              </div>
-              <div class="mt-4 bg-g20 rounded-lg p-4 text-xs">
-                <div class="flex justify-between mb-1"><span class="text-g50">Amount:</span><span class="font-bold text-g70" id="payuAmount">—</span></div>
-                <div class="flex justify-between mb-1"><span class="text-g50">PayU fee (2.0% incl. GST):</span><span class="font-medium text-g70" id="payuFee">—</span></div>
-                <div class="flex justify-between pt-2 border-t border-g30"><span class="text-g70 font-bold">Total to pay:</span><span class="font-extrabold text-primary" id="payuTotal">—</span></div>
-              </div>
-              <button class="mt-4 w-full bg-primary text-white rounded-lg py-3 font-bold text-sm hover:bg-primary-dark transition flex items-center justify-center gap-2"><i class="ri-secure-payment-line"></i> Proceed to PayU Gateway</button>
-            </div>
-
-            <div id="step2-bank" class="step2-panel">
-              <div class="bg-primary-25 border border-primary rounded-lg p-3 flex items-start gap-2">
-                <i class="ri-bank-line text-primary mt-0.5"></i>
-                <div class="text-[11px] text-g70"><strong>NEFT / RTGS / Bank Transfer.</strong> Use the bank details below, then enter the UTR and upload payment proof. Finance verifies UTR against the bank statement before approval.</div>
-              </div>
-              <div class="bg-g20 rounded-lg p-4 mt-3 text-xs grid grid-cols-2 gap-3">
-                <div><div class="text-[10px] text-g40 font-bold uppercase">Beneficiary</div><div class="font-bold text-g70 mt-0.5">Purplle Ads · Manash Lifestyle</div></div>
-                <div><div class="text-[10px] text-g40 font-bold uppercase">Account No</div><div class="font-mono text-g70 mt-0.5">9192834456718200</div></div>
-                <div><div class="text-[10px] text-g40 font-bold uppercase">IFSC</div><div class="font-mono text-g70 mt-0.5">ICIC0001234</div></div>
-                <div><div class="text-[10px] text-g40 font-bold uppercase">Bank</div><div class="text-g70 mt-0.5">ICICI Bank · Andheri E</div></div>
-              </div>
-              <div class="mt-4"><label class="block text-[11px] font-bold text-g50 mb-1">UTR Number *</label><input type="text" placeholder="e.g. HDFCN24050200012345" class="w-full border border-g30 rounded-lg px-3 py-2 text-sm font-mono"></div>
-              <div class="mt-3"><label class="block text-[11px] font-bold text-g50 mb-1">Payment Proof Upload *</label><div class="border-2 border-dashed border-g30 rounded-lg p-6 text-center hover:border-primary transition cursor-pointer"><i class="ri-upload-cloud-2-line text-3xl text-g40"></i><p class="text-xs text-g50 mt-2">Bank statement screenshot / PDF — max 10 MB</p></div></div>
-            </div>
-
-            <div id="step2-poro" class="step2-panel">
-              <div class="bg-primary-25 border border-primary rounded-lg p-3 flex items-start gap-2"><i class="ri-file-text-line text-primary mt-0.5"></i><div class="text-[11px] text-g70"><strong id="poroLabel">Purchase Order (PO).</strong> Upload the PO/RO document signed by the brand. Admin validates against contract terms before approval.</div></div>
-              <div class="grid grid-cols-2 gap-3 mt-3">
-                <div><label class="block text-[11px] font-bold text-g50 mb-1">PO/RO Number *</label><input type="text" placeholder="e.g. PO-2026-Q1-LK" class="w-full border border-g30 rounded-lg px-3 py-2 text-sm font-mono"></div>
-                <div><label class="block text-[11px] font-bold text-g50 mb-1">Issue Date *</label><input type="text" placeholder="DD/MM/YYYY" class="w-full border border-g30 rounded-lg px-3 py-2 text-sm"></div>
-              </div>
-              <div class="mt-3"><label class="block text-[11px] font-bold text-g50 mb-1">PO/RO Document Upload *</label><div class="border-2 border-dashed border-g30 rounded-lg p-6 text-center hover:border-primary transition cursor-pointer"><i class="ri-file-list-3-line text-3xl text-g40"></i><p class="text-xs text-g50 mt-2">Signed PO/RO document — PDF — max 10 MB</p></div></div>
-            </div>
-
-            <div id="step2-mv" class="step2-panel">
-              <div class="rounded-lg p-3 flex items-start gap-2" style="background:#FFF7ED; border:1px solid #F59E0B;"><i class="ri-shield-check-line mt-0.5" style="color:#9A3412;"></i><div class="text-[11px] text-g70"><strong>Marketing Visibility · brand-side flow.</strong> KAM negotiates the MV amount offline and raises a Proforma Invoice (PI). Upload the PI document — Admin/Finance reviews against contract MRP/NMV terms before approval.</div></div>
-              <div class="grid grid-cols-2 gap-3 mt-3">
-                <div><label class="block text-[11px] font-bold text-g50 mb-1">Contract Reference *</label><input type="text" placeholder="e.g. NMV-LAKME-FY26-Q1" class="w-full border border-g30 rounded-lg px-3 py-2 text-sm font-mono"></div>
-                <div><label class="block text-[11px] font-bold text-g50 mb-1">PI Number (from KAM) *</label><input type="text" placeholder="e.g. PI/2026/0721" class="w-full border border-g30 rounded-lg px-3 py-2 text-sm font-mono"></div>
-              </div>
-              <div class="mt-3"><label class="block text-[11px] font-bold text-g50 mb-1">Proforma Invoice Upload * <span class="text-[10px] font-normal" style="color:#9A3412;">(mandatory — no PI, no submission)</span></label><div class="border-2 border-dashed rounded-lg p-6 text-center transition cursor-pointer" style="border-color:#F59E0B; background:#FFFBEB;"><i class="ri-file-list-3-line text-3xl" style="color:#F59E0B;"></i><p class="text-xs mt-2 font-bold" style="color:#9A3412;">Upload PI document</p><p class="text-[10px] text-g50 mt-1">PDF / PNG / JPG — max 10 MB</p></div></div>
-            </div>
-
-            <div class="flex justify-between gap-3 pt-5">
-              <button onclick="goStep(1)" class="btn-secondary">← Back</button>
-              <button onclick="goStep(3)" class="btn-primary">Next → Step 3</button>
-            </div>
-          </div>
-
-          <!-- STEP 3 -->
-          <div id="recharge-step-3" class="hidden bg-white border border-g20 rounded-xl shadow-card p-6">
-            <h3 class="font-bold text-g70 mb-4">Step 3 · Review &amp; Submit</h3>
-            <div class="bg-g20 rounded-lg p-4 grid grid-cols-2 gap-3 text-xs">
-              <div><div class="text-[10px] text-g40 font-bold uppercase">Request ID (to be assigned)</div><div class="font-bold text-primary mt-0.5 font-mono" id="rev-reqid">CR-2026-05-00020XX</div></div>
-              <div><div class="text-[10px] text-g40 font-bold uppercase">Credit To Wallet</div><div id="rev-wallet" class="font-bold text-g70 mt-0.5">—</div></div>
-              <div><div class="text-[10px] text-g40 font-bold uppercase">Payment Method</div><div id="rev-method" class="font-bold text-g70 mt-0.5">—</div></div>
-              <div><div class="text-[10px] text-g40 font-bold uppercase">Net Amount</div><div id="rev-amount" class="font-bold text-g70 mt-0.5">—</div></div>
-              <div><div class="text-[10px] text-g40 font-bold uppercase">Credit Month</div><div id="rev-cim" class="font-bold text-g70 mt-0.5">—</div></div>
-              <div class="col-span-2"><div class="text-[10px] text-g40 font-bold uppercase">Method-specific details</div><div id="rev-extra" class="font-medium text-g70 mt-0.5 text-[11px]">—</div></div>
-            </div>
-            <div class="mt-4 bg-primary-25 border border-primary rounded-lg p-3 text-[11px] text-g70"><i class="ri-information-line text-primary mr-1"></i> By submitting, you confirm the details above are correct and the request will move into the approval flow (status: <strong>SUBMITTED</strong>). A canonical Request ID will be assigned and used across queues, ledger, and audit log.</div>
-            <div class="flex justify-between gap-3 pt-5">
-              <button onclick="goStep(2)" class="btn-secondary">← Back</button>
-              <button onclick="submitRecharge()" class="btn-primary">Submit Recharge Request</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============================================================
-           CONTROL CENTRE & STUB PAGES
-           ============================================================ -->
-      <section id="page-cc-onboarding" class="page-section">
-        <h1 class="text-2xl font-extrabold text-g70 mb-1">Brand Onboarding</h1>
-        <p class="text-xs text-g50 mb-4">KYC · Wallet provisioning · Persona assignment</p>
-        <div class="bg-white border border-g20 rounded-xl p-5 shadow-card text-xs text-g50">Onboarding pipeline · scaffold preserved.</div>
-      </section>
-      <section id="page-cc-users" class="page-section"><h1 class="text-2xl font-extrabold text-g70 mb-1">Users</h1><p class="text-xs text-g50 mb-4">Add / remove brand POCs · KAM mapping</p><div class="bg-white border border-g20 rounded-xl p-5 shadow-card text-xs text-g50">Users table · scaffold preserved.</div></section>
-      <section id="page-cc-personas" class="page-section"><h1 class="text-2xl font-extrabold text-g70 mb-1">Personas &amp; Permissions</h1><p class="text-xs text-g50 mb-4">Module 8 · 3-role model · single-Biz-or-Finance approval in V1</p><div class="bg-white border border-g20 rounded-xl p-5 shadow-card text-xs text-g50">Persona definitions · scaffold preserved.</div></section>
-      <section id="page-cc-segments" class="page-section"><h1 class="text-2xl font-extrabold text-g70 mb-1">Audience Segments</h1><div class="bg-white border border-g20 rounded-xl p-5 shadow-card text-xs text-g50">Segment library · scaffold preserved.</div></section>
-      <section id="page-cc-audit" class="page-section"><h1 class="text-2xl font-extrabold text-g70 mb-1">Audit Log</h1><div class="bg-white border border-g20 rounded-xl p-5 shadow-card text-xs text-g50">Append-only audit log · scaffold preserved.</div></section>
-      <section id="page-cc-yield" class="page-section"><h1 class="text-2xl font-extrabold text-g70 mb-1">Yield Controls</h1><div class="bg-white border border-g20 rounded-xl p-5 shadow-card text-xs text-g50">Yield management · scaffold preserved.</div></section>
-      <section id="page-cc-banner" class="page-section"><h1 class="text-2xl font-extrabold text-g70 mb-1">Announcement Banner</h1><div class="bg-white border border-g20 rounded-xl p-5 shadow-card text-xs text-g50">Banner editor · scaffold preserved.</div></section>
-
-      <section id="page-stub-awareness" class="page-section"><div class="bg-white border border-g20 rounded-xl p-10 text-center"><i class="ri-megaphone-line text-5xl text-g30"></i><h2 class="text-xl font-extrabold text-g70 mt-3">Awareness Campaigns</h2><p class="text-xs text-g50 mt-1">Wallet mock · see main app.</p></div></section>
-      <section id="page-stub-performance" class="page-section"><div class="bg-white border border-g20 rounded-xl p-10 text-center"><i class="ri-line-chart-line text-5xl text-g30"></i><h2 class="text-xl font-extrabold text-g70 mt-3">Performance Campaigns</h2><p class="text-xs text-g50 mt-1">Wallet mock · see main app.</p></div></section>
-      <section id="page-stub-bundles" class="page-section"><div class="bg-white border border-g20 rounded-xl p-10 text-center"><i class="ri-stack-line text-5xl text-g30"></i><h2 class="text-xl font-extrabold text-g70 mt-3">Bundles</h2><p class="text-xs text-g50 mt-1">Wallet mock · see main app.</p></div></section>
-      <section id="page-stub-pda" class="page-section"><div class="bg-white border border-g20 rounded-xl p-10 text-center"><i class="ri-shopping-bag-line text-5xl text-g30"></i><h2 class="text-xl font-extrabold text-g70 mt-3">Product Display Ads</h2><p class="text-xs text-g50 mt-1">Wallet mock · see main app.</p></div></section>
-      <section id="page-stub-history" class="page-section"><div class="bg-white border border-g20 rounded-xl p-10 text-center"><i class="ri-history-line text-5xl text-g30"></i><h2 class="text-xl font-extrabold text-g70 mt-3">History</h2></div></section>
-      <section id="page-stub-creatives" class="page-section"><div class="bg-white border border-g20 rounded-xl p-10 text-center"><i class="ri-image-line text-5xl text-g30"></i><h2 class="text-xl font-extrabold text-g70 mt-3">Creatives</h2></div></section>
-      <section id="page-stub-reports" class="page-section"><div class="bg-white border border-g20 rounded-xl p-10 text-center"><i class="ri-bar-chart-2-line text-5xl text-g30"></i><h2 class="text-xl font-extrabold text-g70 mt-3">Reports</h2></div></section>
-
+    <div class="nav-grp">
+      <div class="nav-lbl">Reporting</div>
+      <a href="#" class="nav-item">History</a>
+      <a href="#" class="nav-item">Creatives</a>
+      <a href="#" class="nav-item">Reports</a>
     </div>
-  </main>
-</div>
+    <div class="nav-grp">
+      <div class="nav-lbl">Control Centre</div>
+      <a href="#" class="nav-item">Brand Onboarding</a>
+      <a href="#" class="nav-item">Users</a>
+      <a href="#" class="nav-item">Personas &amp; Permissions</a>
+      <a href="#" class="nav-item">Audience Segments</a>
+      <a href="#" class="nav-item">Audit Log</a>
+      <a href="#" class="nav-item">Yield Controls</a>
+      <a href="#" class="nav-item">Announcement Banner</a>
+    </div>
+  </nav>
 
-<!-- ============================================================
-     DRAWER: SUB-WALLETS
-     ============================================================ -->
-<div id="subWalletsOverlay" class="fixed inset-0 bg-black/30 z-40 hidden" onclick="closeSubWalletsDrawer()"></div>
-<aside id="subWalletsDrawer" class="drawer fixed top-0 right-0 bottom-0 w-[480px] bg-white shadow-popup z-50 flex flex-col">
-  <div class="px-5 py-4 border-b border-g20 flex justify-between items-center">
+  <div class="side-foot">
+    <div class="av">KA</div>
     <div>
-      <h3 class="font-bold text-g70">Primary · Sub-wallets</h3>
-      <p class="text-[11px] text-g50">5 sub-wallets · ₹ 8,84,689 across all</p>
+      <div class="u">K. Ahuja</div>
+      <div class="rl">Finance</div>
     </div>
-    <button onclick="closeSubWalletsDrawer()" class="text-g40 hover:text-g70"><i class="ri-close-line text-xl"></i></button>
-  </div>
-  <div class="flex-1 overflow-y-auto p-4 space-y-3">
-    <div class="border border-g20 rounded-lg p-4 hover:border-primary transition">
-      <div class="flex justify-between items-start mb-2"><div><div class="font-bold text-g70 text-sm">Lakme Skin</div><div class="text-[10px] text-g50">Created 2025-09-12 · 14 campaigns</div></div><span class="text-[10px] font-bold uppercase text-success bg-success-50 px-2 py-0.5 rounded-full">Active</span></div>
-      <div class="text-xl font-extrabold text-g70">₹ 1,88,200</div>
-      <div class="flex gap-2 mt-3"><button onclick="openMoveFunds()" class="flex-1 text-[11px] font-bold text-g50 border border-g30 rounded-lg py-1.5 hover:border-primary hover:text-primary transition">Move Funds</button><button onclick="openRechargeWizard()" class="flex-1 text-[11px] font-bold text-primary border border-primary rounded-lg py-1.5 hover:bg-primary-50 transition">Recharge</button></div>
-    </div>
-    <div class="border border-g20 rounded-lg p-4 hover:border-primary transition">
-      <div class="flex justify-between items-start mb-2"><div><div class="font-bold text-g70 text-sm">Lakme Makeup</div><div class="text-[10px] text-g50">Created 2025-09-12 · 22 campaigns</div></div><span class="text-[10px] font-bold uppercase text-success bg-success-50 px-2 py-0.5 rounded-full">Active</span></div>
-      <div class="text-xl font-extrabold text-g70">₹ 2,86,489</div>
-      <div class="flex gap-2 mt-3"><button onclick="openMoveFunds()" class="flex-1 text-[11px] font-bold text-g50 border border-g30 rounded-lg py-1.5 hover:border-primary hover:text-primary transition">Move Funds</button><button onclick="openRechargeWizard()" class="flex-1 text-[11px] font-bold text-primary border border-primary rounded-lg py-1.5 hover:bg-primary-50 transition">Recharge</button></div>
-    </div>
-    <div class="border border-g20 rounded-lg p-4 hover:border-primary transition">
-      <div class="flex justify-between items-start mb-2"><div><div class="font-bold text-g70 text-sm">Lakme Hair Care</div><div class="text-[10px] text-g50">Created 2026-01-08 · 6 campaigns</div></div><span class="text-[10px] font-bold uppercase text-success bg-success-50 px-2 py-0.5 rounded-full">Active</span></div>
-      <div class="text-xl font-extrabold text-g70">₹ 1,42,000</div>
-      <div class="flex gap-2 mt-3"><button onclick="openMoveFunds()" class="flex-1 text-[11px] font-bold text-g50 border border-g30 rounded-lg py-1.5 hover:border-primary hover:text-primary transition">Move Funds</button><button onclick="openRechargeWizard()" class="flex-1 text-[11px] font-bold text-primary border border-primary rounded-lg py-1.5 hover:bg-primary-50 transition">Recharge</button></div>
-    </div>
-    <div class="border border-g20 rounded-lg p-4 hover:border-primary transition">
-      <div class="flex justify-between items-start mb-2"><div><div class="font-bold text-g70 text-sm">Lakme Eyes</div><div class="text-[10px] text-g50">Created 2026-02-21 · 4 campaigns</div></div><span class="text-[10px] font-bold uppercase text-success bg-success-50 px-2 py-0.5 rounded-full">Active</span></div>
-      <div class="text-xl font-extrabold text-g70">₹ 92,000</div>
-      <div class="flex gap-2 mt-3"><button onclick="openMoveFunds()" class="flex-1 text-[11px] font-bold text-g50 border border-g30 rounded-lg py-1.5 hover:border-primary hover:text-primary transition">Move Funds</button><button onclick="openRechargeWizard()" class="flex-1 text-[11px] font-bold text-primary border border-primary rounded-lg py-1.5 hover:bg-primary-50 transition">Recharge</button></div>
-    </div>
-    <div class="border border-g20 rounded-lg p-4 hover:border-primary transition">
-      <div class="flex justify-between items-start mb-2"><div><div class="font-bold text-g70 text-sm">Lakme Fragrance</div><div class="text-[10px] text-g50">Created 2026-03-04 · 2 campaigns</div></div><span class="text-[10px] font-bold uppercase text-g50 bg-g20 px-2 py-0.5 rounded-full">Paused</span></div>
-      <div class="text-xl font-extrabold text-g70">₹ 76,000</div>
-      <div class="flex gap-2 mt-3"><button onclick="openMoveFunds()" class="flex-1 text-[11px] font-bold text-g50 border border-g30 rounded-lg py-1.5 hover:border-primary hover:text-primary transition">Move Funds</button><button onclick="openRechargeWizard()" class="flex-1 text-[11px] font-bold text-primary border border-primary rounded-lg py-1.5 hover:bg-primary-50 transition">Recharge</button></div>
-    </div>
-  </div>
-  <div class="px-5 py-3 border-t border-g20">
-    <button onclick="openCreateSubwallet()" class="w-full btn-primary flex items-center justify-center gap-1"><i class="ri-add-line"></i> Create new sub-wallet</button>
   </div>
 </aside>
 
-<!-- ============================================================
-     MODAL: CREATE SUB-WALLET
-     ============================================================ -->
-<div id="createSubwalletOverlay" class="fixed inset-0 bg-black/40 z-50 hidden flex items-center justify-center" onclick="closeCreateSubwallet()">
-  <div class="bg-white rounded-xl shadow-popup w-[520px]" onclick="event.stopPropagation()">
-    <div class="px-5 py-4 border-b border-g20">
-      <h3 class="font-bold text-g70">Create Sub-wallet</h3>
-      <p class="text-[11px] text-g50">Custom sub-wallet under Primary · spend directly or move funds in/out anytime</p>
+<div class="shell">
+
+  <div class="topbar">
+    <div class="crumb">Home / Balance &amp; Manage / <b>Finance Queue</b></div>
+    <div class="topright">
+      <div class="wallet-box">
+        <div class="wallet-amt">
+          <div class="lbl">Wallet</div>
+          <div class="val">₹ 0.00</div>
+        </div>
+        <button class="wallet-manage">Manage <i class="ri-arrow-down-s-line"></i></button>
+      </div>
+
+      <div style="position:relative">
+        <button class="ctl has-tip" data-tip="Sets the period for all three sections below. Use a full month for close, or today for daily reconciliation." onclick="tg('dm')">
+          <i class="ri-calendar-line"></i><span id="dlbl">1 Jul – 31 Jul 2026</span><i class="ri-arrow-down-s-line"></i>
+        </button>
+        <div class="menu hide" id="dm">
+          <div class="menu-lbl">Quick ranges</div>
+          <button onclick="setD('Today · 28 Jul 2026')">Today</button>
+          <button onclick="setD('Yesterday · 27 Jul 2026')">Yesterday</button>
+          <button onclick="setD('21 Jul – 27 Jul 2026')">Last 7 days</button>
+          <hr>
+          <div class="menu-lbl">Month</div>
+          <button class="sel" onclick="setD('1 Jul – 31 Jul 2026')">This month</button>
+          <button onclick="setD('1 Jun – 30 Jun 2026')">Last month</button>
+          <hr>
+          <button onclick="setD('Custom range')" style="color:var(--purple);font-weight:800">Custom range…</button>
+        </div>
+      </div>
+
+      <div style="position:relative">
+        <button class="ctl" onclick="tg('bm')">
+          <span class="avatar-sm">F</span><span id="blbl">Faces Canada</span><i class="ri-arrow-down-s-line"></i>
+        </button>
+        <div class="menu hide" id="bm">
+          <button class="sel" onclick="setB('Faces Canada')">Faces Canada</button>
+          <button onclick="setB('All brands')">All brands</button>
+          <button onclick="setB('Swiss Beauty')">Swiss Beauty</button>
+          <button onclick="setB('Everteen')">Everteen</button>
+          <button onclick="setB('Lakme')">Lakme</button>
+        </div>
+      </div>
     </div>
-    <div class="p-5 space-y-3">
-      <div>
-        <label class="block text-[11px] font-bold text-g50 mb-1">Sub-wallet Name *</label>
-        <input type="text" placeholder="e.g. Lakme Body Care" class="w-full border border-g30 rounded-lg px-3 py-2 text-sm">
+  </div>
+
+  <div class="page">
+    <h1>Finance Queue</h1>
+
+    <div class="kpis">
+      <div class="kpi">
+        <div class="lbl">Awaiting your action <i class="ri-information-line qi has-tip" data-tip="Requests waiting on Finance — submitted, under review, or on hold."></i></div>
+        <div class="num" style="color:var(--amber)">6</div>
+        <div class="sub">in selected date range</div>
       </div>
-      <div>
-        <label class="block text-[11px] font-bold text-g50 mb-1">Parent Wallet</label>
-        <input type="text" value="Primary (locked)" class="input-locked w-full border border-g30 rounded-lg px-3 py-2 text-sm" readonly>
-        <p class="text-[10px] text-g40 mt-1">Only Primary can be a parent. Promo cannot be a parent. Performance/Display are system-created and cannot be manually created.</p>
+      <div class="kpi">
+        <div class="lbl">Approved today <i class="ri-information-line qi has-tip" data-tip="Requests you confirmed today. These are the rows to match against today's bank statement."></i></div>
+        <div class="num" style="color:var(--green)">3</div>
+        <div class="sub">ready to reconcile</div>
       </div>
-      <div>
-        <label class="block text-[11px] font-bold text-g50 mb-1">Opening Transfer Amount (optional)</label>
-        <input type="number" placeholder="e.g. 50000" class="w-full border border-g30 rounded-lg px-3 py-2 text-sm">
-        <p class="text-[10px] text-g40 mt-1">If entered, paired ledger entries will be written: Transfer Out from Primary + Transfer In to new sub-wallet.</p>
+      <div class="kpi">
+        <div class="lbl">Awaiting credit <i class="ri-information-line qi has-tip" data-tip="Approved but the wallet has not been credited yet. Current-month requests credit in the next batch; next-month requests credit on day 1."></i></div>
+        <div class="num" style="color:var(--amber)">4</div>
+        <div class="sub">not yet in wallet</div>
       </div>
-      <div>
-        <label class="block text-[11px] font-bold text-g50 mb-1">Notes (optional)</label>
-        <input type="text" placeholder="Quick note about purpose" class="w-full border border-g30 rounded-lg px-3 py-2 text-sm">
+      <div class="kpi">
+        <div class="lbl">SLA overdue <i class="ri-information-line qi has-tip" data-tip="Waiting more than 4 hours for Finance action."></i></div>
+        <div class="num" style="color:var(--red)">2</div>
+        <div class="sub">over 4 hours</div>
       </div>
     </div>
-    <div class="px-5 py-4 border-t border-g20 flex justify-end gap-2">
-      <button onclick="closeCreateSubwallet()" class="btn-secondary">Cancel</button>
-      <button onclick="confirmCreateSubwallet()" class="btn-primary">Create Sub-wallet</button>
+
+    <div class="search">
+      <i class="ri-search-line"></i>
+      <input id="q" oninput="renderAll()" placeholder="Search by Request ID, Brand, Payment Reference">
+    </div>
+
+    <!-- SECTION 1 -->
+    <section class="sec primary">
+      <div class="sec-head">
+        <div>
+          <div class="sec-title">
+            <h2>Needs your action</h2>
+            <span class="cnt p" id="c1">0</span>
+          </div>
+          <div class="sec-sub">Approve, reject, or hold. Nothing here has been decided yet.</div>
+        </div>
+        <div class="sec-tools">
+          <span class="dl-off-wrap has-tip" data-tip="Nothing to download — these requests have not been actioned yet."><button class="btn-dl off" disabled><i class="ri-download-2-line"></i> Download</button></span>
+        </div>
+      </div>
+      <div class="tw">
+        <table>
+          <thead><tr>
+            <th>Request ID</th><th>Brand</th><th>Credit to Wallet</th><th style="text-align:right">Amount</th>
+            <th>Payment Reference</th><th>Payment Method</th><th>Credit Month</th><th>Status</th><th>Flag</th><th>Waiting</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="b1"></tbody>
+        </table>
+      </div>
+      <div class="empty hide" id="e1">
+        <i class="ri-checkbox-circle-line"></i>
+        <div class="t">Nothing awaiting your action</div>
+        <div class="s">Every request in this date range has been decided.</div>
+      </div>
+    </section>
+
+    <!-- SECTION 2 -->
+    <section class="sec">
+      <div class="sec-head">
+        <div>
+          <div class="sec-title">
+            <button onclick="tsec(2)" style="display:flex;align-items:center;gap:9px">
+              <h2>In flight — awaiting credit</h2>
+              <span class="cnt a" id="c2">0</span>
+              <i class="ri-arrow-down-s-line caret" id="cr2"></i>
+            </button>
+            <i class="ri-information-line qi has-tip" data-tip="Approved, but the wallet has not been credited yet. Because you approve by confirming funds arrived, these are the rows to match against your bank statement today."></i>
+          </div>
+          <div class="sec-sub">Decided. Waiting on the credit to post. No action needed.</div>
+        </div>
+        <div class="sec-tools">
+          <button class="btn-dl has-tip" data-tip="Exports the filtered rows with payment reference, approver, and approval time. Stamped with the time of download — these rows can still move to Credited." onclick="dl(2)"><i class="ri-download-2-line"></i> Download for reconciliation</button>
+          <div class="chips">
+            <span class="cl">Method</span>
+            <button class="chip on has-tip" id="m-bank" data-tip="Default. Payment Reference only matches a bank statement for bank transfers — other methods carry document or order numbers." onclick="setM('bank')">Bank transfer</button>
+            <button class="chip" id="m-post" onclick="setM('post')">PO / RO / MV</button>
+            <button class="chip" id="m-all" onclick="setM('all')">All</button>
+          </div>
+        </div>
+      </div>
+      <div id="cb2">
+        <div class="tw">
+          <table>
+            <thead><tr>
+              <th>Request ID</th><th>Brand</th><th>Credit to Wallet</th><th style="text-align:right">Amount</th>
+              <th>Payment Reference</th><th>Payment Method</th><th>Credit Month</th><th>Status</th>
+              <th>Approved By</th><th>Approved At</th><th>Credits On</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="b2"></tbody>
+          </table>
+        </div>
+        <div class="empty-line hide" id="e2"><i class="ri-inbox-line"></i> Nothing awaiting credit in this range.</div>
+      </div>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section class="sec">
+      <div class="sec-head">
+        <div>
+          <div class="sec-title">
+            <button onclick="tsec(3)" style="display:flex;align-items:center;gap:9px">
+              <h2>Reports</h2>
+              <span class="cnt g" id="c3">0</span>
+              <i class="ri-arrow-down-s-line caret" id="cr3"></i>
+            </button>
+            <i class="ri-information-line qi has-tip" data-tip="Closed requests only — credited or rejected. Nothing here can change again, so a downloaded file stays accurate. Use this for month-end close."></i>
+          </div>
+          <div class="sec-sub">Closed and final. Safe to archive and tie out.</div>
+        </div>
+        <div class="sec-tools">
+          <div style="display:flex;align-items:center;gap:9px">
+            <select class="sel-fmt" id="fmt"><option value="xlsx">XLSX</option><option value="csv">CSV</option></select>
+            <button class="btn-dl has-tip" data-tip="Exports every filtered row in the date range, not just this page. Includes payment reference, approver, and approval time." onclick="dl(3)"><i class="ri-download-2-line"></i> Download</button>
+          </div>
+          <div class="chips">
+            <span class="cl">Status</span>
+            <button class="chip on" id="o-all" onclick="setO('all')">All</button>
+            <button class="chip" id="o-CREDITED" onclick="setO('CREDITED')">Credited</button>
+            <button class="chip" id="o-REJECTED" onclick="setO('REJECTED')">Rejected</button>
+          </div>
+        </div>
+      </div>
+      <div id="cb3">
+        <div class="tw">
+          <table>
+            <thead><tr>
+              <th>Request ID</th><th>Brand</th><th>Credit to Wallet</th><th style="text-align:right">Amount</th>
+              <th>Payment Reference</th><th>Payment Method</th><th>Credit Month</th><th>Status</th>
+              <th>Actioned By</th><th>Actioned At</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="b3"></tbody>
+          </table>
+        </div>
+        <div class="empty hide" id="e3">
+          <i class="ri-file-list-3-line"></i>
+          <div class="t">No closed requests in this range</div>
+          <div class="s">Widen the date range to see credited and rejected requests.</div>
+        </div>
+        <div class="pag">
+          <div class="rpp">Rows per page: <select><option>10</option><option>25</option><option>50</option></select></div>
+          <div id="pg3">Showing 1–8 of 8</div>
+          <div class="arrows">
+            <button><i class="ri-arrow-left-s-line"></i></button>
+            <button><i class="ri-arrow-right-s-line"></i></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="note">
+      <i class="ri-information-line"></i>
+      <div>
+        <b>What these reports cover:</b> bank transfers and post-paid credit requests approved through this queue. They do not include online card or netbanking top-ups, wallet-to-wallet transfers, refunds, manual credits, or promotional credits — those appear in the brand's wallet transaction history.
+        <i class="ri-question-line has-tip" style="color:var(--purple);cursor:help" data-tip="If you need a total of everything credited to wallets in a period, use the brand wallet transaction history rather than this export."></i>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- ============================================================
-     MODAL: MOVE FUNDS
-     ============================================================ -->
-<div id="moveFundsOverlay" class="fixed inset-0 bg-black/40 z-50 hidden flex items-center justify-center" onclick="closeMoveFunds()">
-  <div class="bg-white rounded-xl shadow-popup w-[520px]" onclick="event.stopPropagation()">
-    <div class="px-5 py-4 border-b border-g20">
-      <h3 class="font-bold text-g70">Move Funds</h3>
-      <p class="text-[11px] text-g50">Instant transfer between your wallets · Promo not selectable</p>
-    </div>
-    <div class="p-5 space-y-3">
-      <div>
-        <label class="block text-[11px] font-bold text-g50 mb-1">From Wallet</label>
-        <select class="w-full border border-g30 rounded-lg px-3 py-2 text-sm"><option>Primary (₹ 8,84,689)</option><option>Performance (₹ 2,12,000)</option><option>Display (₹ 95,689)</option><option>Sub · Lakme Skin (₹ 1,88,200)</option><option>Sub · Lakme Makeup (₹ 2,86,489)</option></select>
-      </div>
-      <div>
-        <label class="block text-[11px] font-bold text-g50 mb-1">To Wallet</label>
-        <select class="w-full border border-g30 rounded-lg px-3 py-2 text-sm"><option>Performance</option><option>Display</option><option>Sub · Lakme Skin</option><option>Sub · Lakme Makeup</option><option>Sub · Lakme Hair Care</option></select>
-      </div>
-      <div>
-        <label class="block text-[11px] font-bold text-g50 mb-1">Amount (₹)</label>
-        <input type="number" placeholder="50000" class="w-full border border-g30 rounded-lg px-3 py-2 text-sm">
-      </div>
-      <div>
-        <label class="block text-[11px] font-bold text-g50 mb-1">Note (optional)</label>
-        <input type="text" placeholder="Rebalance for end-of-month push" class="w-full border border-g30 rounded-lg px-3 py-2 text-sm">
-      </div>
-      <div class="rounded-lg p-3 flex items-start gap-2" style="background:#FFFBEB; border:1px solid #F59E0B;">
-        <i class="ri-error-warning-fill mt-0.5" style="color:#92400E;"></i>
-        <div class="text-[11px]" style="color:#92400E;">This will reduce the source wallet balance immediately. Campaigns attached to the source wallet may pause if balance reaches zero. Promo fallback will apply where eligible.</div>
-      </div>
-    </div>
-    <div class="px-5 py-4 border-t border-g20 flex justify-end gap-2">
-      <button onclick="closeMoveFunds()" class="btn-secondary">Cancel</button>
-      <button onclick="executeMoveFunds()" class="btn-primary">Transfer Instantly</button>
-    </div>
-  </div>
-</div>
+<!-- tooltip host -->
+<div id="tt"></div>
 
-<!-- ============================================================
-     MODAL: GRANT PROMO CREDITS
-     ============================================================ -->
-<div id="grantPromoOverlay" class="fixed inset-0 bg-black/40 z-50 hidden flex items-center justify-center" onclick="closeGrantPromoCredits()">
-  <div class="bg-white rounded-xl shadow-popup w-[540px]" onclick="event.stopPropagation()">
-    <div class="px-5 py-4 border-b border-g20">
-      <h3 class="font-bold text-g70">Grant Promo Credits</h3>
-      <p class="text-[11px] text-g50">Org-funded · credited immediately · no approval gate</p>
-    </div>
-    <div class="p-5 space-y-3">
-      <div class="rounded-lg p-3 flex items-start gap-2" style="background:#FFF7E6; border:1px solid #B45309;">
-        <i class="ri-information-line mt-0.5" style="color:#B45309;"></i>
-        <div class="text-[11px]" style="color:#92400E;">Promo Credits are org-funded fallback credits. They are not transferable and cannot be directly assigned to campaigns.</div>
-      </div>
-      <div><label class="block text-[11px] font-bold text-g50 mb-1">Brand ID *</label><input type="text" placeholder="e.g. BRD-LAKME-001" class="w-full border border-g30 rounded-lg px-3 py-2 text-sm font-mono"></div>
-      <div><label class="block text-[11px] font-bold text-g50 mb-1">Promo Credit Amount (₹) *</label><input type="number" placeholder="e.g. 50000" class="w-full border border-g30 rounded-lg px-3 py-2 text-sm"></div>
-      <div><label class="block text-[11px] font-bold text-g50 mb-1">Reason *</label><input type="text" placeholder="e.g. Q1 fallback top-up" class="w-full border border-g30 rounded-lg px-3 py-2 text-sm"></div>
-      <div><label class="block text-[11px] font-bold text-g50 mb-1">Notes (optional)</label><textarea rows="2" placeholder="Internal note" class="w-full border border-g30 rounded-lg px-3 py-2 text-sm"></textarea></div>
-      <div><label class="block text-[11px] font-bold text-g50 mb-1">Expiry Date (optional)</label><input type="text" placeholder="DD/MM/YYYY" class="w-full border border-g30 rounded-lg px-3 py-2 text-sm"></div>
-    </div>
-    <div class="px-5 py-4 border-t border-g20 flex justify-end gap-2">
-      <button onclick="closeGrantPromoCredits()" class="btn-secondary">Cancel</button>
-      <button onclick="confirmGrantPromoCredits()" class="btn-primary">Grant Promo Credits</button>
-    </div>
-  </div>
-</div>
-
-<!-- ============================================================
-     DRAWER: CREDIT REQUEST DETAILS
-     ============================================================ -->
-<div id="creditDetailOverlay" class="fixed inset-0 bg-black/30 z-40 hidden" onclick="closeCreditDetail()"></div>
-<aside id="creditDetailDrawer" class="drawer fixed top-0 right-0 bottom-0 w-[600px] bg-white shadow-popup z-50 flex flex-col">
-  <div class="px-5 py-4 border-b border-g20 flex justify-between items-center">
+<!-- drawer -->
+<div class="ovl" id="ovl" onclick="closeD()"></div>
+<aside class="drawer" id="drawer">
+  <div class="dh">
     <div>
-      <h3 class="font-bold text-g70">Credit Request Details</h3>
-      <p class="text-[11px] text-g50">Canonical Request ID · use this ID across all systems</p>
+      <div class="lbl">Credit request</div>
+      <div class="id" id="d-id">—</div>
     </div>
-    <button onclick="closeCreditDetail()" class="text-g40 hover:text-g70"><i class="ri-close-line text-xl"></i></button>
+    <button onclick="closeD()" style="color:var(--g40);font-size:22px"><i class="ri-close-line"></i></button>
   </div>
-  <div class="flex-1 overflow-y-auto p-5 space-y-4">
-    <!-- Common fields -->
-    <div class="bg-g20 rounded-lg p-4 grid grid-cols-2 gap-3 text-xs">
-      <div><div class="text-[10px] text-g40 font-bold uppercase">Request ID</div><div class="font-bold text-primary mt-0.5 font-mono" id="cd-reqid">—</div></div>
-      <div><div class="text-[10px] text-g40 font-bold uppercase">Status</div><div class="mt-0.5" id="cd-status">—</div></div>
-      <div><div class="text-[10px] text-g40 font-bold uppercase">Brand</div><div class="font-bold text-g70 mt-0.5">Lakme</div></div>
-      <div><div class="text-[10px] text-g40 font-bold uppercase">Brand House</div><div class="text-g70 mt-0.5">Hindustan Unilever</div></div>
-      <div><div class="text-[10px] text-g40 font-bold uppercase">Credit To Wallet</div><div class="font-bold text-g70 mt-0.5" id="cd-wallet">Performance</div></div>
-      <div><div class="text-[10px] text-g40 font-bold uppercase">Amount</div><div class="font-bold text-g70 mt-0.5" id="cd-amount">₹ 1,50,000</div></div>
-      <div><div class="text-[10px] text-g40 font-bold uppercase">Credit Month</div><div class="font-bold text-g70 mt-0.5" id="cd-cim">Current</div></div>
-      <div><div class="text-[10px] text-g40 font-bold uppercase">Payment Method</div><div class="font-bold text-g70 mt-0.5" id="cd-method">NEFT</div></div>
-      <div class="col-span-2"><div class="text-[10px] text-g40 font-bold uppercase">Payment Reference</div><div class="font-mono text-g70 mt-0.5" id="cd-payref">HDFCN24050200012345</div></div>
-      <div><div class="text-[10px] text-g40 font-bold uppercase">Submitted By</div><div class="text-g70 mt-0.5">anuj.s@purplle.com</div></div>
-      <div><div class="text-[10px] text-g40 font-bold uppercase">Submitted At</div><div class="text-g70 mt-0.5" id="cd-submittedAt">27 May 2026, 10:14 AM</div></div>
+  <div class="db">
+    <div class="grid2">
+      <div class="fl"><div class="k">Brand</div><div class="v" id="d-brand">—</div></div>
+      <div class="fl"><div class="k">Status</div><div class="v" id="d-status">—</div></div>
+      <div class="fl"><div class="k">Credit to Wallet</div><div class="v" id="d-wallet">—</div></div>
+      <div class="fl"><div class="k">Amount</div><div class="v" id="d-amt">—</div></div>
+      <div class="fl"><div class="k">Credit Month <i class="ri-information-line qi has-tip" data-tip="Which month the brand wants this credit booked to. Next-month credits post on day 1."></i></div><div class="v" id="d-cim">—</div></div>
+      <div class="fl"><div class="k">Payment Method</div><div class="v" id="d-method">—</div></div>
+      <div class="fl w"><div class="k">Payment Reference <i class="ri-information-line qi has-tip" data-tip="The reference the brand entered — UTR, NEFT/RTGS reference, or cheque number. Match this against your bank statement."></i></div><div class="v mono" id="d-ref">—</div></div>
+      <div class="fl"><div class="k">Submitted At</div><div class="v" style="font-weight:500" id="d-sub">—</div></div>
+      <div class="fl"><div class="k">Submitted By</div><div class="v" style="font-weight:500" id="d-by">—</div></div>
     </div>
 
-    <!-- Outcome block (shown for terminal states) -->
-    <div id="cd-outcome-approved" class="hidden bg-success-50 border border-success rounded-lg p-3 text-xs">
-      <div class="font-bold text-success mb-1 uppercase text-[10px] tracking-wider">Approved</div>
-      <div class="grid grid-cols-2 gap-2 text-g70">
-        <div><span class="text-g50">Approved by:</span> <strong>m.rao@purplle.com</strong></div>
-        <div><span class="text-g50">Role:</span> <strong>Business</strong></div>
-        <div class="col-span-2"><span class="text-g50">Approved at:</span> <strong>27 May 2026, 11:18 AM</strong></div>
+    <div class="card">
+      <div class="ct">Payment proof</div>
+      <div class="proof">
+        <div style="display:flex;align-items:center;gap:8px"><i class="ri-file-pdf-line" style="color:var(--red)"></i><b>payment-advice.pdf</b></div>
+        <button class="view">View</button>
       </div>
     </div>
 
-    <div id="cd-outcome-rejected" class="hidden bg-danger-50 border border-danger rounded-lg p-3 text-xs">
-      <div class="font-bold text-danger mb-1 uppercase text-[10px] tracking-wider">Rejected</div>
-      <div class="grid grid-cols-2 gap-2 text-g70">
-        <div><span class="text-g50">Rejected by:</span> <strong>k.ahuja@purplle.com</strong></div>
-        <div><span class="text-g50">Role:</span> <strong>Finance</strong></div>
-        <div class="col-span-2"><span class="text-g50">Rejected at:</span> <strong>26 May 2026, 04:42 PM</strong></div>
-        <div class="col-span-2"><span class="text-g50">Reason:</span> <strong>UTR mismatch</strong></div>
-        <div class="col-span-2"><span class="text-g50">Internal note:</span> <strong>UTR HDFCN24050200012999 not present in bank statement for 26 May.</strong></div>
-      </div>
-      <div class="mt-2 pt-2 border-t border-danger/30 text-[11px] text-danger"><i class="ri-mail-line"></i> Rejection notification emailed to Brand POC and Business team.</div>
-    </div>
-
-    <div id="cd-outcome-onhold" class="hidden rounded-lg p-3 text-xs" style="background:#FFF7ED; border:1px solid #F59E0B;">
-      <div class="font-bold mb-1 uppercase text-[10px] tracking-wider" style="color:#9A3412;">On Hold</div>
-      <div class="grid grid-cols-2 gap-2 text-g70">
-        <div><span class="text-g50">Held by:</span> <strong>k.ahuja@purplle.com</strong></div>
-        <div><span class="text-g50">Role:</span> <strong>Finance</strong></div>
-        <div class="col-span-2"><span class="text-g50">Reviewer note:</span> <strong>PI document not legible — please re-upload a clear copy.</strong></div>
+    <div class="out o-green hide" id="o-app">
+      <div class="ot">Approved</div>
+      <div class="r">
+        <div><span>Approved by:</span><b id="d-appby">—</b></div>
+        <div><span>Approved at:</span><b id="d-appat">—</b></div>
+        <div class="w"><span>Wallet credits on:</span><b id="d-cred">—</b></div>
       </div>
     </div>
 
-    <!-- Rail-specific sections -->
-    <div id="cd-rail-payu" class="hidden bg-white border border-g20 rounded-lg p-4 text-xs">
-      <h4 class="font-bold text-g70 mb-2 text-[11px] uppercase tracking-wider">PayU details</h4>
-      <div class="grid grid-cols-2 gap-2">
-        <div><span class="text-g50">PayU transaction ID:</span> <span class="font-mono text-g70">PAYU-XJ-4081</span></div>
-        <div><span class="text-g50">Gateway status:</span> <strong class="text-success">SUCCESS</strong></div>
-        <div><span class="text-g50">Webhook received at:</span> <span class="text-g70">27 May, 10:24:11 AM</span></div>
-        <div><span class="text-g50">Amount paid:</span> <strong class="text-g70">₹ 3,40,000</strong></div>
-        <div><span class="text-g50">Gateway fee (2%):</span> <span class="text-g70">₹ 6,800</span></div>
-        <div><span class="text-g50">Auto-credit:</span> <strong class="text-success">CREDITED</strong></div>
+    <div class="out o-green hide" id="o-crd">
+      <div class="ot">Credited</div>
+      <div class="r">
+        <div><span>Approved by:</span><b id="d-cby">—</b></div>
+        <div><span>Approved at:</span><b id="d-cat">—</b></div>
+        <div class="w"><span>Credited at:</span><b id="d-crat">—</b></div>
       </div>
     </div>
 
-    <div id="cd-rail-bank" class="hidden bg-white border border-g20 rounded-lg p-4 text-xs">
-      <h4 class="font-bold text-g70 mb-2 text-[11px] uppercase tracking-wider">Bank transfer details</h4>
-      <div class="grid grid-cols-2 gap-2 mb-3">
-        <div><span class="text-g50">UTR number:</span> <span class="font-mono text-g70">HDFCN24050200012345</span></div>
-        <div><span class="text-g50">Bank:</span> <span class="text-g70">HDFC Bank</span></div>
-        <div><span class="text-g50">Proof uploaded:</span> <strong class="text-success">YES</strong></div>
-        <div><span class="text-g50">Finance bank confirmation:</span> <strong class="text-g70">PENDING</strong></div>
-        <div class="col-span-2"><span class="text-g50">Duplicate UTR flag:</span> <strong class="text-success">CLEAR</strong></div>
+    <div class="out o-red hide" id="o-rej">
+      <div class="ot">Rejected</div>
+      <div class="r">
+        <div><span>Rejected by:</span><b id="d-rby">—</b></div>
+        <div><span>Rejected at:</span><b id="d-rat">—</b></div>
+        <div class="w"><span>Reason:</span><b>Payment reference not found in bank statement</b></div>
       </div>
-      <div class="bg-g20 rounded p-3 flex items-center justify-between">
-        <div><i class="ri-image-line text-g40"></i> <span class="text-g70">bank-statement-27may.pdf</span></div>
-        <div class="flex gap-2"><button class="btn-sm-action bg-white border border-g30 text-g70">Open Proof</button><button class="btn-sm-action bg-white border border-g30 text-g70">Download Proof</button></div>
-      </div>
+      <div class="foot"><i class="ri-mail-line"></i> Brand notified. They can submit a new request.</div>
     </div>
 
-    <div id="cd-rail-po" class="hidden bg-white border border-g20 rounded-lg p-4 text-xs">
-      <h4 class="font-bold text-g70 mb-2 text-[11px] uppercase tracking-wider">Purchase order details</h4>
-      <div class="grid grid-cols-2 gap-2 mb-3">
-        <div><span class="text-g50">PO number:</span> <span class="font-mono text-g70">PO-2026-Q1-LK</span></div>
-        <div><span class="text-g50">PO issue date:</span> <span class="text-g70">02 May 2026</span></div>
-        <div><span class="text-g50">Contract reference:</span> <span class="font-mono text-g70">CT-LAKME-FY26</span></div>
-        <div><span class="text-g50">Aging flag:</span> <strong class="text-success">CLEAR</strong></div>
+    <div class="out o-amber hide" id="o-hld">
+      <div class="ot">On hold</div>
+      <div class="r">
+        <div><span>Held by:</span><b>k.ahuja@purplle.com</b></div>
+        <div><span>Held at:</span><b>27 Jul 2026, 11:05 AM</b></div>
+        <div class="w"><span>Note to brand:</span><b>Payment advice is not legible — please re-upload a clear copy.</b></div>
       </div>
-      <div class="bg-g20 rounded p-3 flex items-center justify-between">
-        <div><i class="ri-file-text-line text-g40"></i> <span class="text-g70">po-2026-q1-lk.pdf</span></div>
-        <div class="flex gap-2"><button class="btn-sm-action bg-white border border-g30 text-g70">Open PO</button><button class="btn-sm-action bg-white border border-g30 text-g70">Download PO</button></div>
-      </div>
-    </div>
-
-    <div id="cd-rail-ro" class="hidden bg-white border border-g20 rounded-lg p-4 text-xs">
-      <h4 class="font-bold text-g70 mb-2 text-[11px] uppercase tracking-wider">Release order details</h4>
-      <div class="grid grid-cols-2 gap-2 mb-3">
-        <div><span class="text-g50">RO number:</span> <span class="font-mono text-g70">RO-2026-Q1-LK-02</span></div>
-        <div><span class="text-g50">RO issue date:</span> <span class="text-g70">04 May 2026</span></div>
-        <div><span class="text-g50">Contract reference:</span> <span class="font-mono text-g70">CT-LAKME-FY26</span></div>
-        <div><span class="text-g50">Aging flag:</span> <strong class="text-success">CLEAR</strong></div>
-      </div>
-      <div class="bg-g20 rounded p-3 flex items-center justify-between">
-        <div><i class="ri-file-text-line text-g40"></i> <span class="text-g70">ro-2026-q1-lk-02.pdf</span></div>
-        <div class="flex gap-2"><button class="btn-sm-action bg-white border border-g30 text-g70">Open RO</button><button class="btn-sm-action bg-white border border-g30 text-g70">Download RO</button></div>
-      </div>
-    </div>
-
-    <div id="cd-rail-mv" class="hidden bg-white border border-g20 rounded-lg p-4 text-xs">
-      <h4 class="font-bold text-g70 mb-2 text-[11px] uppercase tracking-wider">Marketing visibility details</h4>
-      <div class="grid grid-cols-2 gap-2 mb-3">
-        <div><span class="text-g50">PI number:</span> <span class="font-mono text-g70">PI/2026/0721</span></div>
-        <div><span class="text-g50">Contract reference:</span> <span class="font-mono text-g70">NMV-LAKME-Q1</span></div>
-        <div><span class="text-g50">KAM email:</span> <span class="text-g70">kam.lakme@purplle.com</span></div>
-        <div><span class="text-g50">Review flag:</span> <strong style="color:#9A3412;">PI REVIEW</strong></div>
-      </div>
-      <div class="bg-g20 rounded p-3 flex items-center justify-between">
-        <div><i class="ri-file-list-3-line text-g40"></i> <span class="text-g70">pi-2026-0721.pdf</span></div>
-        <div class="flex gap-2"><button class="btn-sm-action bg-white border border-g30 text-g70">Open PI</button><button class="btn-sm-action bg-white border border-g30 text-g70">Download PI</button></div>
-      </div>
+      <div class="foot"><i class="ri-time-line"></i> Auto-rejects on 10 Aug 2026 if the brand does not respond.</div>
     </div>
   </div>
-
-  <!-- Footer actions -->
-  <div class="px-5 py-4 border-t border-g20 flex justify-end gap-2">
-    <button onclick="closeCreditDetail()" class="btn-secondary" id="cd-close">Close</button>
-    <button onclick="openRejectModal()" class="btn-danger hidden" id="cd-reject">Reject</button>
-    <button onclick="approveRequest()" class="btn-success hidden" id="cd-approve">Approve</button>
+  <div class="df">
+    <button class="btn-s" onclick="closeD()">Close</button>
+    <button class="btn-s hide" id="d-hold" onclick="mo('mh')"><i class="ri-pause-circle-line"></i> Put on hold</button>
+    <button class="btn-red hide" id="d-rej" onclick="mo('mr')">Reject</button>
+    <button class="btn-green hide" id="d-ok" onclick="appr()">Confirm &amp; approve</button>
   </div>
 </aside>
 
-<!-- ============================================================
-     MODAL: REJECT REQUEST
-     ============================================================ -->
-<div id="rejectOverlay" class="fixed inset-0 bg-black/40 z-[60] hidden flex items-center justify-center" onclick="closeRejectModal()">
-  <div class="bg-white rounded-xl shadow-popup w-[560px]" onclick="event.stopPropagation()">
-    <div class="px-5 py-4 border-b border-g20">
-      <h3 class="font-bold text-g70">Reject Credit Request</h3>
-      <p class="text-[11px] text-g50">Brand will be notified via email · request becomes terminal in V1</p>
-    </div>
-    <div class="p-5 space-y-3">
-      <div>
-        <label class="block text-[11px] font-bold text-g50 mb-1">Rejection Reason *</label>
-        <select class="w-full border border-g30 rounded-lg px-3 py-2 text-sm">
-          <option>UTR mismatch</option>
-          <option>Amount mismatch</option>
-          <option>Duplicate reference</option>
-          <option>Invalid proof</option>
-          <option>Missing / unreadable document</option>
-          <option>PO / RO mismatch</option>
-          <option>PI mismatch</option>
-          <option>Contract mismatch</option>
-          <option>Other</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-[11px] font-bold text-g50 mb-1">Attachment Issue Category (optional)</label>
-        <select class="w-full border border-g30 rounded-lg px-3 py-2 text-sm">
-          <option>—</option>
-          <option>Unreadable</option>
-          <option>Wrong document</option>
-          <option>Missing pages</option>
-          <option>Date / amount mismatch</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-[11px] font-bold text-g50 mb-1">Internal Note (optional)</label>
-        <textarea rows="3" placeholder="Detailed note for audit trail" class="w-full border border-g30 rounded-lg px-3 py-2 text-sm"></textarea>
-      </div>
-      <label class="flex items-center gap-2 text-xs text-g70">
-        <input type="checkbox" checked class="accent-primary">
-        Notify brand via email
-      </label>
-      <div class="rounded-lg p-3 text-[11px]" style="background: var(--red-secondary); color: var(--red-primary); border:1px solid var(--red-primary);"><i class="ri-information-line mr-1"></i> Once rejected, this request is terminal in V1. The brand will need to create a new request with corrected details.</div>
-    </div>
-    <div class="px-5 py-4 border-t border-g20 flex justify-end gap-2">
-      <button onclick="closeRejectModal()" class="btn-secondary">Cancel</button>
-      <button onclick="confirmReject()" class="btn-danger">Confirm Reject &amp; Notify</button>
-    </div>
+<!-- hold modal -->
+<div class="modal" id="mh">
+  <div class="mbox">
+    <h3>Put request on hold</h3>
+    <p>The brand sees your note and can respond with a corrected document. The request comes back to you as Under Review.</p>
+    <label>Note to brand *</label>
+    <textarea rows="3" placeholder="Tell the brand exactly what needs fixing"></textarea>
+    <div class="hint"><i class="ri-time-line"></i><span>If the brand does not respond within 14 days, this request is rejected automatically.</span></div>
+    <div class="acts"><button class="btn-s" onclick="mc('mh')">Cancel</button><button class="btn-p" onclick="okHold()">Put on hold</button></div>
   </div>
 </div>
 
-<!-- ============================================================
-     TOAST host
-     ============================================================ -->
-<div id="toastHost" class="fixed bottom-6 right-6 z-[100] space-y-2"></div>
+<!-- reject modal -->
+<div class="modal" id="mr">
+  <div class="mbox">
+    <h3>Reject request</h3>
+    <p>The brand is notified and will need to submit a new request. This cannot be undone.</p>
+    <label>Reason *</label>
+    <textarea rows="3" placeholder="Why this request is being rejected"></textarea>
+    <div class="acts"><button class="btn-s" onclick="mc('mr')">Cancel</button><button class="btn-red" onclick="okRej()">Reject request</button></div>
+  </div>
+</div>
+
+<!-- cap modal -->
+<div class="modal" id="mc">
+  <div class="mbox">
+    <div style="display:flex;gap:12px"><i class="ri-error-warning-line" style="font-size:24px;color:var(--red)"></i>
+      <div><h3>Too many rows to download</h3><p style="margin-bottom:0">This range has 24,180 rows. The limit is 20,000. Narrow the date range or add a filter, then try again.</p></div>
+    </div>
+    <div class="acts"><button class="btn-p" onclick="mc('mc')">Got it</button></div>
+  </div>
+</div>
+
+<div id="toast"></div>
 
 <script>
 (function(){
-  'use strict';
-  const $ = id => document.getElementById(id);
+  const $ = i => document.getElementById(i);
 
-  // ---------- STATUS PILL ----------
-  const STATUS_TOOLTIPS = {
-    'SUBMITTED':    'Request has been submitted and is waiting for review.',
-    'UNDER REVIEW': 'A reviewer is checking the proof, reference, or contract details.',
-    'APPROVED':     'Request has been approved. Credit will be posted based on payment method and credit month.',
-    'SCHEDULED':    'Request is approved and will be credited on day 1 of the next month.',
-    'CREDITED':     'Wallet has been credited and ledger entry is posted.',
-    'REJECTED':     'Request was rejected. Check reason and create a new request.',
-    'ON HOLD':      'Reviewer needs clarification or corrected document before moving ahead.'
-  };
-  const STATUS_CLASS = {
-    'SUBMITTED':    'pill-submitted',
-    'UNDER REVIEW': 'pill-review',
-    'APPROVED':     'pill-approved',
-    'SCHEDULED':    'pill-scheduled',
-    'CREDITED':     'pill-credited',
-    'REJECTED':     'pill-rejected',
-    'ON HOLD':      'pill-onhold'
-  };
-  function statusPill(s){
-    return '<span class="tip"><span class="pill ' + (STATUS_CLASS[s] || '') + '">' + s + '</span><span class="tip-body">' + (STATUS_TOOLTIPS[s] || '') + '</span></span>';
+  /* ---------- tooltip: single fixed node, escapes table overflow ---------- */
+  const tt = $('tt');
+  let ttT = null;
+  function showTip(el){
+    const txt = el.getAttribute('data-tip');
+    if (!txt) return;
+    tt.textContent = txt;
+    tt.style.display = 'block';
+    tt.classList.remove('below');
+    const r = el.getBoundingClientRect();
+    const t = tt.getBoundingClientRect();
+    let left = r.left + r.width/2 - t.width/2;
+    left = Math.max(8, Math.min(left, window.innerWidth - t.width - 8));
+    let top = r.top - t.height - 9;
+    if (top < 8){ top = r.bottom + 9; tt.classList.add('below'); }
+    tt.style.left = Math.round(left) + 'px';
+    tt.style.top  = Math.round(top) + 'px';
+    const ax = r.left + r.width/2 - left;
+    tt.style.setProperty('--ax', Math.round(Math.max(12, Math.min(ax, t.width - 12))) + 'px');
+    tt.classList.add('on');
   }
-  window.statusPill = statusPill;
+  function hideTip(){ tt.classList.remove('on'); clearTimeout(ttT); ttT = setTimeout(()=>{ tt.style.display='none'; }, 140); }
+  document.addEventListener('mouseover', e => { const el = e.target.closest('[data-tip]'); if (el){ clearTimeout(ttT); showTip(el); } });
+  document.addEventListener('mouseout',  e => { if (e.target.closest('[data-tip]')) hideTip(); });
+  document.addEventListener('scroll', hideTip, true);
 
-  // ---------- NAV ----------
-  window.navigateTo = function(pageId, link, breadcrumb){
-    document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-    const tgt = $('page-' + pageId);
-    if (tgt) tgt.classList.add('active');
-    document.querySelectorAll('.nav-item').forEach(a => a.classList.remove('active'));
-    if (link && link.classList) link.classList.add('active');
-    if (breadcrumb) $('breadcrumb').innerHTML = breadcrumb.replace(/\/ ([^\/]+)$/, '/ <span class="text-primary font-bold">$1</span>');
-    if (pageId === 'recharge') goStep(1);
-    window.scrollTo(0, 0);
+  /* ---------- data ---------- */
+  const inr = n => '₹ ' + n.toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2});
+  const BANK = ['NEFT','RTGS','Cheque'];
+
+  const ST = {
+    'SUBMITTED':    ['p-submitted','Submitted by the brand. Waiting for you to review.'],
+    'UNDER REVIEW': ['p-review','Someone is checking the payment proof, reference, or contract.'],
+    'ON HOLD':      ['p-hold','Waiting on the brand to send a corrected document.'],
+    'APPROVED':     ['p-approved','Funds confirmed. The wallet credit posts in the next batch.'],
+    'SCHEDULED':    ['p-scheduled','Approved for next month. Credits on day 1.'],
+    'CREDITED':     ['p-credited','Wallet credited. Closed.'],
+    'REJECTED':     ['p-rejected','Rejected. The brand must submit a new request.']
   };
-
-  // ---------- TOAST ----------
-  window.toast = function(msg, kind){
-    const host = $('toastHost');
-    const colors = {
-      success: { bg: '#F7FFFC', border: '#206E4D', text: '#206E4D', icon: 'ri-check-line' },
-      warn:    { bg: '#FFFBEB', border: '#F59E0B', text: '#92400E', icon: 'ri-error-warning-line' },
-      error:   { bg: '#F5DEDD', border: '#B11D15', text: '#B11D15', icon: 'ri-close-circle-line' },
-      info:    { bg: '#FDF1FF', border: '#9c00ad', text: '#9c00ad', icon: 'ri-information-line' }
-    };
-    const c = colors[kind] || colors.info;
-    const el = document.createElement('div');
-    el.className = 'toast rounded-lg px-4 py-3 text-xs font-bold shadow-popup flex items-center gap-2';
-    el.style.cssText = 'background:' + c.bg + '; border:1px solid ' + c.border + '; color:' + c.text + ';';
-    el.innerHTML = '<i class="' + c.icon + '"></i>' + msg;
-    host.appendChild(el);
-    setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity 0.3s'; setTimeout(() => el.remove(), 300); }, 4000);
+  const FL = {
+    'CLEAR':          ['f-clear','No issues found.'],
+    'SLA OVERDUE':    ['f-bad dot','Waiting more than 4 hours for Finance action.'],
+    '120-DAY AGING':  ['f-bad','Post-paid credit outstanding beyond 120 days.'],
+    'PROOF REVIEW':   ['f-warn','Payment proof needs a closer look before approving.']
   };
+  const esc = s => String(s).replace(/"/g,'&quot;');
+  const stPill = s => '<span class="pill '+ST[s][0]+' has-tip" data-tip="'+esc(ST[s][1])+'">'+s+'</span>';
+  const flTxt  = f => '<span class="flag '+FL[f][0]+' has-tip" data-tip="'+esc(FL[f][1])+'">'+f+'</span>';
+  const cimPill= c => '<span class="pill '+(c.indexOf('Next')===0?'p-cim-next':'p-cim')+'">'+c.toUpperCase()+'</span>';
 
-  // ---------- BRAND TRACKER ROWS (rendered from JS, same pattern as queues) ----------
-  const BRAND_TRACKER_ROWS = [
-    { id:'CR-2026-05-0002049', method:'NEFT', wallet:'Performance', amount:150000, cim:'Current', status:'SUBMITTED',    at:'27 May 2026, 10:14 AM' },
-    { id:'CR-2026-05-0002050', method:'RTGS', wallet:'Primary',     amount:200000, cim:'Current', status:'UNDER REVIEW', at:'27 May 2026, 09:42 AM' },
-    { id:'CR-2026-05-0002051', method:'PO',   wallet:'Display',     amount:800000, cim:'Current', status:'APPROVED',     at:'27 May 2026, 09:15 AM' },
-    { id:'CR-2026-05-0002052', method:'RTGS', wallet:'Primary',     amount:600000, cim:'Next',    status:'SCHEDULED',    at:'27 May 2026, 09:30 AM' },
-    { id:'CR-2026-05-0002053', method:'PayU', wallet:'Primary',     amount:340000, cim:'Current', status:'CREDITED',     at:'27 May 2026, 10:24 AM' },
-    { id:'CR-2026-05-0002054', method:'NEFT', wallet:'Performance', amount: 80000, cim:'Current', status:'REJECTED',     at:'26 May 2026, 04:10 PM' },
-    { id:'CR-2026-05-0002055', method:'MV',   wallet:'Display',     amount:320000, cim:'Current', status:'ON HOLD',      at:'26 May 2026, 02:22 PM' }
+  const R = [
+    {id:'CR-2026-07-0004201',brand:'Swiss Beauty',w:'Primary',amt:41525,ref:'HSBCR2202607',m:'NEFT',cim:'Current · Jul',s:'SUBMITTED',f:'SLA OVERDUE',wait:'5h 12m',sub:'28 Jul 2026, 04:03 PM',by:'poc@swissbeauty.in'},
+    {id:'CR-2026-07-0004202',brand:'Everteen',w:'Primary',amt:25424,ref:'CMS2042619277887',m:'RTGS',cim:'Current · Jul',s:'SUBMITTED',f:'SLA OVERDUE',wait:'4h 48m',sub:'28 Jul 2026, 03:27 PM',by:'poc@everteen.in'},
+    {id:'CR-2026-07-0004203',brand:'Neud',w:'Performance',amt:8200,ref:'CMS2042619337899',m:'NEFT',cim:'Current · Jul',s:'UNDER REVIEW',f:'PROOF REVIEW',wait:'2h 50m',sub:'28 Jul 2026, 01:29 PM',by:'poc@neud.in'},
+    {id:'CR-2026-07-0004204',brand:'Lakme',w:'Display',amt:320000,ref:'PI/2026/0721',m:'MV',cim:'Current · Jul',s:'ON HOLD',f:'PROOF REVIEW',wait:'1d 6h',sub:'27 Jul 2026, 11:05 AM',by:'kam.lakme@purplle.com'},
+    {id:'CR-2026-07-0004205',brand:'Fixderma',w:'Primary',amt:191525.42,ref:'HDFCR52026072286590045',m:'RTGS',cim:'Current · Jul',s:'UNDER REVIEW',f:'CLEAR',wait:'1h 05m',sub:'28 Jul 2026, 10:22 AM',by:'poc@fixderma.in'},
+    {id:'CR-2026-07-0004206',brand:'Nua',w:'Primary',amt:50000,ref:'CHQ-0042189',m:'Cheque',cim:'Next · Aug',s:'SUBMITTED',f:'CLEAR',wait:'42m',sub:'28 Jul 2026, 09:14 AM',by:'poc@nua.in'},
+
+    {id:'CR-2026-07-0004180',brand:'Swiss Beauty',w:'Primary',amt:40180,ref:'CMS2032619045460',m:'NEFT',cim:'Current · Jul',s:'APPROVED',appby:'k.ahuja@purplle.com',appat:'28 Jul 2026, 11:42 AM',cred:'Next batch · tonight',sub:'27 Jul 2026, 04:00 PM',by:'poc@swissbeauty.in'},
+    {id:'CR-2026-07-0004181',brand:'Everteen',w:'Primary',amt:24600,ref:'ICICR2402607711',m:'RTGS',cim:'Current · Jul',s:'APPROVED',appby:'k.ahuja@purplle.com',appat:'28 Jul 2026, 11:20 AM',cred:'Next batch · tonight',sub:'27 Jul 2026, 01:27 PM',by:'poc@everteen.in'},
+    {id:'CR-2026-07-0004182',brand:'Vaseline',w:'Performance',amt:100000,ref:'R228/OT/26/008871/00',m:'RO',cim:'Current · Jul',s:'APPROVED',appby:'r.mehta@purplle.com',appat:'28 Jul 2026, 10:05 AM',cred:'Next batch · tonight',sub:'26 Jul 2026, 01:02 PM',by:'kam.vaseline@purplle.com'},
+    {id:'CR-2026-07-0004183',brand:'Lakme',w:'Primary',amt:600000,ref:'AXISR2402607711',m:'RTGS',cim:'Next · Aug',s:'SCHEDULED',appby:'k.ahuja@purplle.com',appat:'27 Jul 2026, 09:30 AM',cred:'1 Aug 2026, 00:00',sub:'26 Jul 2026, 09:30 AM',by:'poc@lakme.in'},
+
+    {id:'CR-2026-07-0004150',brand:'Swiss Beauty',w:'Primary',amt:41525,ref:'CMS2032619045461',m:'NEFT',cim:'Current · Jul',s:'CREDITED',appby:'k.ahuja@purplle.com',appat:'24 Jul 2026, 04:03 PM',crat:'25 Jul 2026, 00:12 AM',sub:'24 Jul 2026, 02:10 PM',by:'poc@swissbeauty.in'},
+    {id:'CR-2026-07-0004151',brand:'Everteen',w:'Primary',amt:25424,ref:'CMS2042619277888',m:'RTGS',cim:'Current · Jul',s:'CREDITED',appby:'k.ahuja@purplle.com',appat:'24 Jul 2026, 03:27 PM',crat:'25 Jul 2026, 00:12 AM',sub:'24 Jul 2026, 01:04 PM',by:'poc@everteen.in'},
+    {id:'CR-2026-07-0004152',brand:'Neud',w:'Primary',amt:8475,ref:'CMS2042619337900',m:'NEFT',cim:'Current · Jul',s:'CREDITED',appby:'r.mehta@purplle.com',appat:'24 Jul 2026, 03:25 PM',crat:'25 Jul 2026, 00:12 AM',sub:'24 Jul 2026, 11:40 AM',by:'poc@neud.in'},
+    {id:'CR-2026-07-0004153',brand:'Ponds',w:'Display',amt:900000,ref:'R228/OT/26/008828/00',m:'RO',cim:'Current · Jul',s:'CREDITED',appby:'r.mehta@purplle.com',appat:'23 Jul 2026, 01:01 PM',crat:'24 Jul 2026, 00:12 AM',sub:'22 Jul 2026, 05:40 PM',by:'kam.ponds@purplle.com'},
+    {id:'CR-2026-07-0004154',brand:'Fixderma',w:'Primary',amt:191525.42,ref:'HDFCR52026072286590044',m:'RTGS',cim:'Current · Jul',s:'CREDITED',appby:'k.ahuja@purplle.com',appat:'22 Jul 2026, 05:22 PM',crat:'23 Jul 2026, 00:12 AM',sub:'22 Jul 2026, 02:15 PM',by:'poc@fixderma.in'},
+    {id:'CR-2026-07-0004155',brand:'Nua',w:'Performance',amt:50000,ref:'CHQ-0042140',m:'Cheque',cim:'Current · Jul',s:'CREDITED',appby:'k.ahuja@purplle.com',appat:'22 Jul 2026, 04:31 PM',crat:'23 Jul 2026, 00:12 AM',sub:'21 Jul 2026, 10:02 AM',by:'poc@nua.in'},
+    {id:'CR-2026-07-0004156',brand:'Neud',w:'Performance',amt:80000,ref:'YESBR2402607201',m:'NEFT',cim:'Current · Jul',s:'REJECTED',appby:'k.ahuja@purplle.com',appat:'21 Jul 2026, 04:10 PM',sub:'21 Jul 2026, 09:15 AM',by:'poc@neud.in'},
+    {id:'CR-2026-07-0004157',brand:'Lakme',w:'Display',amt:150000,ref:'PI/2026/0698',m:'MV',cim:'Current · Jul',s:'REJECTED',appby:'r.mehta@purplle.com',appat:'20 Jul 2026, 12:20 PM',sub:'19 Jul 2026, 03:30 PM',by:'kam.lakme@purplle.com'}
   ];
 
-  function renderBrandTracker(){
-    const body = $('brandTrackerBody');
-    if (!body) return;
-    body.innerHTML = BRAND_TRACKER_ROWS.map(r => {
-      const cimClass = r.cim === 'Next' ? 'pill pill-scheduled' : 'pill pill-submitted';
-      return '<tr>' +
-        '<td class="px-5 py-2 font-mono text-[11px]">' + r.id + '</td>' +
-        '<td class="px-5 py-2">' + r.method + '</td>' +
-        '<td class="px-5 py-2 font-semibold">' + r.wallet + '</td>' +
-        '<td class="px-5 py-2 text-right font-bold">₹ ' + r.amount.toLocaleString('en-IN') + '</td>' +
-        '<td class="px-5 py-2"><span class="' + cimClass + '">' + r.cim + '</span></td>' +
-        '<td class="px-5 py-2">' + statusPill(r.status) + '</td>' +
-        '<td class="px-5 py-2 text-g50">' + r.at + '</td>' +
-        '<td class="px-5 py-2"><button onclick="openCreditDetail(\'' + r.id + '\',\'' + r.method + '\',\'' + r.status + '\')" class="text-primary text-[11px] font-bold hover:underline">View</button></td>' +
-        '</tr>';
-    }).join('');
+  const S1 = ['SUBMITTED','UNDER REVIEW','ON HOLD'];
+  const S2 = ['APPROVED','SCHEDULED'];
+  const S3 = ['CREDITED','REJECTED'];
+
+  let meth = 'bank', outc = 'all';
+  const hit = r => { const q=($('q').value||'').toLowerCase().trim(); return !q || (r.id+' '+r.brand+' '+r.ref).toLowerCase().includes(q); };
+  const mOk = r => meth==='all' ? true : meth==='bank' ? BANK.includes(r.m) : !BANK.includes(r.m);
+
+  const cells = r => '<td class="reqid">'+r.id+'</td>'
+    + '<td class="brand">'+r.brand+'</td>'
+    + '<td><span class="wlink">'+r.w+'</span></td>'
+    + '<td class="num-r">'+inr(r.amt)+'</td>'
+    + '<td class="payref">'+r.ref+'</td>'
+    + '<td><span class="method">'+r.m+'</span></td>'
+    + '<td>'+cimPill(r.cim)+'</td>'
+    + '<td>'+stPill(r.s)+'</td>';
+
+  function r1(){
+    const rows = R.filter(r => S1.includes(r.s) && hit(r));
+    $('c1').textContent = rows.length;
+    $('b1').innerHTML = rows.map(r => '<tr>'+cells(r)
+      + '<td>'+flTxt(r.f)+'</td>'
+      + '<td class="muted">'+r.wait+'</td>'
+      + '<td><div class="acts">'
+        + '<button class="a-ok" onclick="od(\''+r.id+'\',1)">Approve</button>'
+        + '<button class="a-no" onclick="od(\''+r.id+'\',2)">Reject</button>'
+        + (r.s!=='ON HOLD' ? '<button class="a-hold has-tip" data-tip="Ask the brand for a corrected document without rejecting the request." onclick="od(\''+r.id+'\',3)">Hold</button>' : '')
+        + '<button class="view" onclick="od(\''+r.id+'\',0)">View</button>'
+      + '</div></td></tr>').join('');
+    $('e1').classList.toggle('hide', rows.length>0);
   }
+  function r2(){
+    const rows = R.filter(r => S2.includes(r.s) && hit(r) && mOk(r));
+    $('c2').textContent = rows.length;
+    $('b2').innerHTML = rows.map(r => '<tr>'+cells(r)
+      + '<td class="muted">'+r.appby+'</td>'
+      + '<td class="muted">'+r.appat+'</td>'
+      + '<td style="font-weight:700">'+r.cred+'</td>'
+      + '<td><button class="view" onclick="od(\''+r.id+'\',0)">View</button></td></tr>').join('');
+    $('e2').classList.toggle('hide', rows.length>0);
+  }
+  function r3(){
+    const rows = R.filter(r => S3.includes(r.s) && hit(r) && (outc==='all'||r.s===outc));
+    $('c3').textContent = rows.length;
+    $('b3').innerHTML = rows.map(r => '<tr>'+cells(r)
+      + '<td class="muted">'+r.appby+'</td>'
+      + '<td class="muted">'+r.appat+'</td>'
+      + '<td><button class="view" onclick="od(\''+r.id+'\',0)">View</button></td></tr>').join('');
+    $('e3').classList.toggle('hide', rows.length>0);
+    $('pg3').textContent = 'Showing 1–'+rows.length+' of '+rows.length;
+  }
+  window.renderAll = function(){ r1(); r2(); r3(); };
 
-  // ---------- DRAWERS / MODALS ----------
-  window.openSubWalletsDrawer = function(){ $('subWalletsOverlay').classList.remove('hidden'); $('subWalletsDrawer').classList.add('open'); };
-  window.closeSubWalletsDrawer = function(){ $('subWalletsOverlay').classList.add('hidden'); $('subWalletsDrawer').classList.remove('open'); };
+  window.setM = function(m){ meth=m; ['bank','post','all'].forEach(k=>$('m-'+k).classList.toggle('on',k===m)); r2(); };
+  window.setO = function(o){ outc=o; ['all','CREDITED','REJECTED'].forEach(k=>$('o-'+k).classList.toggle('on',k===o)); r3(); };
+  window.tsec = function(n){ $('cb'+n).classList.toggle('hide'); $('cr'+n).classList.toggle('dn'); };
+  window.tg = function(id){ ['dm','bm'].forEach(k=>{ if(k!==id) $(k).classList.add('hide'); }); $(id).classList.toggle('hide'); };
+  window.setD = function(l){ $('dlbl').textContent=l; $('dm').classList.add('hide'); toast('Date range updated — all three sections refreshed'); };
+  window.setB = function(l){ $('blbl').textContent=l; $('bm').classList.add('hide'); };
+  document.addEventListener('click', e => { if(!e.target.closest('.ctl') && !e.target.closest('.menu')){ $('dm').classList.add('hide'); $('bm').classList.add('hide'); } });
 
-  window.openCreateSubwallet = function(){ closeSubWalletsDrawer(); $('createSubwalletOverlay').classList.remove('hidden'); };
-  window.closeCreateSubwallet = function(){ $('createSubwalletOverlay').classList.add('hidden'); };
-  window.confirmCreateSubwallet = function(){
-    closeCreateSubwallet();
-    toast('Sub-wallet created under Primary. Opening transfer ledger entries have been written.', 'success');
-  };
+  /* drawer */
+  window.od = function(id, act){
+    const r = R.find(x=>x.id===id); if(!r) return;
+    $('d-id').textContent=r.id; $('d-brand').textContent=r.brand;
+    $('d-status').innerHTML=stPill(r.s);
+    $('d-wallet').textContent=r.w; $('d-amt').textContent=inr(r.amt);
+    $('d-cim').textContent=r.cim; $('d-method').textContent=r.m;
+    $('d-ref').textContent=r.ref; $('d-sub').textContent=r.sub; $('d-by').textContent=r.by;
 
-  window.openMoveFunds = function(){ $('moveFundsOverlay').classList.remove('hidden'); };
-  window.closeMoveFunds = function(){ $('moveFundsOverlay').classList.add('hidden'); };
-  window.executeMoveFunds = function(){ closeMoveFunds(); toast('Funds moved · ledger: Transfer Out + Transfer In written', 'success'); };
+    ['o-app','o-crd','o-rej','o-hld'].forEach(k=>$(k).classList.add('hide'));
+    ['d-ok','d-rej','d-hold'].forEach(k=>$(k).classList.add('hide'));
 
-  window.openGrantPromoCredits = function(){ $('grantPromoOverlay').classList.remove('hidden'); };
-  window.closeGrantPromoCredits = function(){ $('grantPromoOverlay').classList.add('hidden'); };
-  window.confirmGrantPromoCredits = function(){
-    closeGrantPromoCredits();
-    toast('Promo Credits granted · Promo Wallet credited immediately · ledger + audit log entries written', 'success');
-  };
-
-  // ---------- CREDIT REQUEST DETAILS DRAWER ----------
-  let _currentReq = { id: null, method: null, status: null };
-  window.openCreditDetail = function(reqId, method, status){
-    _currentReq = { id: reqId, method: method, status: status };
-    $('cd-reqid').textContent = reqId;
-    $('cd-status').innerHTML = statusPill(status);
-    $('cd-method').textContent = method;
-
-    // Hide all rail sections, show the relevant one
-    ['payu','bank','po','ro','mv'].forEach(r => $('cd-rail-' + r).classList.add('hidden'));
-    const methodMap = { 'PayU':'payu', 'NEFT':'bank', 'RTGS':'bank', 'UTR':'bank', 'PO':'po', 'RO':'ro', 'MV':'mv' };
-    const rail = methodMap[method] || 'bank';
-    if ($('cd-rail-' + rail)) $('cd-rail-' + rail).classList.remove('hidden');
-
-    // Outcome blocks
-    $('cd-outcome-approved').classList.add('hidden');
-    $('cd-outcome-rejected').classList.add('hidden');
-    $('cd-outcome-onhold').classList.add('hidden');
-    if (status === 'APPROVED' || status === 'CREDITED' || status === 'SCHEDULED') $('cd-outcome-approved').classList.remove('hidden');
-    if (status === 'REJECTED') $('cd-outcome-rejected').classList.remove('hidden');
-    if (status === 'ON HOLD') $('cd-outcome-onhold').classList.remove('hidden');
-
-    // Footer actions
-    const actionable = (status === 'SUBMITTED' || status === 'UNDER REVIEW' || status === 'ON HOLD');
-    $('cd-approve').classList.toggle('hidden', !actionable);
-    $('cd-reject').classList.toggle('hidden', !actionable);
-
-    $('creditDetailOverlay').classList.remove('hidden');
-    $('creditDetailDrawer').classList.add('open');
-  };
-  window.closeCreditDetail = function(){ $('creditDetailOverlay').classList.add('hidden'); $('creditDetailDrawer').classList.remove('open'); };
-  window.approveRequest = function(){
-    closeCreditDetail();
-    toast(_currentReq.id + ' approved · either-or approval · now read-only in both queues', 'success');
-  };
-
-  // ---------- REJECT MODAL ----------
-  window.openRejectModal = function(){ $('rejectOverlay').classList.remove('hidden'); };
-  window.closeRejectModal = function(){ $('rejectOverlay').classList.add('hidden'); };
-  window.confirmReject = function(){
-    closeRejectModal();
-    closeCreditDetail();
-    toast(_currentReq.id + ' rejected · Brand POC and Business team have been emailed', 'warn');
-  };
-
-  // ---------- RECHARGE WIZARD ----------
-  window.openRechargeWizard = function(){
-    closeSubWalletsDrawer();
-    navigateTo('recharge', null, 'Balance &amp; Manage / Recharge');
-  };
-  window.onMethodChange = function(){
-    const m = $('rw-method').value;
-    const cimWrap = $('rw-cim-wrap');
-    const cimLabel = $('rw-cim-label');
-    const cimHint = $('rw-cim-hint');
-    if (m === 'payu'){
-      cimWrap.style.opacity = '0.4'; cimWrap.style.pointerEvents = 'none';
-      cimLabel.innerHTML = 'Credit in Month <span class="text-[10px] font-normal text-g40">(PayU defaults to Current)</span>';
-      cimHint.textContent = 'PayU credits land at webhook receipt and book in Current Month by default.';
-      const cur = document.querySelector('input[name="rwCIM"][value="current"]'); if (cur) cur.checked = true;
+    if (S1.includes(r.s)){
+      $('d-ok').classList.remove('hide'); $('d-rej').classList.remove('hide');
+      if (r.s!=='ON HOLD') $('d-hold').classList.remove('hide'); else $('o-hld').classList.remove('hide');
+    } else if (S2.includes(r.s)){
+      $('o-app').classList.remove('hide');
+      $('d-appby').textContent=r.appby; $('d-appat').textContent=r.appat; $('d-cred').textContent=r.cred;
+    } else if (r.s==='CREDITED'){
+      $('o-crd').classList.remove('hide');
+      $('d-cby').textContent=r.appby; $('d-cat').textContent=r.appat; $('d-crat').textContent=r.crat;
     } else {
-      cimWrap.style.opacity = '1'; cimWrap.style.pointerEvents = '';
-      cimLabel.innerHTML = 'Credit in Month *';
-      cimHint.textContent = 'Required for Bank / PO / RO / MV.';
+      $('o-rej').classList.remove('hide');
+      $('d-rby').textContent=r.appby; $('d-rat').textContent=r.appat;
     }
+    $('ovl').style.display='block'; $('drawer').classList.add('open');
+    if (act===2) setTimeout(()=>mo('mr'),160);
+    if (act===3) setTimeout(()=>mo('mh'),160);
   };
-  window.goStep = function(n){
-    [1,2,3].forEach(i => {
-      const block = $('recharge-step-' + i); if (block) block.classList.toggle('hidden', i !== n);
-      const pill = $('step-pill-' + i); const label = $('step-label-' + i);
-      if (pill && label){
-        if (i === n){ pill.style.background = 'var(--purple-primary)'; label.className = 'font-bold text-g70'; }
-        else if (i < n){ pill.style.background = 'var(--green-primary)'; label.className = 'text-g50'; }
-        else { pill.style.background = 'var(--grey-30)'; label.className = 'text-g50'; }
-      }
-    });
-    if (n === 2) renderStep2();
-    if (n === 3) renderStep3();
-  };
-  function renderStep2(){
-    const m = $('rw-method').value;
-    document.querySelectorAll('.step2-panel').forEach(p => p.classList.remove('active'));
-    const map = { payu: 'step2-payu', bank: 'step2-bank', po: 'step2-poro', ro: 'step2-poro', mv: 'step2-mv' };
-    const id = map[m] || 'step2-payu';
-    const panel = $(id); if (panel) panel.classList.add('active');
-    const titleMap = { payu: 'PayU Gateway', bank: 'NEFT / RTGS / Bank Transfer', po: 'PO Document', ro: 'RO Document', mv: 'Marketing Visibility — PI Upload' };
-    $('step2Title').textContent = titleMap[m] || 'Payment / Proof';
-    if (m === 'ro'){ $('poroLabel').textContent = 'Release Order (RO).'; } else { $('poroLabel').textContent = 'Purchase Order (PO).'; }
-    if (m === 'payu'){
-      const amt = parseInt($('rw-amount').value || 0, 10);
-      const fee = Math.round(amt * 0.02);
-      $('payuAmount').textContent = '₹ ' + amt.toLocaleString('en-IN');
-      $('payuFee').textContent = '₹ ' + fee.toLocaleString('en-IN');
-      $('payuTotal').textContent = '₹ ' + (amt + fee).toLocaleString('en-IN');
-    }
-  }
-  function renderStep3(){
-    const walletEl = $('rw-wallet'), methodEl = $('rw-method');
-    const amt = parseInt($('rw-amount').value || 0, 10);
-    const cimChecked = document.querySelector('input[name="rwCIM"]:checked');
-    const cim = cimChecked ? cimChecked.value : 'current';
-    const m = methodEl.value;
-    // Mock canonical Request ID
-    const seq = String(Math.floor(2056 + Math.random() * 100)).padStart(7, '0');
-    $('rev-reqid').textContent = 'CR-2026-05-' + seq;
-    $('rev-wallet').textContent = walletEl.options[walletEl.selectedIndex].text;
-    $('rev-method').textContent = methodEl.options[methodEl.selectedIndex].text;
-    $('rev-amount').textContent = '₹ ' + amt.toLocaleString('en-IN');
-    if (m === 'payu') $('rev-cim').textContent = 'Current Month (PayU default)';
-    else $('rev-cim').textContent = (cim === 'next') ? 'Next Month · SCHEDULED' : 'Current Month';
-    const extras = {
-      payu: 'PayU webhook auto-confirm if ≤ ₹4.5L · 2% gateway fee applies',
-      bank: 'UTR will be verified against bank statement by Finance · ~4h SLA when hard gate on',
-      po:   'Admin runs PO contract validation before approval',
-      ro:   'Admin runs RO contract validation before approval',
-      mv:   'PI document attached · contract reference validated · Admin/Finance review'
-    };
-    $('rev-extra').textContent = extras[m] || '—';
-  }
-  window.submitRecharge = function(){
-    const amt = parseInt($('rw-amount').value || 0, 10);
-    if (!amt){ toast('Amount is required', 'error'); return; }
-    const m = $('rw-method').value;
-    const cimChecked = document.querySelector('input[name="rwCIM"]:checked');
-    const cim = cimChecked ? cimChecked.value : 'current';
-    let status = 'SUBMITTED';
-    if (m === 'payu') status = 'PAYU AUTO-CONFIRMED · CREDITED';
-    else if (cim === 'next') status = 'SUBMITTED → SCHEDULED on approve';
-    toast('Recharge ₹' + amt.toLocaleString('en-IN') + ' submitted · ' + status, 'success');
-    setTimeout(() => navigateTo('overview', document.getElementById('nav-overview'), 'Balance &amp; Manage / Overview'), 800);
+  window.closeD = function(){ $('ovl').style.display='none'; $('drawer').classList.remove('open'); };
+
+  window.mo = function(id){ $(id).classList.add('on'); };
+  window.mc = function(id){ $(id).classList.remove('on'); };
+  window.okHold = function(){ mc('mh'); closeD(); toast('Request put on hold — brand notified'); };
+  window.okRej  = function(){ mc('mr'); closeD(); toast('Request rejected — brand notified'); };
+  window.appr   = function(){ closeD(); toast('Approved — moved to In flight, awaiting credit'); };
+
+  window.dl = function(sec){
+    const n = parseInt($('c'+sec).textContent,10);
+    if (!n) return;
+    toast('<i class="ri-download-2-line"></i> Downloading ' + n + ' rows · ' +
+      (sec===2 ? 'stamped 28 Jul 2026, 04:15 PM IST' : $('fmt').value.toUpperCase()));
   };
 
-  // ---------- ADJUSTMENTS ----------
-  window.pickOverride = function(kind, btn){
-    const labels = { refund: 'Refund', deduction: 'Deduction', reset: 'Wallet Reset', force: 'Force Credit', lapse: 'Promo Lapse', ibh: 'Inter Brand House' };
-    $('overrideTypeBadge').textContent = labels[kind] || 'Adjustment';
-    document.querySelectorAll('.override-tile').forEach(t => { t.classList.remove('border-primary', 'border-2'); t.classList.add('border-g20'); });
-    if (btn){ btn.classList.add('border-2', 'border-primary'); btn.classList.remove('border-g20'); }
-    $('overrideStandardFields').classList.toggle('hidden', kind === 'ibh');
-    $('overrideIBHFields').classList.toggle('hidden', kind !== 'ibh');
-  };
-  window.submitAdjustment = function(){
-    toast('Adjustment submitted · paired ledger entries written · KAMs notified', 'success');
-  };
-
-  // ---------- BUSINESS QUEUE + FINANCE QUEUE BODIES ----------
-  const BIZ_ROWS = [
-    { id:'CR-2026-05-0002053', brand:'Lakme', wallet:'Primary',     amount:340000, method:'PayU', payref:'PAYU-XJ-4081',                      cim:'Current · May', status:'CREDITED',     at:'27 May 2026, 10:24 AM' },
-    { id:'CR-2026-05-0002049', brand:'Lakme', wallet:'Performance', amount:150000, method:'NEFT', payref:'HDFCN24050200012345',               cim:'Current · May', status:'UNDER REVIEW', at:'27 May 2026, 10:14 AM' },
-    { id:'CR-2026-05-0002050', brand:'Lakme', wallet:'Primary',     amount:200000, method:'RTGS', payref:'ICICN24050200008811',               cim:'Current · May', status:'UNDER REVIEW', at:'27 May 2026, 09:42 AM' },
-    { id:'CR-2026-05-0002052', brand:'Lakme', wallet:'Primary',     amount:600000, method:'RTGS', payref:'AXISN24050200007711',               cim:'Next · Jun',    status:'SCHEDULED',    at:'27 May 2026, 09:30 AM' },
-    { id:'CR-2026-05-0002051', brand:'Lakme', wallet:'Display',     amount:800000, method:'PO',   payref:'PO-2026-Q1-LK',                     cim:'Current · May', status:'APPROVED',     at:'27 May 2026, 09:15 AM' },
-    { id:'CR-2026-05-0002056', brand:'Lakme', wallet:'Performance', amount:450000, method:'RO',   payref:'RO-2026-Q1-LK-02',                  cim:'Current · May', status:'SUBMITTED',    at:'27 May 2026, 09:05 AM' },
-    { id:'CR-2026-05-0002055', brand:'Lakme', wallet:'Display',     amount:320000, method:'MV',   payref:'PI/2026/0721 · NMV-LAKME-Q1',       cim:'Current · May', status:'ON HOLD',      at:'26 May 2026, 02:22 PM' },
-    { id:'CR-2026-05-0002054', brand:'Lakme', wallet:'Performance', amount: 80000, method:'NEFT', payref:'YESBN24050100009201',               cim:'Current · May', status:'REJECTED',     at:'26 May 2026, 04:10 PM' }
-  ];
-
-  const FIN_ROWS = [
-    { id:'CR-2026-05-0002049', brand:'Lakme', wallet:'Performance', amount:150000, payref:'HDFCN24050200012345', method:'NEFT', cim:'Current · May', status:'UNDER REVIEW', flag:'CLEAR',         at:'27 May 2026, 10:14 AM' },
-    { id:'CR-2026-05-0002050', brand:'Lakme', wallet:'Primary',     amount:200000, payref:'ICICN24050200008811', method:'RTGS', cim:'Current · May', status:'UNDER REVIEW', flag:'CLEAR',         at:'27 May 2026, 09:42 AM' },
-    { id:'CR-2026-05-0002052', brand:'Lakme', wallet:'Primary',     amount:600000, payref:'AXISN24050200007711', method:'RTGS', cim:'Next · Jun',    status:'SCHEDULED',    flag:'CLEAR',         at:'27 May 2026, 09:30 AM' },
-    { id:'CR-2026-05-0002051', brand:'Lakme', wallet:'Display',     amount:800000, payref:'PO-2026-Q1-LK',       method:'PO',   cim:'Current · May', status:'APPROVED',     flag:'120-DAY AGING', at:'27 May 2026, 09:15 AM' },
-    { id:'CR-2026-05-0002055', brand:'Lakme', wallet:'Display',     amount:320000, payref:'PI/2026/0721',        method:'MV',   cim:'Current · May', status:'ON HOLD',      flag:'PI REVIEW',     at:'26 May 2026, 02:22 PM' },
-    { id:'CR-2026-05-0002042', brand:'Lakme', wallet:'Performance', amount: 80000, payref:'YESBN24050100009201', method:'NEFT', cim:'Current · May', status:'SUBMITTED',    flag:'SLA OVERDUE',   at:'27 May 2026, 04:30 AM' }
-  ];
-
-  const readonlyStatuses = ['APPROVED', 'SCHEDULED', 'CREDITED', 'REJECTED'];
-  const actionableStatuses = ['SUBMITTED', 'UNDER REVIEW', 'ON HOLD'];
-
-  function actionsCell(row, queue){
-    const isRO = readonlyStatuses.includes(row.status);
-    if (isRO){
-      return '<button onclick="openCreditDetail(\'' + row.id + '\',\'' + row.method + '\',\'' + row.status + '\')" class="text-primary text-[11px] font-bold hover:underline">View</button>';
-    }
-    return '<div class="flex gap-1"><button onclick="openCreditDetail(\'' + row.id + '\',\'' + row.method + '\',\'' + row.status + '\')" class="btn-sm-action bg-white border border-g30 text-g70">View</button><button onclick="openCreditDetail(\'' + row.id + '\',\'' + row.method + '\',\'' + row.status + '\'); setTimeout(approveRequest, 0);" class="btn-sm-action bg-success text-white">Approve</button><button onclick="openCreditDetail(\'' + row.id + '\',\'' + row.method + '\',\'' + row.status + '\'); setTimeout(openRejectModal, 200);" class="btn-sm-action bg-white border border-danger text-danger">Reject</button></div>';
+  let tT=null;
+  function toast(html){
+    const t=$('toast');
+    t.innerHTML='<div>'+html+'</div>';
+    t.style.display='block';
+    clearTimeout(tT); tT=setTimeout(()=>t.style.display='none',2700);
   }
 
-  function renderBizQueue(){
-    const body = $('bizQueueBody');
-    if (!body) return;
-    body.innerHTML = BIZ_ROWS.map(r => {
-      const cimClass = r.cim.startsWith('Next') ? 'pill pill-scheduled' : 'pill pill-submitted';
-      return '<tr class="hover:bg-primary-25">' +
-        '<td class="px-4 py-3 font-mono text-[11px]">' + r.id + '</td>' +
-        '<td class="px-4 py-3 font-semibold">' + r.brand + '</td>' +
-        '<td class="px-4 py-3">' + r.wallet + '</td>' +
-        '<td class="px-4 py-3 text-right font-bold">₹ ' + r.amount.toLocaleString('en-IN') + '</td>' +
-        '<td class="px-4 py-3"><span class="px-1.5 py-0.5 bg-g20 text-g60 rounded text-[10px] font-bold">' + r.method + '</span></td>' +
-        '<td class="px-4 py-3 font-mono text-[10px] text-g50">' + r.payref + '</td>' +
-        '<td class="px-4 py-3"><span class="' + cimClass + '">' + r.cim + '</span></td>' +
-        '<td class="px-4 py-3">' + statusPill(r.status) + '</td>' +
-        '<td class="px-4 py-3 text-g50">' + r.at + '</td>' +
-        '<td class="px-4 py-3">' + actionsCell(r, 'biz') + '</td>' +
-        '</tr>';
-    }).join('');
-  }
-
-  function renderFinQueue(){
-    const body = $('finQueueBody');
-    if (!body) return;
-    body.innerHTML = FIN_ROWS.map(r => {
-      const cimClass = r.cim.startsWith('Next') ? 'pill pill-scheduled' : 'pill pill-submitted';
-      const flagColors = { 'CLEAR':'bg-success-50 text-success', '120-DAY AGING':'bg-danger-50 text-danger', 'PI REVIEW':'', 'SLA OVERDUE':'bg-danger-50 text-danger pulse-dot' };
-      const flagStyle = r.flag === 'PI REVIEW' ? 'background:#FFEDD5; color:#9A3412;' : '';
-      const flagCls = flagColors[r.flag] || '';
-      return '<tr class="hover:bg-primary-25">' +
-        '<td class="px-4 py-3 font-mono text-[11px]">' + r.id + '</td>' +
-        '<td class="px-4 py-3 font-semibold">' + r.brand + '</td>' +
-        '<td class="px-4 py-3">' + r.wallet + '</td>' +
-        '<td class="px-4 py-3 text-right font-bold">₹ ' + r.amount.toLocaleString('en-IN') + '</td>' +
-        '<td class="px-4 py-3 font-mono text-[10px] text-g50">' + r.payref + '</td>' +
-        '<td class="px-4 py-3">' + r.method + '</td>' +
-        '<td class="px-4 py-3"><span class="' + cimClass + '">' + r.cim + '</span></td>' +
-        '<td class="px-4 py-3">' + statusPill(r.status) + '</td>' +
-        '<td class="px-4 py-3"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold ' + flagCls + '" style="' + flagStyle + '">' + r.flag + '</span></td>' +
-        '<td class="px-4 py-3 text-g50">' + r.at + '</td>' +
-        '<td class="px-4 py-3">' + actionsCell(r, 'fin') + '</td>' +
-        '</tr>';
-    }).join('');
-  }
-
-  // ---------- INIT ----------
-  document.addEventListener('DOMContentLoaded', () => {
-    renderBrandTracker();
-    renderBizQueue();
-    renderFinQueue();
-    onMethodChange();
-  });
+  renderAll();
 })();
 </script>
-
 </body>
 </html>

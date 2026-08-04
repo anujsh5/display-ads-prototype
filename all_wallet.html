@@ -171,6 +171,19 @@
   .a-hold{background:#fff;border:1px solid var(--g30);color:var(--g50);border-radius:6px;padding:5px 11px;font-size:11px;font-weight:700}
   .a-hold:hover{border-color:var(--amber);color:var(--amber)}
 
+  /* section 4 — wallet ledger, per-brand grain */
+  .sec.ledger{border-color:var(--g30)}
+  .sec.ledger .sec-head{background:var(--g08)}
+  .grain{display:inline-block;background:var(--g10);color:var(--g50);border-radius:5px;padding:2px 8px;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;margin-left:8px}
+  table.wl thead th{background:var(--purple-lt);color:var(--purple)}
+  table.wl thead th.grp{text-align:center;border-bottom:1px solid var(--purple)}
+  table.wl thead tr.g2 th{font-size:9px}
+  table.wl td.num{text-align:right;font-variant-numeric:tabular-nums}
+  table.wl td.bal{font-weight:700}
+  table.wl td.sep{border-left:2px solid var(--purple-lt)}
+  .zero{color:var(--g30)}
+  .ok{color:var(--green);font-weight:700}
+
   /* pagination — matched to prod */
   .pag{display:flex;align-items:center;justify-content:flex-end;gap:22px;padding:13px 20px;border-top:1px solid var(--g20);font-size:12px;color:var(--g50)}
   .pag .rpp{display:flex;align-items:center;gap:8px}
@@ -364,7 +377,7 @@
         <div class="sub">not yet in wallet</div>
       </div>
       <div class="kpi">
-        <div class="lbl">SLA overdue <i class="ri-information-line qi has-tip" data-tip="Waiting more than 4 hours for Finance action."></i></div>
+        <div class="lbl">Check overdue <i class="ri-information-line qi has-tip" data-tip="Waiting more than 4 hours for Finance action."></i></div>
         <div class="num" style="color:var(--red)">2</div>
         <div class="sub">over 4 hours</div>
       </div>
@@ -494,6 +507,60 @@
             <button><i class="ri-arrow-left-s-line"></i></button>
             <button><i class="ri-arrow-right-s-line"></i></button>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 4 — WALLET LEDGER ============ -->
+    <section class="sec ledger">
+      <div class="sec-head">
+        <div>
+          <div class="sec-title">
+            <button onclick="tsec(4)" style="display:flex;align-items:center;gap:9px">
+              <h2>Wallet ledger</h2>
+              <span class="cnt g" id="c4">0</span>
+              <i class="ri-arrow-down-s-line caret" id="cr4"></i>
+            </button>
+            <span class="grain">per brand</span>
+            <i class="ri-information-line qi has-tip" data-tip="One row per brand for the selected period, not one row per request. Shows what each brand started with, what came in, what went out, and what's left \u2014 real money kept separate from promotional credit."></i>
+          </div>
+          <div class="sec-sub">Opening balance, credits, debits and closing balance for every brand. Real money and promotional credit kept apart.</div>
+        </div>
+        <div class="sec-tools">
+          <div style="display:flex;align-items:center;gap:9px">
+            <select class="sel-fmt" id="fmt4"><option value="xlsx">XLSX</option><option value="csv">CSV</option></select>
+            <button class="btn-dl has-tip" data-tip="Every brand in the selected date range, with each transaction type itemised. Includes reconciliation checks." onclick="dl(4)"><i class="ri-download-2-line"></i> Download</button>
+          </div>
+          <div class="chips">
+            <span class="cl">Pool</span>
+            <button class="chip on" id="w-both" onclick="setPool('both')">Both</button>
+            <button class="chip" id="w-primary" onclick="setPool('primary')">Real money</button>
+            <button class="chip" id="w-promo" onclick="setPool('promo')">Promotional</button>
+          </div>
+        </div>
+      </div>
+      <div id="cb4">
+        <div class="tw">
+          <table class="q wl">
+            <thead>
+              <tr>
+                <th rowspan="2">Brand</th>
+                <th class="grp" colspan="4" id="hp">Real money</th>
+                <th class="grp" colspan="4" id="hm">Promotional credit</th>
+                <th rowspan="2" class="sep">Checks</th>
+              </tr>
+              <tr class="g2">
+                <th class="sep">Opening</th><th>Credits</th><th>Debits</th><th>Closing</th>
+                <th class="sep">Opening</th><th>Credits</th><th>Debits</th><th>Closing</th>
+              </tr>
+            </thead>
+            <tbody id="b4"></tbody>
+          </table>
+        </div>
+        <div id="e4" class="empty hide">
+          <i class="ri-wallet-3-line"></i>
+          <div class="t">No wallet activity in this range</div>
+          <div class="s">Widen the date range to see brand balances.</div>
         </div>
       </div>
     </section>
@@ -668,7 +735,7 @@
   };
   const FL = {
     'CLEAR':          ['f-clear','No issues found.'],
-    'SLA OVERDUE':    ['f-bad dot','Waiting more than 4 hours for Finance action.'],
+    'CHECK OVERDUE':  ['f-bad dot','Waiting more than 4 hours for Finance action.'],
     '120-DAY AGING':  ['f-bad','Post-paid credit outstanding beyond 120 days.'],
     'PROOF REVIEW':   ['f-warn','Payment proof needs a closer look before approving.']
   };
@@ -678,8 +745,8 @@
   const cimPill= c => '<span class="pill '+(c.indexOf('Next')===0?'p-cim-next':'p-cim')+'">'+c.toUpperCase()+'</span>';
 
   const R = [
-    {id:'CR-2026-07-0004201',brand:'Swiss Beauty',w:'Primary',amt:41525,ref:'HSBCR2202607',m:'NEFT',cim:'Current · Jul',s:'SUBMITTED',f:'SLA OVERDUE',wait:'5h 12m',sub:'28 Jul 2026, 04:03 PM',by:'poc@swissbeauty.in'},
-    {id:'CR-2026-07-0004202',brand:'Everteen',w:'Primary',amt:25424,ref:'CMS2042619277887',m:'RTGS',cim:'Current · Jul',s:'SUBMITTED',f:'SLA OVERDUE',wait:'4h 48m',sub:'28 Jul 2026, 03:27 PM',by:'poc@everteen.in'},
+    {id:'CR-2026-07-0004201',brand:'Swiss Beauty',w:'Primary',amt:41525,ref:'HSBCR2202607',m:'NEFT',cim:'Current · Jul',s:'SUBMITTED',f:'CHECK OVERDUE',wait:'5h 12m',sub:'28 Jul 2026, 04:03 PM',by:'poc@swissbeauty.in'},
+    {id:'CR-2026-07-0004202',brand:'Everteen',w:'Primary',amt:25424,ref:'CMS2042619277887',m:'RTGS',cim:'Current · Jul',s:'SUBMITTED',f:'CHECK OVERDUE',wait:'4h 48m',sub:'28 Jul 2026, 03:27 PM',by:'poc@everteen.in'},
     {id:'CR-2026-07-0004203',brand:'Neud',w:'Performance',amt:8200,ref:'CMS2042619337899',m:'NEFT',cim:'Current · Jul',s:'UNDER REVIEW',f:'PROOF REVIEW',wait:'2h 50m',sub:'28 Jul 2026, 01:29 PM',by:'poc@neud.in'},
     {id:'CR-2026-07-0004204',brand:'Lakme',w:'Display',amt:320000,ref:'PI/2026/0721',m:'MV',cim:'Current · Jul',s:'ON HOLD',f:'PROOF REVIEW',wait:'1d 6h',sub:'27 Jul 2026, 11:05 AM',by:'kam.lakme@purplle.com'},
     {id:'CR-2026-07-0004205',brand:'Fixderma',w:'Primary',amt:191525.42,ref:'HDFCR52026072286590045',m:'RTGS',cim:'Current · Jul',s:'UNDER REVIEW',f:'CLEAR',wait:'1h 05m',sub:'28 Jul 2026, 10:22 AM',by:'poc@fixderma.in'},
@@ -699,6 +766,19 @@
     {id:'CR-2026-07-0004156',brand:'Neud',w:'Performance',amt:80000,ref:'YESBR2402607201',m:'NEFT',cim:'Current · Jul',s:'REJECTED',appby:'k.ahuja@purplle.com',appat:'21 Jul 2026, 04:10 PM',sub:'21 Jul 2026, 09:15 AM',by:'poc@neud.in'},
     {id:'CR-2026-07-0004157',brand:'Lakme',w:'Display',amt:150000,ref:'PI/2026/0698',m:'MV',cim:'Current · Jul',s:'REJECTED',appby:'r.mehta@purplle.com',appat:'20 Jul 2026, 12:20 PM',sub:'19 Jul 2026, 03:30 PM',by:'kam.lakme@purplle.com'}
   ];
+
+  // wallet ledger — one row per brand for the period
+  const WL = [
+    {brand:'Swiss Beauty', po:412000, pc:81705,  pd:79420, promo_o:50000,  promo_c:0,      promo_d:12400, gap:0},
+    {brand:'Lakme',        po:980000, pc:600000, pd:214300,promo_o:150000, promo_c:100000, promo_d:48200, gap:0},
+    {brand:'Everteen',     po:188000, pc:50024,  pd:44180, promo_o:0,      promo_c:0,      promo_d:0,     gap:0},
+    {brand:'Neud',         po:96000,  pc:8200,   pd:31875, promo_o:25000,  promo_c:0,      promo_d:9100,  gap:0},
+    {brand:'Vaseline',     po:540000, pc:100000, pd:96500, promo_o:0,      promo_c:0,      promo_d:0,     gap:0},
+    {brand:'Ponds',        po:1250000,pc:900000, pd:742000,promo_o:200000, promo_c:0,      promo_d:63500, gap:0},
+    {brand:'Fixderma',     po:220000, pc:191525.42, pd:118400, promo_o:0,  promo_c:0,      promo_d:0,     gap:0},
+    {brand:'Nua',          po:75000,  pc:50000,  pd:61200, promo_o:10000,  promo_c:0,      promo_d:10000, gap:0}
+  ];
+  let pool = 'both';
 
   const S1 = ['SUBMITTED','UNDER REVIEW','ON HOLD'];
   const S2 = ['APPROVED','SCHEDULED'];
@@ -751,7 +831,37 @@
     $('e3').classList.toggle('hide', rows.length>0);
     $('pg3').textContent = 'Showing 1–'+rows.length+' of '+rows.length;
   }
-  window.renderAll = function(){ r1(); r2(); r3(); };
+  function money(n){ return n===0 ? '<span class="zero">\u2014</span>' : '\u20b9 '+n.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+  function r4(){
+    const q=($('q').value||'').toLowerCase().trim();
+    const rows = WL.filter(w => !q || w.brand.toLowerCase().includes(q));
+    $('c4').textContent = rows.length;
+    const showP = pool!=='promo', showM = pool!=='primary';
+    $('hp').style.display = showP ? '' : 'none';
+    $('hm').style.display = showM ? '' : 'none';
+    document.querySelectorAll('table.wl thead tr.g2 th').forEach((th,i)=>{
+      th.style.display = (i<4 ? showP : showM) ? '' : 'none';
+    });
+    $('b4').innerHTML = rows.map(w => {
+      const pClose = w.po + w.pc - w.pd, mClose = w.promo_o + w.promo_c - w.promo_d;
+      const p = '<td class="num sep">'+money(w.po)+'</td><td class="num">'+money(w.pc)+'</td>'
+              + '<td class="num">'+money(w.pd)+'</td><td class="num bal">'+money(pClose)+'</td>';
+      const m = '<td class="num sep">'+money(w.promo_o)+'</td><td class="num">'+money(w.promo_c)+'</td>'
+              + '<td class="num">'+money(w.promo_d)+'</td><td class="num bal">'+money(mClose)+'</td>';
+      const chk = w.gap===0
+        ? '<span class="ok has-tip" data-tip="Opening plus credits minus debits equals closing. This brand reconciles.">Balanced</span>'
+        : '<span class="f-bad has-tip" data-tip="This wallet does not reconcile. Something moved the balance that is not in the ledger \u2014 raise with tech.">Off by '+money(Math.abs(w.gap))+'</span>';
+      return '<tr><td class="brand">'+w.brand+'</td>'
+        + (showP?p:'') + (showM?m:'')
+        + '<td class="sep">'+chk+'</td></tr>';
+    }).join('');
+    $('e4').classList.toggle('hide', rows.length>0);
+  }
+
+  window.setPool = function(x){ pool=x; ['both','primary','promo'].forEach(k=>$('w-'+k).classList.toggle('on',k===x)); r4(); };
+
+  window.renderAll = function(){ r1(); r2(); r3(); r4(); };
 
   window.setM = function(m){ meth=m; ['bank','post','all'].forEach(k=>$('m-'+k).classList.toggle('on',k===m)); r2(); };
   window.setO = function(o){ outc=o; ['all','CREDITED','REJECTED'].forEach(k=>$('o-'+k).classList.toggle('on',k===o)); r3(); };

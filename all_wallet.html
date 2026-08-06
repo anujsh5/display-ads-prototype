@@ -260,6 +260,19 @@
   .btn-r{background:var(--red);color:#fff;font-weight:700;padding:9px 16px;border-radius:8px;font-size:12.5px}
   .btn-g{background:var(--green);color:#fff;font-weight:700;padding:9px 16px;border-radius:8px;font-size:12.5px}
 
+  .mb .fl2{margin-bottom:15px}
+  .mb .fl2 label{display:block;font-size:11px;font-weight:700;color:var(--g70);margin-bottom:6px}
+  .mb .fl2 label .req{color:var(--red)}
+  .mb .fl2 label .opt{font-weight:500;color:var(--g40);font-size:10px}
+  .mb .fl2 input,.mb .fl2 textarea{width:100%;border:1px solid var(--g20);border-radius:8px;padding:9px 11px;
+       font-size:12.5px;color:var(--g90);background:#fff;outline:0;font-family:inherit}
+  .mb .fl2 input:focus,.mb .fl2 textarea:focus{border-color:var(--purple)}
+  .mb .fl2 input::placeholder,.mb .fl2 textarea::placeholder{color:var(--g30)}
+  .mb .fl2 .hlp{font-size:10.5px;color:var(--g50);margin-top:5px;line-height:1.45}
+  .mb .note2{display:flex;gap:9px;background:var(--purple-lt);border:1px solid var(--purple-mid);border-radius:8px;
+       padding:11px 13px;font-size:11px;color:var(--g70);line-height:1.5;margin-bottom:18px}
+  .mb .note2 i{color:var(--purple);font-size:14px;flex-shrink:0}
+  .mb .sub2{font-size:11px;color:var(--g50);margin:-6px 0 16px}
   #toast{position:fixed;bottom:24px;right:24px;z-index:95;display:none}
   #toast div{background:var(--g90);color:#fff;font-size:12px;font-weight:600;padding:11px 16px;border-radius:9px;
              box-shadow:0 10px 26px rgba(18,16,26,.3);animation:up .22s ease-out}
@@ -289,6 +302,14 @@
   table.wl td.sep{border-left:1px solid var(--g20);text-align:center}
   .zero{color:var(--g40)}
   .ok{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.4px;padding:3px 7px;border-radius:5px;background:#E9F7EF;color:#046C4E;border:1px solid #BFE7D2}
+
+  .apr1{display:inline-flex;align-items:center;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--purple)}
+  .dash{color:var(--g30)}
+  .mb .pdr{display:grid;grid-template-columns:1fr 1fr;gap:13px;background:var(--g08);border-radius:9px;padding:14px;margin-bottom:15px}
+  .mb .pdr .k{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--g40)}
+  .mb .pdr .v{font-size:12.5px;font-weight:700;color:var(--g70);margin-top:3px}
+  .mb .pdr .w{grid-column:1/-1}
+  .mb .pdr .v.rs{font-weight:600;line-height:1.45}
 
   .dcard{border:1px solid var(--g20);border-radius:9px;overflow:hidden;margin-bottom:14px}
   .dcard .ct{font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--g50);background:var(--g08);padding:8px 12px;border-bottom:1px solid var(--g20)}
@@ -416,8 +437,8 @@
       <div class="kpi">
         <i class="ri-information-line ii has-tip" data-tip="Everything across Primary, all sub-wallets and promo credits."></i>
         <div class="lbl">Total Wallet Balance</div>
-        <div class="num">₹ 1,41,80,831.73</div>
-        <div class="sub">Cash ₹ 1,41,30,831.73 + promo ₹ 50,000.00</div>
+        <div class="num" id="k-total">₹ 1,41,80,831.73</div>
+        <div class="sub" id="k-total-s">Cash ₹ 1,41,30,831.73 + promo ₹ 50,000.00</div>
       </div>
       <div class="kpi hl">
         <i class="ri-information-line ii has-tip" data-tip="Cash-funded balances only. Excludes promo credits, which cannot be transferred or withdrawn."></i>
@@ -428,8 +449,8 @@
       <div class="kpi">
         <i class="ri-information-line ii has-tip" data-tip="Credit requests and adjustments waiting on Business or Finance."></i>
         <div class="lbl">Pending Approvals</div>
-        <div class="num">1</div>
-        <div class="sub">1 waiting on your document</div>
+        <div class="num" id="k-pend">1</div>
+        <div class="sub" id="k-pend-s">1 waiting on your document</div>
       </div>
       <div class="kpi">
         <i class="ri-information-line ii has-tip" data-tip="Approved credit requests marked for next month. These credit automatically at 00:00 on the 1st."></i>
@@ -464,9 +485,9 @@
       <div class="wc promo">
         <i class="ri-information-line ii has-tip" data-tip="Credit granted by Purplle. Ring-fenced: it is only drawn when a campaign has no cash balance left, it cannot be moved out, and it expires if unused."></i>
         <div class="hd"><div class="ic"><i class="ri-gift-line"></i></div><div><div class="nm">Promo Credits</div><div class="tg">Org-funded fallback</div></div></div>
-        <div class="amt">₹ 50,000.00</div>
+        <div class="amt" id="pc-bal">₹ 50,000.00</div>
         <div class="ft">Ring-fenced · not transferable</div>
-        <button class="act off" disabled>Not transferable</button>
+        <button class="act pr" onclick="pcOpen()">Request for credits</button>
       </div>
     </div>
 
@@ -488,7 +509,7 @@
       </table></div>
       <div class="pag">
         <div class="rp">Rows per page: <select><option>10</option><option>25</option></select></div>
-        <div>Showing 1–3 of 3</div>
+        <div id="cr-cnt">Showing 1–5 of 5</div>
         <div class="ar"><button><i class="ri-arrow-left-s-line"></i></button><button><i class="ri-arrow-right-s-line"></i></button></div>
       </div>
     </div>
@@ -610,8 +631,8 @@
 
     <div class="kpis">
       <div class="kpi">
-        <div class="lbl">Awaiting your action <i class="ri-information-line qi has-tip" data-tip="Requests waiting on Finance — submitted, under review, or on hold."></i></div>
-        <div class="num" style="color:var(--amber)">6</div>
+        <div class="lbl">Awaiting your action <i class="ri-information-line qi has-tip" data-tip="Requests waiting on Finance — submitted, under review, or on hold. Includes promo credit requests, which have no bank payment to match."></i></div>
+        <div class="num" style="color:var(--amber)" id="fq-k1">6</div>
         <div class="sub">in selected date range</div>
       </div>
       <div class="kpi">
@@ -822,6 +843,77 @@
     </div>
   </section>
 
+  <!-- ======================= BUSINESS QUEUE ======================= -->
+  <section class="page-section" id="pg-bizq">
+    <div class="ph">
+      <h1>Business Queue</h1>
+      <div class="phacts">
+        <button class="btn-s"><i class="ri-gift-line"></i> Grant Promo Credits</button>
+        <span class="apr1">V1 single approver</span>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi">
+        <div class="lbl">Pending review <i class="ri-information-line qi has-tip" data-tip="Requests waiting on Business — recharge requests awaiting confirmation and promo credit requests awaiting a decision."></i></div>
+        <div class="num" style="color:var(--amber)" id="bq-k1">0</div>
+        <div class="sub">↑ since 9 AM</div>
+      </div>
+      <div class="kpi">
+        <div class="lbl">High value (&gt; ₹1L) <i class="ri-information-line qi has-tip" data-tip="Pending requests above ₹1 lakh. Promo credit requests above the threshold need approval before the wallet is credited."></i></div>
+        <div class="num" id="bq-k2">0</div>
+        <div class="sub">awaiting Business or Finance review</div>
+      </div>
+      <div class="kpi">
+        <div class="lbl">PayU auto-confirmed <i class="ri-information-line qi has-tip" data-tip="Online top-ups confirmed by the payment gateway without anyone reviewing them. Capped at ₹4.5L a day."></i></div>
+        <div class="num">0</div>
+        <div class="sub">today · ≤ ₹4.5L cap</div>
+      </div>
+      <div class="kpi">
+        <div class="lbl">Rejected (24h) <i class="ri-information-line qi has-tip" data-tip="Requests rejected in the last 24 hours. The brand is emailed each time."></i></div>
+        <div class="num" id="bq-k4">0</div>
+        <div class="sub">notification emailed</div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap">
+      <div class="search" style="margin-bottom:0">
+        <i class="ri-search-line"></i>
+        <input id="bq" oninput="bqRender()" placeholder="Search by Request ID, Brand, Payment Reference">
+      </div>
+      <div class="chips">
+        <button class="chip on" id="q-all" onclick="setQ('all')">All</button>
+        <button class="chip" id="q-SUBMITTED" onclick="setQ('SUBMITTED')">Submitted</button>
+        <button class="chip" id="q-SCHEDULED" onclick="setQ('SCHEDULED')">Scheduled</button>
+        <button class="chip" id="q-done" onclick="setQ('done')">Approved / Credited</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="tw"><table>
+        <thead><tr>
+          <th>Request ID</th><th>Brand</th><th>Credit to Wallet</th><th class="r">Amount</th>
+          <th>Payment Method</th><th>Payment Reference</th><th>Credit Month</th><th>Status</th>
+          <th>Submitted At</th><th>Actions</th>
+        </tr></thead>
+        <tbody id="b-bq"></tbody>
+      </table></div>
+      <div class="empty hide" id="e-bq">
+        <i class="ri-inbox-line"></i><div class="t">Nothing matches</div><div class="s">Clear the search or pick another status.</div>
+      </div>
+      <div class="pag">
+        <div class="rp">Rows per page: <select><option>10</option><option>25</option></select></div>
+        <div id="pg-bq">Showing 1–10 of 212</div>
+        <div class="ar"><button><i class="ri-arrow-left-s-line"></i></button><button><i class="ri-arrow-right-s-line"></i></button></div>
+      </div>
+    </div>
+
+    <div class="note">
+      <i class="ri-information-line"></i>
+      <div><b>Promo credit requests carry no payment reference.</b> Nothing was paid — the credit is funded by Purplle. Approve on the commercial case and the reason given, not against a bank statement. The reason carries the incentive month the credit is being given for.</div>
+    </div>
+  </section>
+
   <!-- ======================= STUB ======================= -->
   <section class="page-section" id="pg-stub">
     <div class="ph"><h1 id="stub-nm">—</h1></div>
@@ -947,9 +1039,181 @@
   </div>
 </div>
 
-<div id="toast"></div>
+<!-- request promo credits -->
+<div class="modal" id="mpc">
+  <div class="mb">
+    <h3>Request promo credits</h3>
+    <div class="sub2">Org-funded · credits to your Promo Credits wallet · reviewed by Purplle</div>
+    <div class="note2">
+      <i class="ri-information-line"></i>
+      <div>Promo credits are ring-fenced. They are only drawn when a campaign has no cash balance left, they cannot be moved to another wallet or withdrawn, and they expire if unused.</div>
+    </div>
+    <div class="fl2">
+      <label>Amount (₹) <span class="req">*</span></label>
+      <input type="text" id="pc-amt" placeholder="e.g. 50000">
+    </div>
+    <div class="fl2">
+      <label>Reason <span class="req">*</span></label>
+      <input type="text" id="pc-rsn" placeholder="e.g. Incentive Aug 2026 — Q2 growth slab">
+      <div class="hlp">Include the incentive month and year. Purplle uses this to track incentive given against the right period.</div>
+    </div>
+    <div class="fl2" style="margin-bottom:0">
+      <label>Notes <span class="opt">(optional)</span></label>
+      <textarea id="pc-nts" rows="3" placeholder="Anything else the reviewer should know"></textarea>
+    </div>
+    <div class="ma"><button class="btn-s" onclick="mc('mpc')">Cancel</button><button class="btn-p" onclick="pcSubmit()">Submit request</button></div>
+  </div>
+</div>
+
+<!-- promo credit request — review -->
+<div class="modal" id="mpd">
+  <div class="mb">
+    <h3>Promo credit request</h3>
+    <div class="sub2" id="pd-id">—</div>
+    <div class="pdr">
+      <div><div class="k">Brand</div><div class="v" id="pd-brand">—</div></div>
+      <div><div class="k">Status</div><div class="v" id="pd-status">—</div></div>
+      <div><div class="k">Amount</div><div class="v" id="pd-amt">—</div></div>
+      <div><div class="k">Credit to Wallet</div><div class="v" id="pd-wal">—</div></div>
+      <div><div class="k">Payment Method</div><div class="v" id="pd-meth">—</div></div>
+      <div><div class="k">Credit Month</div><div class="v" id="pd-cim">—</div></div>
+      <div class="w"><div class="k">Reason <i class="ri-information-line qi has-tip" data-tip="Carries the incentive month and year this credit is being given for. Finance tracks incentive given per period off this."></i></div><div class="v rs" id="pd-rsn">—</div></div>
+      <div class="w"><div class="k">Notes</div><div class="v rs" id="pd-nts">—</div></div>
+      <div><div class="k">Raised By</div><div class="v" style="font-weight:500" id="pd-by">—</div></div>
+      <div><div class="k">Submitted At</div><div class="v" style="font-weight:500" id="pd-sub">—</div></div>
+    </div>
+    <div class="out o-g hide" id="pd-out-c">
+      <div class="ot">Credited</div>
+      <div class="rr">
+        <div><span>Approved by:</span><b id="pd-cby">—</b></div>
+        <div><span>Credited at:</span><b id="pd-cat">—</b></div>
+        <div class="w"><span>Approved in:</span><b id="pd-cq">—</b></div>
+      </div>
+      <div class="ft"><i class="ri-wallet-3-line"></i> Credited to the brand's Promo Credits wallet. Ring-fenced — it cannot be moved out.</div>
+    </div>
+    <div class="out o-r hide" id="pd-out-r">
+      <div class="ot">Rejected</div>
+      <div class="rr">
+        <div><span>Rejected by:</span><b id="pd-rby">—</b></div>
+        <div><span>Rejected at:</span><b id="pd-rat">—</b></div>
+        <div class="w"><span>Reason:</span><b id="pd-rrs">—</b></div>
+      </div>
+      <div class="ft"><i class="ri-mail-line"></i> Brand notified. Rejection is final — a new request has to be raised.</div>
+    </div>
+    <div class="note2 hide" id="pd-warn">
+      <i class="ri-information-line"></i>
+      <div>Approving credits the brand's Promo Credits wallet straight away. There is no bank payment to match — you are approving the commercial case and the incentive period in the reason.</div>
+    </div>
+    <div class="ma">
+      <button class="btn-s" onclick="mc('mpd')">Close</button>
+      <button class="btn-r hide" id="pd-rej" onclick="pdRejOpen()">Reject</button>
+      <button class="btn-g hide" id="pd-ok" onclick="pdApprove()">Approve &amp; credit</button>
+    </div>
+  </div>
+</div>
+
+<!-- promo credit request — reject -->
+<div class="modal" id="mpr">
+  <div class="mb">
+    <h3>Reject promo credit request</h3>
+    <p>The brand is notified and will need to raise a new request. This cannot be undone.</p>
+    <label>Reason *</label>
+    <textarea id="pr-rsn" rows="3" placeholder="Why this request is being rejected"></textarea>
+    <div class="ma"><button class="btn-s" onclick="mc('mpr')">Cancel</button><button class="btn-r" onclick="pdReject()">Reject request</button></div>
+  </div>
+</div>
 
 <div id="toast"></div>
+
+<script>
+/* ============ shared promo credit request store ============
+   One list. Overview raises into it, both queues read and decide on it,
+   and every surface re-renders off the same record. */
+window.PC = (function(){
+  const subs = [];
+  const L = [
+    {id:'CR-2026-08-0004316', brand:'Lakme', amt:100000, cim:'Current · Aug',
+     rsn:'Incentive Jul 2026 — Q2 growth slab achieved', nts:'Agreed with the KAM on the July review call.',
+     by:'kam.lakme@purplle.com', sub:'1 Aug 2026, 10:04 AM', s:'CREDITED',
+     actby:'r.mehta@purplle.com', actat:'1 Aug 2026, 10:41 AM', q:'Business Queue'},
+    {id:'CR-2026-08-0004308', brand:'Pilgrim', amt:75000, cim:'Current · Aug',
+     rsn:'Incentive Aug 2026 — new-brand onboarding support', nts:'',
+     by:'kam.pilgrim@purplle.com', sub:'5 Aug 2026, 06:12 PM', s:'SUBMITTED', wait:'23h 29m'}
+  ];
+  let seq = 4317;
+  return {
+    list: L,
+    sub(f){ subs.push(f); },
+    emit(){ subs.forEach(f=>{ try{ f(); }catch(e){} }); },
+    nextId(){ return 'CR-2026-08-000' + (seq++); },
+    add(r){ L.unshift(r); this.emit(); },
+    get(id){ return L.find(x=>x.id===id); },
+    credit(id, actor, where){
+      const r = this.get(id); if(!r || r.s!=='SUBMITTED') return;
+      r.s='CREDITED'; r.actby=actor; r.actat='6 Aug 2026, 05:41 PM'; r.q=where;
+      this.emit(); return r;
+    },
+    reject(id, actor, where, reason){
+      const r = this.get(id); if(!r || r.s!=='SUBMITTED') return;
+      r.s='REJECTED'; r.actby=actor; r.actat='6 Aug 2026, 05:41 PM'; r.q=where; r.rej=reason;
+      this.emit(); return r;
+    }
+  };
+})();
+
+/* ---- promo request review modal, shared by Business Queue and Finance Queue ---- */
+(function(){
+  const $ = i => document.getElementById(i);
+  const inr = n => '₹ ' + n.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const SP = {SUBMITTED:'p-submitted',CREDITED:'p-credited',REJECTED:'p-rejected'};
+  const ACTOR = {'Business Queue':'r.mehta@purplle.com','Finance Queue':'k.ahuja@purplle.com'};
+  let cur = null, where = 'Business Queue';
+
+  window.pdOpen = function(id, surface, act, ro){
+    const r = window.PC.get(id); if(!r) return;
+    cur = r; where = surface || 'Business Queue';
+    $('pd-id').textContent = r.id;
+    $('pd-brand').textContent = r.brand;
+    $('pd-status').innerHTML = '<span class="pill '+SP[r.s]+'">'+r.s+'</span>';
+    $('pd-amt').textContent = inr(r.amt);
+    $('pd-wal').textContent = 'Promo Credits';
+    $('pd-meth').textContent = 'Promo Credit';
+    $('pd-cim').innerHTML = '<span class="pill p-cur">'+r.cim.toUpperCase()+'</span>';
+    $('pd-rsn').textContent = r.rsn;
+    $('pd-nts').innerHTML = r.nts ? r.nts : '<span class="dash">—</span>';
+    $('pd-by').textContent = r.by;
+    $('pd-sub').textContent = r.sub;
+
+    const open = r.s==='SUBMITTED' && !ro;
+    $('pd-ok').classList.toggle('hide', !open);
+    $('pd-rej').classList.toggle('hide', !open);
+    $('pd-warn').classList.toggle('hide', !open);
+    $('pd-out-c').classList.toggle('hide', r.s!=='CREDITED');
+    $('pd-out-r').classList.toggle('hide', r.s!=='REJECTED');
+    if (r.s==='CREDITED'){ $('pd-cby').textContent=r.actby; $('pd-cat').textContent=r.actat; $('pd-cq').textContent=r.q; }
+    if (r.s==='REJECTED'){ $('pd-rby').textContent=r.actby; $('pd-rat').textContent=r.actat; $('pd-rrs').textContent=r.rej||'—'; }
+
+    mo('mpd');
+    if (act==='reject' && open) setTimeout(pdRejOpen,160);
+  };
+
+  window.pdApprove = function(){
+    if(!cur) return;
+    const r = window.PC.credit(cur.id, ACTOR[where], where);
+    mc('mpd');
+    tst('Approved in '+where+' · '+inr(r.amt)+' credited to '+r.brand+' · Promo Credits');
+  };
+  window.pdRejOpen = function(){ $('pr-rsn').value=''; mc('mpd'); mo('mpr'); };
+  window.pdReject = function(){
+    if(!cur) return;
+    const rs = ($('pr-rsn').value||'').trim();
+    if(!rs){ tst('Add a reason — the brand is told why'); $('pr-rsn').focus(); return; }
+    const r = window.PC.reject(cur.id, ACTOR[where], where, rs);
+    mc('mpr');
+    tst('Rejected in '+where+' · '+r.brand+' notified · nothing credited');
+  };
+})();
+</script>
 
 <script>
 (function(){
@@ -1001,7 +1265,7 @@
   window.go = function(id, label, el){
     document.querySelectorAll('a.nv').forEach(a=>a.classList.remove('on'));
     if (el) el.classList.add('on');
-    const target = (id==='overview'||id==='finq') ? id : null;
+    const target = (id==='overview'||id==='finq'||id==='bizq') ? id : null;
     document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
     if (target) $('pg-'+target).classList.add('active');
     else { $('pg-stub').classList.add('active'); $('stub-nm').textContent = label; }
@@ -1014,6 +1278,7 @@
   const inr = n => '₹ ' + Math.abs(n).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
   const sgn = n => (n<0?'− ':'') + inr(n);
 
+  const BRAND = 'Lakme';
   const CR = [
     {id:'CR-2026-08-0004310',m:'RTGS',w:'Primary',amt:600000,cim:'Current · Aug',s:'APPROVED',sub:'3 Aug 2026, 11:12 AM'},
     {id:'CR-2026-07-0004204',m:'MV',w:'Display',amt:320000,cim:'Current · Jul',s:'ON HOLD',sub:'27 Jul 2026, 11:05 AM'},
@@ -1029,17 +1294,88 @@
     CREDITED:'In your wallet.',
     REJECTED:'Not accepted. Raise a new request.'
   };
+  const cwTip = w => w==='Promo Credits'
+    ? ' has-tip" data-tip="Promo credits always land in your Promo Credits wallet. They cannot be credited anywhere else.'
+    : '';
   const cimP = c => '<span class="pill '+(c.indexOf('Next')===0?'p-next':'p-cur')+'">'+c.toUpperCase()+'</span>';
 
-  $('b-cr').innerHTML = CR.map(r=>'<tr>'
-    + '<td class="mono">'+r.id+'</td>'
-    + '<td class="muted">'+r.m+'</td>'
-    + '<td><span class="wlink">'+r.w+'</span></td>'
-    + '<td class="r">'+inr(r.amt)+'</td>'
-    + '<td>'+cimP(r.cim)+'</td>'
-    + '<td><span class="pill '+SP[r.s]+' has-tip" data-tip="'+STIP[r.s]+'">'+r.s+'</span></td>'
-    + '<td class="muted">'+r.sub+'</td>'
-    + '<td><button class="view">View</button></td></tr>').join('');
+  /* Promo rows are not held here — they come from the shared request store, so the
+     brand, Business Queue and Finance Queue are always looking at the same record. */
+  const promoRows = () => window.PC.list.filter(r => r.brand===BRAND).map(r => ({
+    id:r.id, m:'Promo Credit', w:'Promo Credits', amt:r.amt, cim:r.cim, s:r.s, sub:r.sub, pc:true
+  }));
+
+  function crRender(){
+    const rows = promoRows().concat(CR);
+    $('b-cr').innerHTML = rows.map(r=>'<tr>'
+      + '<td class="mono">'+r.id+'</td>'
+      + '<td class="muted">'+r.m+'</td>'
+      + '<td><span class="wlink'+cwTip(r.w)+'">'+r.w+'</span></td>'
+      + '<td class="r">'+inr(r.amt)+'</td>'
+      + '<td>'+cimP(r.cim)+'</td>'
+      + '<td><span class="pill '+SP[r.s]+' has-tip" data-tip="'+STIP[r.s]+'">'+r.s+'</span></td>'
+      + '<td class="muted">'+r.sub+'</td>'
+      + '<td><button class="view"'+(r.pc?' onclick="pdOpen(\''+r.id+'\',\'Overview\',null,1)"':'')+'>View</button></td></tr>').join('');
+    $('cr-cnt').textContent = 'Showing 1–'+rows.length+' of '+rows.length;
+  }
+
+  /* ---------- promo balances, derived from credited requests ---------- */
+  function promoState(){
+    const granted = window.PC.list
+      .filter(r => r.brand===BRAND && r.s==='CREDITED')
+      .reduce((t,r)=>t+r.amt, 0);
+    return { granted: granted, close: LG.promo.open + granted - LG.promo.used - LG.promo.lapsed };
+  }
+  function pending(){ return window.PC.list.filter(r=>r.brand===BRAND && r.s==='SUBMITTED').length; }
+
+  function balRender(){
+    const p = promoState();
+    const cash = 14130831.73;
+    $('pc-bal').textContent    = inr(p.close);
+    $('k-total').textContent   = inr(cash + p.close);
+    $('k-total-s').textContent = 'Cash '+inr(cash)+' + promo '+inr(p.close);
+    $('k-pend').textContent    = 1 + pending();
+    $('k-pend-s').textContent  = pending()
+      ? '1 waiting on your document · '+pending()+' promo credit request'+(pending()>1?'s':'')
+      : '1 waiting on your document';
+    $('m-gr').textContent    = '+ '+inr(p.granted);
+    $('m-close').textContent = inr(p.close);
+  }
+
+  /* ---------- request promo credits ---------- */
+  window.pcOpen = function(){ ['pc-amt','pc-rsn','pc-nts'].forEach(k=>$(k).value=''); mo('mpc'); };
+  window.pcSubmit = function(){
+    const a = ($('pc-amt').value||'').replace(/[^0-9.]/g,'');
+    const r = ($('pc-rsn').value||'').trim();
+    if (!a || Number(a) <= 0){ tst('Enter an amount'); $('pc-amt').focus(); return; }
+    if (!r){ tst('Add a reason, including the incentive month'); $('pc-rsn').focus(); return; }
+    window.PC.add({
+      id: window.PC.nextId(),
+      brand: BRAND,
+      amt: Number(a),
+      cim: 'Current · Aug',
+      rsn: r,
+      nts: ($('pc-nts').value||'').trim(),
+      by: 'poc@lakme.in',
+      sub: '6 Aug 2026, 05:32 PM',
+      s: 'SUBMITTED'
+    });
+    mc('mpc');
+    tst('Promo credit request submitted · ₹'+Number(a).toLocaleString('en-IN')+' · in the Business and Finance queues for review');
+  };
+
+  /* A credited request writes a ledger line. A submitted one does not. */
+  const seenCredited = {};
+  function txSync(){
+    window.PC.list.filter(r=>r.brand===BRAND && r.s==='CREDITED').forEach(r=>{
+      if (seenCredited[r.id]) return;
+      seenCredited[r.id] = 1;
+      if (TX.some(x=>x.ref===r.id)) return;
+      TX.unshift({d:'6 Aug 2026', m:'Promotional credit', w:'Promo', amt:r.amt, ref:r.id, k:'in', t:'Promotional credit granted'});
+    });
+  }
+
+  window.PC.sub(function(){ txSync(); crRender(); balRender(); rTx(); });
 
   /* ---------- Transactions: one row per date x reference ---------- */
   /* k: spend | in | adj  — drives the filter chips */
@@ -1050,7 +1386,7 @@
     {d:'2 Aug 2026', m:'Transfer',         w:'Performance', amt: 200000,  ref:'TRF-2026-08-0221',   k:'in',    t:'Moved in from Primary'},
     {d:'2 Aug 2026', m:'Transfer',         w:'Primary',     amt:-200000,  ref:'TRF-2026-08-0221',   k:'in',    t:'Moved out to Performance'},
     {d:'2 Aug 2026', m:'Campaign spend',   w:'Display',     amt:-96500,   ref:'CMP-DSP-88118',      k:'spend', t:'Campaign spend'},
-    {d:'1 Aug 2026', m:'Promotional credit',w:'Promo',      amt: 100000,  ref:'PRM-2026-08-0044',   k:'in',    t:'Promotional credit granted'},
+    {d:'1 Aug 2026', m:'Promotional credit',w:'Promo',      amt: 100000,  ref:'CR-2026-08-0004316', k:'in',    t:'Promotional credit granted'},
     {d:'1 Aug 2026', m:'Correction',       w:'Primary',     amt: 18400,   ref:'ADJ-2026-08-0117',   k:'adj',   t:'Correction in your favour'},
     {d:'31 Jul 2026',m:'Correction',       w:'Primary',     amt:-6250,    ref:'ADJ-2026-07-0388',   k:'adj',   t:'Correction against your wallet'},
     {d:'30 Jul 2026',m:'Penalty',          w:'Primary',     amt:-12000,   ref:'PEN-2026-07-0021',   k:'adj',   t:'Penalty charged'},
@@ -1131,7 +1467,7 @@
   };
   window.dlLg = function(){ tst('<i class="ri-download-2-line"></i> Downloading wallet ledger · every line itemised · '+$('fmt-lg').value.toUpperCase()); };
 
-  rTx();
+  txSync(); crRender(); balRender(); rTx();
 })();
 
 (function(){
@@ -1154,7 +1490,8 @@
     'CLEAR':          ['f-ok','No issues found.'],
     'CHECK OVERDUE':  ['f-bad dot','Waiting more than 4 hours for Finance action.'],
     '120-DAY AGING':  ['f-bad','Post-paid credit outstanding beyond 120 days.'],
-    'PROOF REVIEW':   ['f-warn','Payment proof needs a closer look before approving.']
+    'PROOF REVIEW':   ['f-warn','Payment proof needs a closer look before approving.'],
+    'NO BANK MATCH':  ['f-warn','Nothing was paid — this credit is funded by Purplle, so there is no bank line to match. Check the incentive period in the reason instead.']
   };
   const esc = s => String(s).replace(/"/g,'&quot;');
   const stPill = s => '<span class="pill '+ST[s][0]+' has-tip" data-tip="'+esc(ST[s][1])+'">'+s+'</span>';
@@ -1209,22 +1546,36 @@
     + '<td class="bold">'+r.brand+'</td>'
     + '<td><span class="wlink">'+r.w+'</span></td>'
     + '<td class="r">'+inr(r.amt)+'</td>'
-    + '<td class="mono">'+r.ref+'</td>'
+    + '<td class="mono">'+(r.ref ? r.ref : '<span class="dash">—</span>')+'</td>'
     + '<td><span class="muted">'+r.m+'</span></td>'
     + '<td>'+cimPill(r.cim)+'</td>'
     + '<td>'+stPill(r.s)+'</td>';
 
+  /* Promo credit requests come from the shared store, not from R.
+     Same record the brand and the Business Queue are looking at. */
+  const promoFQ = () => window.PC.list.map(r => ({
+    id:r.id, brand:r.brand, w:'Promo Credits', amt:r.amt, ref:null, m:'Promo Credit',
+    cim:r.cim, s:r.s, f:'NO BANK MATCH', wait:r.wait||'just now',
+    appby:r.actby, appat:r.actat, pc:true
+  }));
+
   function r1(){
-    const rows = R.filter(r => S1.includes(r.s) && hit(r));
+    const rows = promoFQ().filter(r => r.s==='SUBMITTED' && hit(r))
+      .concat(R.filter(r => S1.includes(r.s) && hit(r)));
     $('c1').textContent = rows.length;
+    $('fq-k1').textContent = rows.length;
     $('b1').innerHTML = rows.map(r => '<tr>'+cells(r)
       + '<td>'+flTxt(r.f)+'</td>'
       + '<td class="muted">'+r.wait+'</td>'
       + '<td><div class="acts">'
-        + '<button class="a-ok" onclick="od(\''+r.id+'\',1)">Approve</button>'
-        + '<button class="a-no" onclick="od(\''+r.id+'\',2)">Reject</button>'
-        + (r.s!=='ON HOLD' ? '<button class="a-hd has-tip" data-tip="Ask the brand for a corrected document without rejecting the request." onclick="od(\''+r.id+'\',3)">Hold</button>' : '')
-        + '<button class="view" onclick="od(\''+r.id+'\',0)">View</button>'
+        + (r.pc
+          ? '<button class="a-ok" onclick="pdOpen(\''+r.id+'\',\'Finance Queue\')">Approve</button>'
+            + '<button class="a-no" onclick="pdOpen(\''+r.id+'\',\'Finance Queue\',\'reject\')">Reject</button>'
+            + '<button class="view" onclick="pdOpen(\''+r.id+'\',\'Finance Queue\')">View</button>'
+          : '<button class="a-ok" onclick="od(\''+r.id+'\',1)">Approve</button>'
+            + '<button class="a-no" onclick="od(\''+r.id+'\',2)">Reject</button>'
+            + (r.s!=='ON HOLD' ? '<button class="a-hd has-tip" data-tip="Ask the brand for a corrected document without rejecting the request." onclick="od(\''+r.id+'\',3)">Hold</button>' : '')
+            + '<button class="view" onclick="od(\''+r.id+'\',0)">View</button>')
       + '</div></td></tr>').join('');
     $('e1').classList.toggle('hide', rows.length>0);
   }
@@ -1239,12 +1590,13 @@
     $('e2').classList.toggle('hide', rows.length>0);
   }
   function r3(){
-    const rows = R.filter(r => S3.includes(r.s) && hit(r) && (outc==='all'||r.s===outc));
+    const rows = promoFQ().filter(r => S3.includes(r.s) && hit(r) && (outc==='all'||r.s===outc))
+      .concat(R.filter(r => S3.includes(r.s) && hit(r) && (outc==='all'||r.s===outc)));
     $('c3').textContent = rows.length;
     $('b3').innerHTML = rows.map(r => '<tr>'+cells(r)
       + '<td class="muted">'+r.appby+'</td>'
       + '<td class="muted">'+r.appat+'</td>'
-      + '<td><button class="view" onclick="od(\''+r.id+'\',0)">View</button></td></tr>').join('');
+      + '<td><button class="view" onclick="'+(r.pc?'pdOpen(\''+r.id+'\',\'Finance Queue\')':'od(\''+r.id+'\',0)')+'">View</button></td></tr>').join('');
     $('e3').classList.toggle('hide', rows.length>0);
     $('pg3').textContent = 'Showing 1–'+rows.length+' of '+rows.length;
   }
@@ -1328,7 +1680,92 @@
       (sec===2 ? 'stamped 28 Jul 2026, 04:15 PM IST' : $('fmt').value.toUpperCase()));
   };
 
+  window.PC.sub(renderAll);
   renderAll();
+})();
+
+/* ================= BUSINESS QUEUE ================= */
+(function(){
+  const $ = i => document.getElementById(i);
+  const inr = n => '₹ ' + n.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const SP = {SUBMITTED:'p-submitted',SCHEDULED:'p-sched',APPROVED:'p-approved',CREDITED:'p-credited',REJECTED:'p-rejected'};
+  const STIP = {
+    SUBMITTED:'Waiting on a decision from you.',
+    SCHEDULED:'Approved for next month. Credits on day 1.',
+    APPROVED:'Confirmed. The wallet credit posts in the next batch.',
+    CREDITED:'Wallet credited. Closed.',
+    REJECTED:'Rejected. The brand was emailed and must raise a new request.'
+  };
+  const cimPill = c => '<span class="pill '+(c.indexOf('Next')===0?'p-next':'p-cur')+'">'+c.toUpperCase()+'</span>';
+
+  /* recharge requests — existing queue, unchanged behaviour */
+  const BQ = [
+    {id:'9704c9f0-944b-4db0-a7bd-cf8ecd567911',brand:'VERYMISS',w:'Primary',amt:2500,m:'MV',ref:'MEPL_FY-27_343',cim:'Current · Aug',s:'SUBMITTED',sub:'6 Aug 2026, 05:38:26 PM IST'},
+    {id:'45f38897-8c2b-4188-bcaf-8ce0e969972c',brand:'Plush',w:'Primary',amt:4000,m:'MV',ref:'MEPL_FY-27_338',cim:'Current · Aug',s:'CREDITED',sub:'5 Aug 2026, 07:24:06 PM IST'},
+    {id:'e047a837-d25d-48b1-8c01-96c5f8d17a65',brand:'Glam 21',w:'Primary',amt:10000,m:'MV',ref:'MEPL_FY-27_339',cim:'Current · Aug',s:'CREDITED',sub:'5 Aug 2026, 07:22:49 PM IST'},
+    {id:'205a77d4-6b6b-44fb-8fb3-39bd4eaaba3b',brand:'Chaoba',w:'Primary',amt:10000,m:'MV',ref:'MEPL_FY-27_337.pdf',cim:'Current · Aug',s:'CREDITED',sub:'5 Aug 2026, 06:57:42 PM IST'},
+    {id:'f178dbb0-4850-4859-859a-ac2975021329',brand:'MeSkin',w:'Primary',amt:25000,m:'MV',ref:'MEPL_FY-27_336.pdf',cim:'Current · Aug',s:'CREDITED',sub:'5 Aug 2026, 06:56:45 PM IST'},
+    {id:'70e7cce5-d067-422a-acb6-05ca8ab9198a',brand:'Moxie Beauty',w:'Primary',amt:300000,m:'Bank Transfer',ref:'045389184561',cim:'Current · Aug',s:'CREDITED',sub:'5 Aug 2026, 05:50:58 PM IST'},
+    {id:'2e1eb7d3-f839-402f-8f43-88dee1e9da25',brand:'Sirona',w:'Primary',amt:100000,m:'Bank Transfer',ref:'HDFCH01170405550',cim:'Current · Aug',s:'CREDITED',sub:'5 Aug 2026, 02:34:06 PM IST'},
+    {id:'2f7e9504-8f2f-4732-832f-830c3b9c0d1d',brand:'Schwarzkopf Professional',w:'Primary',amt:300000,m:'RO',ref:'SKP-Purplle-June-26',cim:'Current · Aug',s:'CREDITED',sub:'5 Aug 2026, 01:18:14 PM IST'},
+    {id:'7098fbeb-7f25-424a-b6ba-dbe2a10af5ca',brand:'Be Bodywise',w:'Primary',amt:700000,m:'Bank Transfer',ref:'S87872979',cim:'Current · Aug',s:'CREDITED',sub:'5 Aug 2026, 01:00:31 PM IST'},
+    {id:'bca8d7a7-cc85-4218-b4b6-5bd2cadae523',brand:'Alps Goodness',w:'Primary',amt:3000,m:'PO',ref:'12345656',cim:'Current · Aug',s:'REJECTED',sub:'4 Aug 2026, 05:27:36 PM IST'}
+  ];
+
+  const promoBQ = () => window.PC.list.map(r => ({
+    id:r.id, brand:r.brand, w:'Promo Credits', amt:r.amt, m:'Promo Credit', ref:null,
+    cim:r.cim, s:r.s, sub:r.sub, pc:true
+  }));
+
+  let flt = 'all';
+  window.setQ = function(k){
+    flt = k; ['all','SUBMITTED','SCHEDULED','done'].forEach(x=>$('q-'+x).classList.toggle('on',x===k));
+    bqRender();
+  };
+
+  window.bqRender = function(){
+    const q = ($('bq').value||'').toLowerCase().trim();
+    const all = promoBQ().concat(BQ);
+    const rows = all.filter(r=>{
+      if (q && !(r.id+' '+r.brand+' '+(r.ref||'')).toLowerCase().includes(q)) return false;
+      if (flt==='all') return true;
+      if (flt==='done') return r.s==='APPROVED' || r.s==='CREDITED';
+      return r.s===flt;
+    });
+    $('b-bq').innerHTML = rows.map(r=>'<tr>'
+      + '<td class="mono">'+r.id+'</td>'
+      + '<td class="bold">'+r.brand+'</td>'
+      + '<td><span class="wlink">'+r.w+'</span></td>'
+      + '<td class="r">'+inr(r.amt)+'</td>'
+      + '<td><span class="chipm">'+r.m+'</span></td>'
+      + '<td class="mono">'+(r.ref ? r.ref : '<span class="dash has-tip" data-tip="Promo credit is funded by Purplle. No money was paid, so there is no reference to match.">—</span>')+'</td>'
+      + '<td>'+cimPill(r.cim)+'</td>'
+      + '<td><span class="pill '+SP[r.s]+' has-tip" data-tip="'+STIP[r.s]+'">'+r.s+'</span></td>'
+      + '<td class="muted">'+r.sub+'</td>'
+      + '<td><div class="acts">'
+        + (r.pc
+          ? '<button class="view" onclick="pdOpen(\''+r.id+'\',\'Business Queue\')">View</button>'
+            + (r.s==='SUBMITTED'
+              ? '<button class="a-ok" onclick="pdOpen(\''+r.id+'\',\'Business Queue\')">Approve</button>'
+                + '<button class="a-no" onclick="pdOpen(\''+r.id+'\',\'Business Queue\',\'reject\')">Reject</button>'
+              : '')
+          : '<button class="view">View</button>'
+            + (r.s==='SUBMITTED'
+              ? '<button class="a-ok" onclick="tst(\'Approved — wallet credits in the next batch\')">Approve</button>'
+                + '<button class="a-no" onclick="tst(\'Rejected — brand notified\')">Reject</button>'
+              : ''))
+      + '</div></td></tr>').join('');
+    $('e-bq').classList.toggle('hide', rows.length>0);
+    $('pg-bq').textContent = 'Showing 1–'+rows.length+' of '+(202+all.length);
+
+    const pend = all.filter(r=>r.s==='SUBMITTED');
+    $('bq-k1').textContent = pend.length;
+    $('bq-k2').textContent = pend.filter(r=>r.amt>100000).length;
+    $('bq-k4').textContent = all.filter(r=>r.s==='REJECTED').length;
+  };
+
+  window.PC.sub(window.bqRender);
+  window.bqRender();
 })();
 </script>
 </body>
